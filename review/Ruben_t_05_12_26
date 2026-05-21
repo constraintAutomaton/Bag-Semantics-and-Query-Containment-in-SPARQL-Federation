@@ -1,0 +1,29 @@
+Ok, I just found a bit of time to already go through your paper. Here's the feedback (not in the sources, because I don't know how to edit your files):
+
+Title and abstract:
+- You can make me last author (this is always the case when Pieter and me are on the paper)
+- The start can be removed from the title
+- Small tweak to the title: "Bag Semantics and Query Containment in SPARQL Federation"
+- The abstract starts too specific. Don't forget that this is EDBT, so not everyone may know SPARQL.
+- There are some typos in the abstract
+- End the abstract with some perspectives; what impact will your results have?
+
+Introduction:
+- Intro needs to start with a broader motivation of knowledge graphs. Don't forget that this is EDBT, so not everyone may know SPARQL.
+- Keep in mind that many people at this conf are skeptical about KGs. So strategically, don't only talk about the downsides, but first also about where it works well and what problems it solves.
+- "Query containment is a classic problem in the relational database world" -> We are in that world now. So just say it's a classic problem. Maybe we even can start with the query containment paragraph, and talk about KGs later?
+- "Yet the SPARQL query language operates under bag-set semantics" Make sure to give an example somewhere (probably later in the paper) to show where this actually becomes problematic.
+- After reading the intro, the need to focus on bag semantics and federation does not feel urgent to me yet. Maybe this can be solved by first having the paragraph on query containment in general, then talk about SPARQL and virtual data integration, and why containment is also useful/needed there, and then you can motivate that under federation we need bag semantics in order to do containment.
+
+Related work:
+- "The literature does not describe general necessary conditions for containment under bag-set and bag semantics" -> In general? Or for SPARQL?
+- Typo: "Q2 is an enhance version of Q1"
+- "2.2 Federated Queries" -> I would make this title "Federated SPARQL Queries"
+- "that guarantees the set of federation members is finite prior to query execution" The concept of "federation members" has not been explained yet.
+- Is there also related work around non-SPARQL federated queries?
+- I feel like section 2.2 will be hard to understand for many readers. Maybe we need the preliminaries section before related work? Or maybe we can even move related work to the end of the paper?
+
+Preliminaries:
+- "SPARQL [24] is the state-of-the-art language" -> "state-of-the-art" is not right here. It's the standard.
+- Section 3.1 is explained too compactly I think. Many readers won't even known RDF. I think we really hold the hand of the reader, and explain things from the ground up, and also give intuition why things are like that.
+- I was not able to understand ESA. I my mind, we only have 2 types: manual source selection and automatic source selection.

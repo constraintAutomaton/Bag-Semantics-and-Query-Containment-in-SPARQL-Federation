@@ -1,0 +1,91 @@
+\documentclass[../main]{subfiles}
+\externaldocument[main-]{../main}
+\begin{document}
+
+\subsection{Bag Federation Reduction}\label{sec_bag_federation_reduction}
+
+\begin{definition}\label{def_bkg}
+A \ac{BKG} is defined by a special bag union of all \ac{KG} of each federation member.
+This special bag union gives a multiplicity $m_{\mathrm{BKG}}$ given the multiplicity $m_{\mathrm{bag}}$ of a standard bag union define by
+\[
+m_{\mathrm{BKG}} =
+\begin{cases}
+1 & \text{if } m_{\mathrm{bag}} = 1,\\
+x & \text{if } m_{\mathrm{bag}} > 1,
+\end{cases}
+\quad \text{for some } x \in \mathbb{N}_{\geq 1}
+\]
+\end{definition}
+
+We show that any union-based federation strategy is equivalent to executing the original query against a \emph{\ac{BKG}} as defined in \Cref{def_bkg}, making the query execution follow bag semantics rather than bag-set semantics.
+The exact bag multiplicity is left unspecified beyond being greater than one, which can appear problematic, however, the \ac{BKG} is a fictional construction used only to determine the semantics of the query.
+As long as the multiplicity of a solution mapping related to a triple is greater than one in a conventional federated query and the corresponding multiplicity is also greater than one in the \ac{BKG}, the construction is sound for our purpose.
+This is particularly useful given that \ac{UCQ} containment under bag-set and set semantics is undecidable, as discussed in \Cref{sec:related_works_qc}.
+We establish this using \ac{ESA} as the canonical proof vehicle, through the following propositions.
+
+We first handle the case where federation members have no overlapping query-relevant knowledge.
+
+\begin{proposition}\label{prop_no_overlap}
+A query performed over a federation where each triple pattern can only be answered by one federation member yields the same result when performed over a \ac{BKG}.
+\end{proposition}
+
+\begin{proof}
+Since each triple pattern $\mathit{tp}_j$ can only be answered by one member $\mathit{fm}_i$, every $\fmu$ in \Cref{eq_esa} collapses to a single $\freq_{\mathit{fm}_i}^{\mathit{tp}_j}$, leaving only join operations:
+\[
+\fmj(\freq_{\mathit{fm}_i}^{\mathit{tp}_1}, \dots, \freq_{\mathit{fm}_{n_{\mathrm{fm}}}}^{\mathit{tp}_{n_{\mathrm{tp}}}})
+\]
+where $n_{\mathrm{fm}}$ denotes the number of query-relevant federation members and $n_{\mathrm{tp}}$ the number of triple patterns in the query.
+Given that no \texttt{UNION} are present, no duplicates arise from the federation structure.
+
+In the \ac{BKG}, since no query-relevant triple appears in more than one member's \ac{KG}, each relevant triple appears exactly once.
+The join evaluation therefore produces the same result bag.
+\end{proof}
+
+We now consider the opposite case, where all federation members host an identical \ac{KG}.
+
+\begin{proposition}\label{prop_duplicate_fed_mem}
+There exist a \ac{BKG} for which the query performed over a federation where all members host identical \ac{KG} produce the same results in this \ac{BKG}.
+\end{proposition}
+
+\begin{proof}
+When all $m$ members host identical \ac{KG}, every $\freq_{\mathit{fm}_i}^{\mathit{tp}_j}$ produces the same result for a given $\mathit{tp}_j$.
+
+By the SPARQL definition of \texttt{UNION}, the multiplicity of the result bag equals the sum of the multiplicities of each operand's solution bag, so this produces $m$ copies of each result of $\freq_{\mathit{fm}_i}^{\mathit{tp}_j}$.
+By definition of the \texttt{JOIN} the multiplicity will $m^2$ times the number of times solution mappings can be merged.
+
+In the \ac{BKG}, the special bag union of $m$ identical \acp{KG} can be given each triple a multiplicity of $m$, so evaluating the query over the \ac{BKG} produces the same multiplicities.
+Both evaluations therefore produce the same result bag.
+\end{proof}
+
+The general case combines both observations: partial knowledge overlap is handled by the same UNION mechanism, with multiplicities determined by how many members hold each piece of data.
+
+\begin{proposition}\label{prop_esa_bkg}
+A query performed using \ac{ESA} over a federation yields the same results as a query over a \ac{BKG}.
+\end{proposition}
+
+\begin{proof}
+Query-irrelevant triples do not affect results.
+For query-relevant knowledge, \Cref{eq_esa} introduces a \texttt{UNION} over all $m$ members for each triple pattern, distributing every triple pattern to each federation member to prevent result loss from joins requiring data from multiple members.
+When a triple pattern can be answered by $k$ out of $m$ members, the \texttt{UNION} retrieves it $k$ times.
+By \Cref{def_bkg}, that same triple appears with multiplicity $k$ in the \ac{BKG}.
+The \texttt{UNION} multiplicities in the federated evaluation therefore coincide with the \ac{BKG} multiplicities, and both produce the same result bag.
+\end{proof}
+
+\begin{corollary}\label{cor_bfr}
+Any FedQPL query plan that distributes triple patterns to multiple federation members via \texttt{UNION} produces results equivalent to evaluating the original query over a \ac{BKG}.
+\end{corollary}
+
+\begin{proof}
+A FedQPL query plan either routes each triple pattern to exactly one member or routes some patterns to multiple members via \texttt{UNION}.
+In the first case, the plan takes the join-only form of \Cref{prop_no_overlap} and no duplicates arise from federation structure.
+In the second case, for each triple pattern $\mathit{tp}_i$ distributed to $k_i$ members, the \texttt{UNION} produces $k_i$ copies of each result.
+By \Cref{def_bkg}, that triple appears with multiplicity $k_i$ in the \ac{BKG}.
+The multiplicities therefore coincide in both evaluations.
+\end{proof}
+
+In \ac{ASSF}, the source selection algorithm determines the form of the FedQPL query plan.
+When the plan contains \texttt{UNION} over multiple members for some triple pattern, \Cref{cor_bfr} applies and the evaluation follows bag semantics.
+When the plan uses only joins, \Cref{prop_no_overlap} applies and bag-set semantics hold.
+The \emph{Bag Federation Reduction} thus covers the full spectrum of union-based federation strategies.
+
+\end{document}

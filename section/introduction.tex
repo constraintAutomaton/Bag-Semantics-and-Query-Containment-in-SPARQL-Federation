@@ -1,0 +1,26 @@
+\section{Introduction}
+
+Minimizing redundant computation is a fundamental concern in query optimization.
+Query containment is a classic tool for this purpose: it determines whether the results of one query are always included in those of another, independently of the targeted database.
+Solving this problem underpins a wide range of optimization techniques, including caching, view selection, query rewriting, and equivalence validation~\cite{Afrati2019-ch1, DOAN201221, Chaudhuri1993}.
+Under set semantics, multiple query fragments have been thoroughly characterized~\cite{Chandra1977, aho1979equivalences, aho1979efficient, Chekuri2000}.
+Bag-semantic and bag-set semantic containment have also been studied~\cite{Chaudhuri1993, Afrati2010, khamis2021bag}; however, several query fragments remain undecidable under these semantics and open problems persist.
+
+\ac{KG} has become a widely adopted paradigm for representing and integrating heterogeneous data, enabling applications in scientific data management, enterprise knowledge representation, and the Web of Data.
+SPARQL is the standard query language for \ac{KG} built on \ac{RDF}, and federated SPARQL extends this by enabling virtual data integration across distributed \ac{KG} sources, allowing heterogeneous data to be queried jointly without centralization, which is particularly valuable when sources are governed by different policies, maintained by independent parties, or too large to consolidate.
+However, federated queries impose significant computational demands on both endpoints and clients, a challenge further compounded by the reliability limitations of public SPARQL endpoints, which frequently experience downtime or performance degradation under load~\cite{buil2013sparql}.
+In settings such as scientific reproducibility studies, where queries must be re-executed or iteratively refined, this overhead is especially costly.
+Query containment is therefore a natural optimization: when a new query is contained in a previously executed one, results can be derived from cached data without re-querying the federation, reducing both endpoint load and network traffic.
+
+For SPARQL, existing research has addressed set-semantic query containment~\cite{WudageChekol2013}.
+Yet the SPARQL query language operates under bag-set semantics~\cite{Perez2006, Angles2016}, in which the underlying database operates under set semantics~\cite{w3ConceptsAbstract} while query operators produce bags\footnote{A bag, or multiset, is similar to set but allows duplicate elements.}~\cite{w3SPARQLQuery}.
+Set-semantic containment does not imply bag-set semantic containment, making existing containment results invalid for real-world SPARQL query optimization.
+
+To the best of our knowledge, bag-set semantic SPARQL query containment remains unexplored, as does query containment in the context of federated queries.\footnote{Note that QCan~\cite{salas2018canonicalisation} deals with bag-set semantics, however, it addresses query equivalence rather than query containment, by transforming SPARQL queries into a canonical form and performing syntactic comparison.}
+
+This paper bridges these gaps by formalizing query containment for conjunctive SPARQL federated queries under bag-set semantics.
+We first present the \hyperref[sec:related_works]{related works},
+then the \hyperref[sec:preliminaries]{preliminaries},
+the \hyperref[sec:semantic_federated_q]{semantics of federated queries},
+followed by the evaluation of \hyperref[sec:federated_queries_query_containment]{federated queries query containment}
+and we \hyperref[sec:conclusion]{conclude} the paper.

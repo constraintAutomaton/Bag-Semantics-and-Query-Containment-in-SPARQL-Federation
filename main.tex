@@ -1,0 +1,88 @@
+\documentclass[sigconf]{acmart}
+
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{acro}
+\usepackage{cleveref}
+\usepackage{listings}
+\usepackage{subfiles}
+\usepackage{xr-hyper}
+
+\input{acronyms}
+
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{lemma}{Lemma}[section]
+
+\newcommand{\eval}[2]{\llbracket #1 \rrbracket^{#2}}
+\DeclareMathOperator{\fmj}{mj}
+\DeclareMathOperator{\fmu}{mu}
+\DeclareMathOperator{\freq}{req}
+
+\setcopyright{cc}
+\copyrightyear{2026}
+\acmYear{2026}
+\acmDOI{10.1145/0000000000}
+\acmConference[EDBT '26]{Extending Database Technology}{TBD}{TBD}
+\acmISBN{978-1-4503-XXXX-X/26/03}
+
+\title{Bag Semantics and Query Containment in SPARQL Federation}
+
+\author{Bryan-Elliott Tam}
+\orcid{0000-0003-3467-9755}
+\email{bryan-elliott.tam@ugent.be}
+\affiliation{%
+  \institution{Ghent University}
+  \city{Ghent}
+  \country{Belgium}
+}
+
+\author{Pieter Colpaert}
+\orcid{0000-0001-6917-2167}
+\email{pieter.colpaert@ugent.be}
+\affiliation{%
+  \institution{Ghent University}
+  \city{Ghent}
+  \country{Belgium}
+}
+
+\author{Ruben Taelman}
+\orcid{0000-0001-5118-256X}
+\email{ruben.taelman@ugent.be}
+\affiliation{%
+  \institution{Ghent University}
+  \city{Ghent}
+  \country{Belgium}
+}
+
+\keywords{Linked Data, SPARQL, Query containment, Federated Querying,
+  bag-semantic, bag-set semantic, multiset}
+
+\begin{document}
+
+\begin{abstract}
+Querying over federations of distributed data sources enables applications to integrate heterogeneous datasets without centralizing data, but can impose significant computational overhead on both federation endpoints and querying clients.
+In contexts such as scientific reproducibility studies, it is often necessary to re-execute queries or run refinement queries.
+However, reissuing these queries can lead to unnecessary load, creating a barrier to such use cases.
+To mitigate this, it is necessary to develop mechanisms that allow reusing previously computed query results to reduce redundant computation and network traffic.
+In this paper, we explore query containment as a mechanism to enable optimization of federated queries.
+The current literature on SPARQL query containment focuses on set semantics, whereas the SPARQL query language operates under bag-set semantics.
+Furthermore, the query containment problem has not been explored in the context of federated queries.
+This paper bridges this gap by exploring SPARQL query containment for real-world applications, covering both bag semantics and bag-set semantics for fragments of single endpoint and federated queries.
+We demonstrate how query containment can be decided for federated SPARQL queries under bag and bag-set semantics, opening the door to SPARQL query result caching and reuse, with direct applications to query optimization, incremental querying, and reproducibility of federated SPARQL data access workflows.
+\end{abstract}
+
+\maketitle
+
+\input{section/introduction}
+\input{section/related_work}
+\input{section/preliminaries}
+\input{section/semantic}
+\input{section/federated_query_evaluation}
+\input{section/conclusion}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}

@@ -1,0 +1,514 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{36}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{} and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showURL}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showURL #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+
+\bibitem[Afrati and Chirkova(2019a)]%
+        {Afrati2019-ch1}
+\bibfield{author}{\bibinfo{person}{Foto Afrati} {and} \bibinfo{person}{Rada
+  Chirkova}.} \bibinfo{year}{2019}\natexlab{a}.
+\newblock \showarticletitle{Queries and Views}.
+\newblock In \bibinfo{booktitle}{\emph{Answering Queries Using Views, Second
+  Edition}}. \bibinfo{publisher}{Springer International Publishing},
+  \bibinfo{address}{Cham}, \bibinfo{pages}{1--21}.
+\newblock
+
+
+\bibitem[Afrati and Chirkova(2019b)]%
+        {Afrati2019-ch2}
+\bibfield{author}{\bibinfo{person}{Foto Afrati} {and} \bibinfo{person}{Rada
+  Chirkova}.} \bibinfo{year}{2019}\natexlab{b}.
+\newblock \showarticletitle{Query Containment and Equivalence}.
+\newblock In \bibinfo{booktitle}{\emph{Answering Queries Using Views, Second
+  Edition}}. \bibinfo{publisher}{Springer International Publishing},
+  \bibinfo{address}{Cham}, \bibinfo{pages}{21--61}.
+\newblock
+
+
+\bibitem[Afrati et~al\mbox{.}(2010)]%
+        {Afrati2010}
+\bibfield{author}{\bibinfo{person}{Foto~N. Afrati}, \bibinfo{person}{Matthew
+  Damigos}, {and} \bibinfo{person}{Manolis Gergatsoulis}.}
+  \bibinfo{year}{2010}\natexlab{}.
+\newblock \showarticletitle{Query containment under bag and bag-set semantics}.
+\newblock \bibinfo{journal}{\emph{Inform. Process. Lett.}}
+  \bibinfo{volume}{110}, \bibinfo{number}{10} (\bibinfo{year}{2010}),
+  \bibinfo{pages}{360--369}.
+\newblock
+\showISSN{0020-0190}
+\href{https://doi.org/10.1016/j.ipl.2010.02.017}{doi:\nolinkurl{10.1016/j.ipl.2010.02.017}}
+
+
+\bibitem[Aho et~al\mbox{.}(1979a)]%
+        {aho1979efficient}
+\bibfield{author}{\bibinfo{person}{Alfred~V Aho}, \bibinfo{person}{Yehoshua
+  Sagiv}, {and} \bibinfo{person}{Jeffrey~D Ullman}.}
+  \bibinfo{year}{1979}\natexlab{a}.
+\newblock \showarticletitle{Efficient optimization of a class of relational
+  expressions}.
+\newblock \bibinfo{journal}{\emph{ACM Transactions on Database Systems (TODS)}}
+  \bibinfo{volume}{4}, \bibinfo{number}{4} (\bibinfo{year}{1979}),
+  \bibinfo{pages}{435--454}.
+\newblock
+
+
+\bibitem[Aho et~al\mbox{.}(1979b)]%
+        {aho1979equivalences}
+\bibfield{author}{\bibinfo{person}{Alfred~V. Aho}, \bibinfo{person}{Yehoshua
+  Sagiv}, {and} \bibinfo{person}{Jeffrey~D. Ullman}.}
+  \bibinfo{year}{1979}\natexlab{b}.
+\newblock \showarticletitle{Equivalences among relational expressions}.
+\newblock \bibinfo{journal}{\emph{SIAM J. Comput.}} \bibinfo{volume}{8},
+  \bibinfo{number}{2} (\bibinfo{year}{1979}), \bibinfo{pages}{218--246}.
+\newblock
+
+
+\bibitem[Angles and Gutierrez(2016)]%
+        {Angles2016}
+\bibfield{author}{\bibinfo{person}{Renzo Angles} {and} \bibinfo{person}{Claudio
+  Gutierrez}.} \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{The Multiset Semantics of SPARQL Patterns}. In
+  \bibinfo{booktitle}{\emph{The Semantic Web -- ISWC 2016}},
+  \bibfield{editor}{\bibinfo{person}{Paul Groth}, \bibinfo{person}{Elena
+  Simperl}, \bibinfo{person}{Alasdair Gray}, \bibinfo{person}{Marta Sabou},
+  \bibinfo{person}{Markus Kr{\"o}tzsch}, \bibinfo{person}{Freddy Lecue},
+  \bibinfo{person}{Fabian Fl{\"o}ck}, {and} \bibinfo{person}{Yolanda Gil}}
+  (Eds.). \bibinfo{publisher}{Springer International Publishing},
+  \bibinfo{address}{Cham}, \bibinfo{pages}{20--36}.
+\newblock
+\showISBNx{978-3-319-46523-4}
+
+
+\bibitem[Buil-Aranda et~al\mbox{.}(2013a)]%
+        {BuilAranda2013}
+\bibfield{author}{\bibinfo{person}{Carlos Buil-Aranda},
+  \bibinfo{person}{Marcelo Arenas}, \bibinfo{person}{Oscar Corcho}, {and}
+  \bibinfo{person}{Axel Polleres}.} \bibinfo{year}{2013}\natexlab{a}.
+\newblock \showarticletitle{Federating queries in SPARQL 1.1: Syntax, semantics
+  and evaluation}.
+\newblock \bibinfo{journal}{\emph{Journal of Web Semantics}}
+  \bibinfo{volume}{18}, \bibinfo{number}{1} (\bibinfo{year}{2013}),
+  \bibinfo{pages}{1--17}.
+\newblock
+\showISSN{1570-8268}
+\href{https://doi.org/10.1016/j.websem.2012.10.001}{doi:\nolinkurl{10.1016/j.websem.2012.10.001}}
+\newblock
+\shownote{Special Section on the Semantic and Social Web}.
+
+
+\bibitem[Buil-Aranda et~al\mbox{.}(2013b)]%
+        {buil2013sparql}
+\bibfield{author}{\bibinfo{person}{Carlos Buil-Aranda}, \bibinfo{person}{Aidan
+  Hogan}, \bibinfo{person}{J{\"u}rgen Umbrich}, {and}
+  \bibinfo{person}{Pierre-Yves Vandenbussche}.}
+  \bibinfo{year}{2013}\natexlab{b}.
+\newblock \showarticletitle{SPARQL web-querying infrastructure: ready for
+  action?}. In \bibinfo{booktitle}{\emph{International Semantic Web
+  Conference}}. Springer, \bibinfo{pages}{277--293}.
+\newblock
+
+
+\bibitem[Chandra and Merlin(1977)]%
+        {Chandra1977}
+\bibfield{author}{\bibinfo{person}{Ashok~K. Chandra} {and}
+  \bibinfo{person}{Philip~M. Merlin}.} \bibinfo{year}{1977}\natexlab{}.
+\newblock \showarticletitle{Optimal implementation of conjunctive queries in
+  relational data bases}. In \bibinfo{booktitle}{\emph{Proceedings of the Ninth
+  Annual ACM Symposium on Theory of Computing}} (Boulder, Colorado, USA)
+  \emph{(\bibinfo{series}{STOC '77})}. \bibinfo{publisher}{Association for
+  Computing Machinery}, \bibinfo{address}{New York, NY, USA},
+  \bibinfo{pages}{77–90}.
+\newblock
+\showISBNx{9781450374095}
+\href{https://doi.org/10.1145/800105.803397}{doi:\nolinkurl{10.1145/800105.803397}}
+
+
+\bibitem[Chaudhuri and Vardi(1993)]%
+        {Chaudhuri1993}
+\bibfield{author}{\bibinfo{person}{Surajit Chaudhuri} {and}
+  \bibinfo{person}{Moshe~Y. Vardi}.} \bibinfo{year}{1993}\natexlab{}.
+\newblock \showarticletitle{Optimization of real conjunctive queries}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the Twelfth ACM SIGACT-SIGMOD-SIGART
+  Symposium on Principles of Database Systems}} (Washington, D.C., USA)
+  \emph{(\bibinfo{series}{PODS '93})}. \bibinfo{publisher}{Association for
+  Computing Machinery}, \bibinfo{address}{New York, NY, USA},
+  \bibinfo{pages}{59–70}.
+\newblock
+\showISBNx{0897915933}
+\href{https://doi.org/10.1145/153850.153856}{doi:\nolinkurl{10.1145/153850.153856}}
+
+
+\bibitem[Chekol et~al\mbox{.}(2012a)]%
+        {chekol2012sparql}
+\bibfield{author}{\bibinfo{person}{Melisachew~Wudage Chekol},
+  \bibinfo{person}{J{\'e}r{\^o}me Euzenat}, \bibinfo{person}{Pierre
+  Genev{\`e}s}, {and} \bibinfo{person}{Nabil Laya{\"\i}da}.}
+  \bibinfo{year}{2012}\natexlab{a}.
+\newblock \showarticletitle{SPARQL query containment under RDFS entailment
+  regime}. In \bibinfo{booktitle}{\emph{International Joint Conference on
+  Automated Reasoning}}. Springer, \bibinfo{pages}{134--148}.
+\newblock
+
+
+\bibitem[Chekol et~al\mbox{.}(2012b)]%
+        {chekol2012sparql2}
+\bibfield{author}{\bibinfo{person}{Melisachew~Wudage Chekol},
+  \bibinfo{person}{J{\'e}r{\^o}me Euzenat}, \bibinfo{person}{Pierre
+  Genev{\`e}s}, {and} \bibinfo{person}{Nabil Laya{\"\i}da}.}
+  \bibinfo{year}{2012}\natexlab{b}.
+\newblock \showarticletitle{SPARQL query containment under SHI axioms}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the AAAI Conference on Artificial
+  Intelligence}}, Vol.~\bibinfo{volume}{26}. \bibinfo{pages}{10--16}.
+\newblock
+
+
+\bibitem[Chekuri and Rajaraman(2000)]%
+        {Chekuri2000}
+\bibfield{author}{\bibinfo{person}{Chandra Chekuri} {and}
+  \bibinfo{person}{Anand Rajaraman}.} \bibinfo{year}{2000}\natexlab{}.
+\newblock \showarticletitle{Conjunctive query containment revisited}.
+\newblock \bibinfo{journal}{\emph{Theoretical Computer Science}}
+  \bibinfo{volume}{239}, \bibinfo{number}{2} (\bibinfo{year}{2000}),
+  \bibinfo{pages}{211--229}.
+\newblock
+\showISSN{0304-3975}
+\href{https://doi.org/10.1016/S0304-3975(99)00220-0}{doi:\nolinkurl{10.1016/S0304-3975(99)00220-0}}
+
+
+\bibitem[Cheng and Hartig(2021)]%
+        {Cheng2021}
+\bibfield{author}{\bibinfo{person}{Sijin Cheng} {and} \bibinfo{person}{Olaf
+  Hartig}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{FedQPL: A Language for Logical Query Plans over
+  Heterogeneous Federations of RDF Data Sources}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the 22nd International Conference on
+  Information Integration and Web-Based Applications \& Services}} (Chiang Mai,
+  Thailand) \emph{(\bibinfo{series}{iiWAS '20})}.
+  \bibinfo{publisher}{Association for Computing Machinery},
+  \bibinfo{address}{New York, NY, USA}, \bibinfo{pages}{436–445}.
+\newblock
+\showISBNx{9781450389228}
+\href{https://doi.org/10.1145/3428757.3429120}{doi:\nolinkurl{10.1145/3428757.3429120}}
+
+
+\bibitem[Doan et~al\mbox{.}(2012)]%
+        {DOAN201221}
+\bibfield{author}{\bibinfo{person}{AnHai Doan}, \bibinfo{person}{Alon Halevy},
+  {and} \bibinfo{person}{Zachary Ives}.} \bibinfo{year}{2012}\natexlab{}.
+\newblock \showarticletitle{2 - Manipulating Query Expressions}.
+\newblock In \bibinfo{booktitle}{\emph{Principles of Data Integration}},
+  \bibfield{editor}{\bibinfo{person}{AnHai Doan}, \bibinfo{person}{Alon
+  Halevy}, {and} \bibinfo{person}{Zachary Ives}} (Eds.).
+  \bibinfo{publisher}{Morgan Kaufmann}, \bibinfo{address}{Boston},
+  \bibinfo{pages}{21--63}.
+\newblock
+\showISBNx{978-0-12-416044-6}
+\href{https://doi.org/10.1016/B978-0-12-416044-6.00002-8}{doi:\nolinkurl{10.1016/B978-0-12-416044-6.00002-8}}
+
+
+\bibitem[Eric~Prud'hommeaux(2013)]%
+        {w3SPARQLFederated}
+\bibfield{author}{\bibinfo{person}{Carlos Buil-Aranda Eric~Prud'hommeaux}.}
+  \bibinfo{year}{2013}\natexlab{}.
+\newblock \bibinfo{title}{SPARQL 1.1 Federated Query}.
+\newblock
+  \bibinfo{howpublished}{\url{https://www.w3.org/TR/2013/REC-sparql11-federated-query-20130321/}}.
+\newblock
+\newblock
+\shownote{[Accessed 07-03-2025]}.
+
+
+\bibitem[G{\"o}rlitz and Staab(2011)]%
+        {gorlitz2011splendid}
+\bibfield{author}{\bibinfo{person}{Olaf G{\"o}rlitz} {and}
+  \bibinfo{person}{Steffen Staab}.} \bibinfo{year}{2011}\natexlab{}.
+\newblock \showarticletitle{SPLENDID: SPARQL Endpoint Federation Exploiting
+  VOID Descriptions.}
+\newblock \bibinfo{journal}{\emph{COLD}}  \bibinfo{volume}{782}
+  (\bibinfo{year}{2011}).
+\newblock
+
+
+\bibitem[Halevy(2001)]%
+        {Halevy2001}
+\bibfield{author}{\bibinfo{person}{Alon~Y. Halevy}.}
+  \bibinfo{year}{2001}\natexlab{}.
+\newblock \showarticletitle{Answering queries using views: A survey}.
+\newblock \bibinfo{journal}{\emph{The VLDB Journal}} \bibinfo{volume}{10},
+  \bibinfo{number}{4} (\bibinfo{date}{Dec.} \bibinfo{year}{2001}),
+  \bibinfo{pages}{270–294}.
+\newblock
+\showISSN{1066-8888}
+\href{https://doi.org/10.1007/s007780100054}{doi:\nolinkurl{10.1007/s007780100054}}
+
+
+\bibitem[Hanski et~al\mbox{.}(2025)]%
+        {hanski2025observations}
+\bibfield{author}{\bibinfo{person}{Jonni Hanski}, \bibinfo{person}{Elias Crum},
+  {and} \bibinfo{person}{Ruben Taelman}.} \bibinfo{year}{2025}\natexlab{}.
+\newblock \showarticletitle{Observations on automated client-side query
+  federation over Wikidata SPARQL endpoints}.
+\newblock  (\bibinfo{year}{2025}).
+\newblock
+
+
+\bibitem[Hartig et~al\mbox{.}(2025)]%
+        {w3ConceptsAbstract}
+\bibfield{author}{\bibinfo{person}{Olaf Hartig},
+  \bibinfo{person}{Pierre-Antoine Champin}, \bibinfo{person}{Gregg Kellogg},
+  {and} \bibinfo{person}{Andy Seaborne}.} \bibinfo{year}{2025}\natexlab{}.
+\newblock \bibinfo{title}{{R}{D}{F} 1.2 {C}oncepts and {A}bstract {S}yntax ---
+  w3.org}.
+\newblock
+  \bibinfo{howpublished}{\url{https://www.w3.org/TR/rdf12-concepts/\#section-rdf-graph}}.
+\newblock
+\newblock
+\shownote{[Accessed 05-05-2025]}.
+
+
+\bibitem[Ioannidis and Ramakrishnan(1995)]%
+        {ioannidis1995containment}
+\bibfield{author}{\bibinfo{person}{Yannis~E Ioannidis} {and}
+  \bibinfo{person}{Raghu Ramakrishnan}.} \bibinfo{year}{1995}\natexlab{}.
+\newblock \showarticletitle{Containment of conjunctive queries: Beyond
+  relations as sets}.
+\newblock \bibinfo{journal}{\emph{ACM Transactions on Database Systems (TODS)}}
+  \bibinfo{volume}{20}, \bibinfo{number}{3} (\bibinfo{year}{1995}),
+  \bibinfo{pages}{288--324}.
+\newblock
+
+
+\bibitem[Jayram et~al\mbox{.}(2006)]%
+        {Jayram2006}
+\bibfield{author}{\bibinfo{person}{T.~S. Jayram}, \bibinfo{person}{Phokion~G.
+  Kolaitis}, {and} \bibinfo{person}{Erik Vee}.}
+  \bibinfo{year}{2006}\natexlab{}.
+\newblock \showarticletitle{The containment problem for <bi>Real</bi>
+  conjunctive queries with inequalities}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the Twenty-Fifth ACM
+  SIGMOD-SIGACT-SIGART Symposium on Principles of Database Systems}} (Chicago,
+  IL, USA) \emph{(\bibinfo{series}{PODS '06})}. \bibinfo{publisher}{Association
+  for Computing Machinery}, \bibinfo{address}{New York, NY, USA},
+  \bibinfo{pages}{80–89}.
+\newblock
+\showISBNx{1595933182}
+\href{https://doi.org/10.1145/1142351.1142363}{doi:\nolinkurl{10.1145/1142351.1142363}}
+
+
+\bibitem[Khamis et~al\mbox{.}(2021)]%
+        {khamis2021bag}
+\bibfield{author}{\bibinfo{person}{Mahmoud~Abo Khamis},
+  \bibinfo{person}{Phokion~G Kolaitis}, \bibinfo{person}{Hung~Q Ngo}, {and}
+  \bibinfo{person}{Dan Suciu}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{Bag query containment and information theory}.
+\newblock \bibinfo{journal}{\emph{ACM Transactions on Database Systems (TODS)}}
+  \bibinfo{volume}{46}, \bibinfo{number}{3} (\bibinfo{year}{2021}),
+  \bibinfo{pages}{1--39}.
+\newblock
+
+
+\bibitem[Konstantinidis and Mogavero(2019)]%
+        {Konstantinidis2019}
+\bibfield{author}{\bibinfo{person}{George Konstantinidis} {and}
+  \bibinfo{person}{Fabio Mogavero}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Attacking Diophantus: Solving a Special Case of Bag
+  Containment}. In \bibinfo{booktitle}{\emph{Proceedings of the 38th ACM
+  SIGMOD-SIGACT-SIGAI Symposium on Principles of Database Systems}} (Amsterdam,
+  Netherlands) \emph{(\bibinfo{series}{PODS '19})}.
+  \bibinfo{publisher}{Association for Computing Machinery},
+  \bibinfo{address}{New York, NY, USA}, \bibinfo{pages}{399–413}.
+\newblock
+\showISBNx{9781450362276}
+\href{https://doi.org/10.1145/3294052.3319689}{doi:\nolinkurl{10.1145/3294052.3319689}}
+
+
+\bibitem[Letelier et~al\mbox{.}(2013)]%
+        {letelier2013static}
+\bibfield{author}{\bibinfo{person}{Andr{\'e}s Letelier}, \bibinfo{person}{Jorge
+  P{\'e}rez}, \bibinfo{person}{Reinhard Pichler}, {and}
+  \bibinfo{person}{Sebastian Skritek}.} \bibinfo{year}{2013}\natexlab{}.
+\newblock \showarticletitle{Static analysis and optimization of semantic web
+  queries}.
+\newblock \bibinfo{journal}{\emph{ACM Transactions on Database Systems (TODS)}}
+  \bibinfo{volume}{38}, \bibinfo{number}{4} (\bibinfo{year}{2013}),
+  \bibinfo{pages}{1--45}.
+\newblock
+
+
+\bibitem[P{\'e}rez et~al\mbox{.}(2006)]%
+        {Perez2006}
+\bibfield{author}{\bibinfo{person}{Jorge P{\'e}rez}, \bibinfo{person}{Marcelo
+  Arenas}, {and} \bibinfo{person}{Claudio Gutierrez}.}
+  \bibinfo{year}{2006}\natexlab{}.
+\newblock \showarticletitle{Semantics and Complexity of SPARQL}. In
+  \bibinfo{booktitle}{\emph{The Semantic Web - ISWC 2006}},
+  \bibfield{editor}{\bibinfo{person}{Isabel Cruz}, \bibinfo{person}{Stefan
+  Decker}, \bibinfo{person}{Dean Allemang}, \bibinfo{person}{Chris Preist},
+  \bibinfo{person}{Daniel Schwabe}, \bibinfo{person}{Peter Mika},
+  \bibinfo{person}{Mike Uschold}, {and} \bibinfo{person}{Lora~M. Aroyo}}
+  (Eds.). \bibinfo{publisher}{Springer Berlin Heidelberg},
+  \bibinfo{address}{Berlin, Heidelberg}, \bibinfo{pages}{30--43}.
+\newblock
+\showISBNx{978-3-540-49055-5}
+
+
+\bibitem[Salas and Hogan(2018)]%
+        {salas2018canonicalisation}
+\bibfield{author}{\bibinfo{person}{Jaime Salas} {and} \bibinfo{person}{Aidan
+  Hogan}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Canonicalisation of monotone SPARQL queries}. In
+  \bibinfo{booktitle}{\emph{International Semantic Web Conference}}. Springer,
+  \bibinfo{pages}{600--616}.
+\newblock
+
+
+\bibitem[Schwarte et~al\mbox{.}(2011)]%
+        {schwarte2011fedx}
+\bibfield{author}{\bibinfo{person}{Andreas Schwarte}, \bibinfo{person}{Peter
+  Haase}, \bibinfo{person}{Katja Hose}, \bibinfo{person}{Ralf Schenkel}, {and}
+  \bibinfo{person}{Michael Schmidt}.} \bibinfo{year}{2011}\natexlab{}.
+\newblock \showarticletitle{Fedx: Optimization techniques for federated query
+  processing on linked data}. In \bibinfo{booktitle}{\emph{International
+  semantic web conference}}. Springer, \bibinfo{pages}{601--616}.
+\newblock
+
+
+\bibitem[Schwentick(2004)]%
+        {schwentick2004xpath}
+\bibfield{author}{\bibinfo{person}{Thomas Schwentick}.}
+  \bibinfo{year}{2004}\natexlab{}.
+\newblock \showarticletitle{XPath query containment}.
+\newblock \bibinfo{journal}{\emph{ACM SIGMOD Record}} \bibinfo{volume}{33},
+  \bibinfo{number}{1} (\bibinfo{year}{2004}), \bibinfo{pages}{101--109}.
+\newblock
+
+
+\bibitem[Shirkova(2011)]%
+        {Shirkova2011}
+\bibfield{author}{\bibinfo{person}{Rada Shirkova}.}
+  \bibinfo{year}{2011}\natexlab{}.
+\newblock \showarticletitle{Materialized Views}.
+\newblock \bibinfo{journal}{\emph{Foundations and Trends{\textregistered} in
+  Databases}} \bibinfo{volume}{4}, \bibinfo{number}{4} (\bibinfo{year}{2011}),
+  \bibinfo{pages}{295–405}.
+\newblock
+\showISSN{1931-7891}
+\href{https://doi.org/10.1561/1900000020}{doi:\nolinkurl{10.1561/1900000020}}
+
+
+\bibitem[Spasić and {Vujošević Janičić}(2023)]%
+        {Spasic2023}
+\bibfield{author}{\bibinfo{person}{Mirko Spasić} {and} \bibinfo{person}{Milena
+  {Vujošević Janičić}}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{Solving the SPARQL query containment problem with
+  SpeCS}.
+\newblock \bibinfo{journal}{\emph{Journal of Web Semantics}}
+  \bibinfo{volume}{76} (\bibinfo{year}{2023}), \bibinfo{pages}{100770}.
+\newblock
+\showISSN{1570-8268}
+\href{https://doi.org/10.1016/j.websem.2022.100770}{doi:\nolinkurl{10.1016/j.websem.2022.100770}}
+
+
+\bibitem[Stadler({[n.\,d.]})]%
+        {jenaQC}
+\bibfield{author}{\bibinfo{person}{Claus Stadler}.}
+  \bibinfo{year}{[n.\,d.]}\natexlab{}.
+\newblock \bibinfo{title}{{M}aven {C}entral:
+  org.aksw.jena-sparql-api:jena-sparql-api-query-containment ---
+  central.sonatype.com}.
+\newblock
+  \bibinfo{howpublished}{\url{https://central.sonatype.com/artifact/org.aksw.jena-sparql-api/jena-sparql-api-query-containment}}.
+\newblock
+\newblock
+\shownote{[Accessed 11-05-2026]}.
+
+
+\bibitem[Steve~Harris(2013)]%
+        {w3SPARQLQuery}
+\bibfield{author}{\bibinfo{person}{Andy~Seaborne Steve~Harris}.}
+  \bibinfo{year}{2013}\natexlab{}.
+\newblock \bibinfo{title}{{S}{P}{A}{R}{Q}{L} 1.1 {Q}uery {L}anguage ---
+  w3.org}.
+\newblock \bibinfo{howpublished}{\url{https://www.w3.org/TR/sparql11-query/}}.
+\newblock
+\newblock
+\shownote{[Accessed 11-03-2025]}.
+
+
+\bibitem[Tang et~al\mbox{.}(2025)]%
+        {tang2025proving}
+\bibfield{author}{\bibinfo{person}{Lei Tang}, \bibinfo{person}{Wensheng Dou},
+  \bibinfo{person}{Yingying Zheng}, \bibinfo{person}{Lijie Xu},
+  \bibinfo{person}{Wei Wang}, \bibinfo{person}{Jun Wei}, {and}
+  \bibinfo{person}{Tao Huang}.} \bibinfo{year}{2025}\natexlab{}.
+\newblock \showarticletitle{Proving Cypher Query Equivalence}. In
+  \bibinfo{booktitle}{\emph{2025 IEEE 41st International Conference on Data
+  Engineering (ICDE)}}. IEEE, \bibinfo{pages}{3931--3944}.
+\newblock
+
+
+\bibitem[W3C(2001)]%
+        {w3SPARQLQueryFormal}
+\bibfield{author}{\bibinfo{person}{W3C}.} \bibinfo{year}{2001}\natexlab{}.
+\newblock \bibinfo{title}{SPARQL Query Language for RDF - Formal Definitions}.
+\newblock
+  \bibinfo{howpublished}{\url{https://www.w3.org/2001/sw/DataAccess/rq23/sparql-defns.html}}.
+\newblock
+\newblock
+\shownote{[Accessed 04-03-2025]}.
+
+
+\bibitem[Wudage~Chekol et~al\mbox{.}(2013)]%
+        {WudageChekol2013}
+\bibfield{author}{\bibinfo{person}{Melisachew Wudage~Chekol},
+  \bibinfo{person}{J{\'e}r{\^o}me Euzenat}, \bibinfo{person}{Pierre
+  Genev{\`e}s}, {and} \bibinfo{person}{Nabil Laya{\"i}da}.}
+  \bibinfo{year}{2013}\natexlab{}.
+\newblock \showarticletitle{Evaluating and Benchmarking SPARQL Query
+  Containment Solvers}. In \bibinfo{booktitle}{\emph{The Semantic Web -- ISWC
+  2013}}, \bibfield{editor}{\bibinfo{person}{Harith Alani},
+  \bibinfo{person}{Lalana Kagal}, \bibinfo{person}{Achille Fokoue},
+  \bibinfo{person}{Paul Groth}, \bibinfo{person}{Chris Biemann},
+  \bibinfo{person}{Josiane~Xavier Parreira}, \bibinfo{person}{Lora Aroyo},
+  \bibinfo{person}{Natasha Noy}, \bibinfo{person}{Chris Welty}, {and}
+  \bibinfo{person}{Krzysztof Janowicz}} (Eds.). \bibinfo{publisher}{Springer
+  Berlin Heidelberg}, \bibinfo{address}{Berlin, Heidelberg},
+  \bibinfo{pages}{408--423}.
+\newblock
+\showISBNx{978-3-642-41338-4}
+
+
+\end{thebibliography}

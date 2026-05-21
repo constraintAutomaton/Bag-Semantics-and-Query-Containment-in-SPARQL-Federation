@@ -1,0 +1,736 @@
+@Article{Shirkova2011,
+  author     = {Shirkova, Rada},
+  journal    = {Foundations and Trends{\textregistered} in Databases},
+  title      = {Materialized Views},
+  year       = {2011},
+  issn       = {1931-7891},
+  number     = {4},
+  pages      = {295–405},
+  volume     = {4},
+  doi        = {10.1561/1900000020},
+  publisher  = {Emerald},
+  readstatus = {skimmed},
+  url        = {http://dx.doi.org/10.1561/1900000020},
+}
+
+@inproceedings{buil2013sparql,
+  title={SPARQL web-querying infrastructure: ready for action?},
+  author={Buil-Aranda, Carlos and Hogan, Aidan and Umbrich, J{\"u}rgen and Vandenbussche, Pierre-Yves},
+  booktitle={International Semantic Web Conference},
+  pages={277--293},
+  year={2013},
+  organization={Springer}
+}
+
+
+@InProceedings{10.1007/978-3-319-25007-6_1,
+author="Kostylev, Egor V.
+and Reutter, Juan L.
+and Romero, Miguel
+and Vrgo{\v{c}}, Domagoj",
+editor="Arenas, Marcelo
+and Corcho, Oscar
+and Simperl, Elena
+and Strohmaier, Markus
+and d'Aquin, Mathieu
+and Srinivas, Kavitha
+and Groth, Paul
+and Dumontier, Michel
+and Heflin, Jeff
+and Thirunarayan, Krishnaprasad
+and Thirunarayan, Krishnaprasad
+and Staab, Steffen",
+title="SPARQL with Property Paths",
+booktitle="The Semantic Web - ISWC 2015",
+year="2015",
+publisher="Springer International Publishing",
+address="Cham",
+pages="3--18",
+abstract="The original SPARQL proposal was often criticized for its inability to navigate through the structure of RDF documents. For this reason property paths were introduced in SPARQL 1.1, but up to date there are no theoretical studies examining how their addition to the language affects main computational tasks such as query evaluation, query containment, and query subsumption. In this paper we tackle all of these problems and show that although the addition of property paths has no impact on query evaluation, they do make the containment and subsumption problems substantially more difficult.",
+isbn="978-3-319-25007-6"
+}
+
+@article{shufinding,
+  title={Finding and explaining the difference between SQL queries},
+  author={Shu, Jingyun}
+}
+
+@inproceedings{angles2008expressive,
+  title={The expressive power of SPARQL},
+  author={Angles, Renzo and Gutierrez, Claudio},
+  booktitle={International Semantic Web Conference},
+  pages={114--129},
+  year={2008},
+  organization={Springer}
+}
+
+@misc{w3ConceptsAbstract,
+	author = {Olaf Hartig and Pierre-Antoine Champin and Gregg Kellogg and Andy Seaborne},
+	title = {{R}{D}{F} 1.2 {C}oncepts and {A}bstract {S}yntax --- w3.org},
+	howpublished = {\url{https://www.w3.org/TR/rdf12-concepts/\#section-rdf-graph}},
+	year = {2025},
+	note = {[Accessed 05-05-2025]},
+}
+
+@misc{w3SPARQLQueryFormal,
+	author = {W3C},
+	title = {SPARQL Query Language for RDF - Formal Definitions},
+	howpublished = {\url{https://www.w3.org/2001/sw/DataAccess/rq23/sparql-defns.html}},
+	year = {2001},
+	note = {[Accessed 04-03-2025]},
+}
+
+@misc{w3SPARQLQuery,
+	author = {Steve Harris, Andy Seaborne},
+	title = {{S}{P}{A}{R}{Q}{L} 1.1 {Q}uery {L}anguage --- w3.org},
+	howpublished = {\url{https://www.w3.org/TR/sparql11-query/}},
+	year = {2013},
+	note = {[Accessed 11-03-2025]},
+}
+
+@INCOLLECTION{Calvanese2003-hm,
+  title     = "View-based query containment",
+  booktitle = "{PODS}",
+  author    = "Calvanese, D and De Giacomo, G and Lenzerini, M and Vardi, M Y",
+  pages     = "56--67",
+  year      =  2003
+}
+
+
+@misc{w3SPARQLFederated,
+	author = {Eric Prud'hommeaux, Carlos Buil-Aranda},
+	title = {SPARQL 1.1 Federated Query},
+	howpublished = {\url{https://www.w3.org/TR/2013/REC-sparql11-federated-query-20130321/}},
+	year = {2013},
+	note = {[Accessed 07-03-2025]},
+}
+
+@INCOLLECTION{Afrati2019-ch1,
+  title     = "Queries and Views",
+  booktitle = "Answering Queries Using Views, Second Edition",
+  author    = "Afrati, Foto and Chirkova, Rada",
+  publisher = "Springer International Publishing",
+  pages     = "1--21",
+  year      =  2019,
+  address   = "Cham"
+}
+
+@INCOLLECTION{Afrati2019-ch2,
+  title     = "Query Containment and Equivalence",
+  booktitle = "Answering Queries Using Views, Second Edition",
+  author    = "Afrati, Foto and Chirkova, Rada",
+  publisher = "Springer International Publishing",
+  pages     = "21--61",
+  year      =  2019,
+  address   = "Cham"
+}
+
+@Article{Chekuri2000,
+  author   = {Chandra Chekuri and Anand Rajaraman},
+  journal  = {Theoretical Computer Science},
+  title    = {Conjunctive query containment revisited},
+  year     = {2000},
+  issn     = {0304-3975},
+  number   = {2},
+  pages    = {211-229},
+  volume   = {239},
+  abstract = {We consider the problems of conjunctive query containment and minimization, which are known to be NP-complete, and show that these problems can be solved in polynomial time for the class of acyclic queries. We then generalize the notion of acyclicity and define a parameter called query width that captures the “degree of cyclicity” of a query: in particular, a query is acyclic if and only if its query width is 1. We give algorithms for containment and minimization that run in time polynomial in nk, where n is the input size and k is the query width. These algorithms naturally generalize those for acyclic queries, and are of practical significance because many queries have small query width compared to their sizes. We show that good bounds on the query width of Q can be obtained using the treewidth of the incidence graph of Q. We then consider the problem of finding an equivalent query to a given conjunctive query Q that has the least number of subgoals. We show that a polynomial-time approximation algorithm is unlikely for this problem. Finally, we apply our containment algorithm to the practically important problem of finding equivalent rewritings of a query using a set of materialized views.},
+  doi      = {https://doi.org/10.1016/S0304-3975(99)00220-0},
+  file     = {:Chekuri2000 - Conjunctive Query Containment Revisited.pdf:PDF},
+  url      = {https://www.sciencedirect.com/science/article/pii/S0304397599002200},
+}
+
+@article{aho1979efficient,
+  title={Efficient optimization of a class of relational expressions},
+  author={Aho, Alfred V and Sagiv, Yehoshua and Ullman, Jeffrey D},
+  journal={ACM Transactions on Database Systems (TODS)},
+  volume={4},
+  number={4},
+  pages={435--454},
+  year={1979},
+  publisher={ACM New York, NY, USA}
+}
+
+
+@article{aho1979equivalences,
+  title={Equivalences among relational expressions},
+  author={Aho, Alfred V. and Sagiv, Yehoshua and Ullman, Jeffrey D.},
+  journal={SIAM Journal on Computing},
+  volume={8},
+  number={2},
+  pages={218--246},
+  year={1979},
+  publisher={SIAM}
+}
+
+
+@inproceedings{Chandra1977,
+author = {Chandra, Ashok K. and Merlin, Philip M.},
+title = {Optimal implementation of conjunctive queries in relational data bases},
+year = {1977},
+isbn = {9781450374095},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/800105.803397},
+doi = {10.1145/800105.803397},
+abstract = {We define the class of conjunctive queries in relational data bases, and the generalized join operator on relations. The generalized join plays an important part in answering conjunctive queries, and it can be implemented using matrix multiplication. It is shown that while answering conjunctive queries is NP complete (general queries are PSPACE complete), one can find an implementation that is within a constant of optimal. The main lemma used to show this is that each conjunctive query has a unique minimal equivalent query (much like minimal finite automata).},
+booktitle = {Proceedings of the Ninth Annual ACM Symposium on Theory of Computing},
+pages = {77–90},
+numpages = {14},
+location = {Boulder, Colorado, USA},
+series = {STOC '77}
+}
+
+@Article{Halevy2001,
+  author    = {Halevy, Alon Y.},
+  journal   = {The VLDB Journal},
+  title     = {Answering queries using views: A survey},
+  year      = {2001},
+  issn      = {1066-8888},
+  month     = dec,
+  number    = {4},
+  pages     = {270–294},
+  volume    = {10},
+  doi       = {10.1007/s007780100054},
+  publisher = {Springer Science and Business Media LLC},
+  url       = {http://dx.doi.org/10.1007/s007780100054},
+}
+
+
+
+
+
+
+@Article{Tarjan1984,
+  author   = {Tarjan, Robert E. and Yannakakis, Mihalis},
+  journal  = {SIAM Journal on Computing},
+  title    = {Simple Linear-Time Algorithms to Test Chordality of Graphs, Test Acyclicity of Hypergraphs, and Selectively Reduce Acyclic Hypergraphs},
+  year     = {1984},
+  number   = {3},
+  pages    = {566-579},
+  volume   = {13},
+  abstract = {Chordal graphs arise naturally in the study of Gaussian elimination on sparse symmetric matrices; acyclic hypergraphs arise in the study of relational data bases. Rose, Tarjan and Lueker [SIAM J. Comput., 5 (1976), pp. 266–283] have given a linear-time algorithm to test whether a graph is chordal, which Yannakakis has modified to test whether a hypergraph is acyclic. Here we develop a simplified linear-time test for graph chordality and hypergraph acyclicity. The test uses a new kind of graph (and hypergraph) search, which we call maximum cardinality search A variant of the method gives a way to selectively reduce acyclic hypergraphs, which is needed for evaluating queries in acyclic relational data bases.},
+  doi      = {10.1137/0213035},
+  eprint   = {https://doi.org/10.1137/0213035},
+  url      = {https://doi.org/10.1137/0213035},
+}
+
+@InProceedings{10.1145/2594538.2594542,
+  author    = {Pichler, Reinhard and Skritek, Sebastian},
+  booktitle = {Proceedings of the 33rd ACM SIGMOD-SIGACT-SIGART Symposium on Principles of Database Systems},
+  title     = {Containment and equivalence of well-designed SPARQL},
+  year      = {2014},
+  address   = {New York, NY, USA},
+  pages     = {39–50},
+  publisher = {Association for Computing Machinery},
+  series    = {PODS '14},
+  abstract  = {Query containment and query equivalence constitute important computational problems in the context of static query analysis and optimization. While these problems have been intensively studied for fragments of relational calculus, almost no works exist for the semantic web query language SPARQL. In this paper, we carry out a comprehensive complexity analysis of containment and equivalence for several fragments of SPARQL: we start with the fundamental fragment of well-designed SPARQL restricted to the AND and OPTIONAL operator. We then study basic extensions in the form of the UNION operator and/or projection. The results obtained range from NP-completeness to undecidability.},
+  doi       = {10.1145/2594538.2594542},
+  isbn      = {9781450323758},
+  keywords  = {RDF, SPARQL, query containment, semantic web},
+  location  = {Snowbird, Utah, USA},
+  numpages  = {12},
+  url       = {https://doi.org/10.1145/2594538.2594542},
+}
+
+@article{hanski2025observations,
+  title={Observations on automated client-side query federation over Wikidata SPARQL endpoints},
+  author={Hanski, Jonni and Crum, Elias and Taelman, Ruben},
+  year={2025}
+}
+
+
+@InProceedings{Perez2006,
+  author    = {P{\'e}rez, Jorge and Arenas, Marcelo and Gutierrez, Claudio},
+  booktitle = {The Semantic Web - ISWC 2006},
+  title     = {Semantics and Complexity of SPARQL},
+  year      = {2006},
+  address   = {Berlin, Heidelberg},
+  editor    = {Cruz, Isabel and Decker, Stefan and Allemang, Dean and Preist, Chris and Schwabe, Daniel and Mika, Peter and Uschold, Mike and Aroyo, Lora M.},
+  pages     = {30--43},
+  publisher = {Springer Berlin Heidelberg},
+  abstract  = {SPARQL is the W3C candidate recommendation query language for RDF. In this paper we address systematically the formal study of SPARQL, concentrating in its graph pattern facility. We consider for this study simple RDF graphs without special semantics for literals and a simplified version of filters which encompasses all the main issues. We provide a compositional semantics, prove there are normal forms, prove complexity bounds, among others that the evaluation of SPARQL patterns is PSPACE-complete, compare our semantics to an alternative operational semantics, give simple and natural conditions when both semantics coincide and discuss optimization procedures.},
+  isbn      = {978-3-540-49055-5},
+}
+
+@InCollection{Doan2012,
+  author    = {AnHai Doan and Alon Halevy and Zachary Ives},
+  booktitle = {Principles of Data Integration},
+  publisher = {Morgan Kaufmann},
+  title     = {2 - Manipulating Query Expressions},
+  year      = {2012},
+  address   = {Boston},
+  editor    = {AnHai Doan and Alon Halevy and Zachary Ives},
+  isbn      = {978-0-12-416044-6},
+  pages     = {21-63},
+  doi       = {https://doi.org/10.1016/B978-0-12-416044-6.00002-8},
+  url       = {https://www.sciencedirect.com/science/article/pii/B9780124160446000028},
+}
+
+@InProceedings{WudageChekol2013,
+  author    = {Wudage Chekol, Melisachew and Euzenat, J{\'e}r{\^o}me and Genev{\`e}s, Pierre and Laya{\"i}da, Nabil},
+  booktitle = {The Semantic Web -- ISWC 2013},
+  title     = {Evaluating and Benchmarking SPARQL Query Containment Solvers},
+  year      = {2013},
+  address   = {Berlin, Heidelberg},
+  editor    = {Alani, Harith and Kagal, Lalana and Fokoue, Achille and Groth, Paul and Biemann, Chris and Parreira, Josiane Xavier and Aroyo, Lora and Noy, Natasha and Welty, Chris and Janowicz, Krzysztof},
+  pages     = {408--423},
+  publisher = {Springer Berlin Heidelberg},
+  abstract  = {Query containment is the problem of deciding if the answers to a query are included in those of another query for any queried database. This problem is very important for query optimization purposes. In the SPARQL context, it can be equally useful. This problem has recently been investigated theoretically and some query containment solvers are available. Yet, there were no benchmarks to compare theses systems and foster their improvement. In order to experimentally assess implementation strengths and limitations, we provide a first SPARQL containment test benchmark. It has been designed with respect to both the capabilities of existing solvers and the study of typical queries. Some solvers support optional constructs and cycles, while other solvers support projection, union of conjunctive queries and RDF Schemas. No solver currently supports all these features or OWL entailment regimes. The study of query demographics on DBPedia logs shows that the vast majority of queries are acyclic and a significant part of them uses UNION or projection. We thus test available solvers on their domain of applicability on three different benchmark suites. These experiments show that (i) tested solutions are overall functionally correct, (ii) in spite of its complexity, SPARQL query containment is practicable for acyclic queries, (iii) state-of-the-art solvers are at an early stage both in terms of capability and implementation.},
+  file      = {:references/Evaluating and Benchmarking SPARQL Query Containment Solvers.pdf:PDF},
+  groups    = {query containment, SPARQL query containment},
+  isbn      = {978-3-642-41338-4},
+}
+
+@InProceedings{Stadler2018,
+  author    = {Stadler, Claus and Saleem, Muhammad and Ngomo, Axel-Cyrille Ngonga and Lehmann, Jens},
+  booktitle = {Web Engineering},
+  title     = {Efficiently Pinpointing SPARQL Query Containments},
+  year      = {2018},
+  address   = {Cham},
+  editor    = {Mikkonen, Tommi and Klamma, Ralf and Hern{\'a}ndez, Juan},
+  pages     = {210--224},
+  publisher = {Springer International Publishing},
+  abstract  = {Query containment is a fundamental problem in database research, which is relevant for many tasks such as query optimisation, view maintenance and query rewriting. For example, recent SPARQL engines built on Big Data frameworks that precompute solutions to frequently requested query patterns, are conceptually an application of query containment. We present an approach for solving the query containment problem for SPARQL queries -- the W3C standard query language for RDF datasets. Solving the query containment problem can be reduced to the problem of deciding whether a sub graph isomorphism exists between the normalized algebra expressions of two queries.},
+  isbn      = {978-3-319-91662-0},
+}
+
+@Article{Spasic2023,
+  author   = {Mirko Spasić and Milena {Vujošević Janičić}},
+  journal  = {Journal of Web Semantics},
+  title    = {Solving the SPARQL query containment problem with SpeCS},
+  year     = {2023},
+  issn     = {1570-8268},
+  pages    = {100770},
+  volume   = {76},
+  abstract = {The query containment problem is a fundamental computer science problem which was originally defined for relational queries. With the growing popularity of the sparql query language, it became relevant and important in this new context: reliable and efficient sparql query containment solvers may have various applications within static analysis of queries, especially in the area of query optimizations and refactoring. In this paper, we present a new approach for solving the query containment problem in sparql. The approach is based on reducing the query containment problem to the satisfiability problem in first order logic. It covers a wide range of the sparql language constructs, including union of conjunctive queries, blank nodes, projections, subqueries, clauses from, filter, optional, graph, etc. It also covers containment under rdf schema entailment regime, and it can deal with the subsumption relation. We describe an implementation of the approach, an open source solver SpeCS and its thorough experimental evaluation on two relevant benchmarks, Query Containment Benchmark and SQCFramework. As a side result, SpeCS identified incorrect test cases within both benchmarks, which were manually checked, confirmed and fixed, resulting in better and more reliable benchmarks. The evaluation also shows that SpeCS is highly efficient and that compared to the state-of-the-art solvers, it gives more precise results in a shorter amount of time. In addition, SpeCS has the highest coverage of the supported language constructs.},
+  doi      = {https://doi.org/10.1016/j.websem.2022.100770},
+  groups   = {SPARQL query containment, query containment},
+  keywords = {SPARQL, Query containment, FOL modeling, SMT solving, SpeCS solver},
+  url      = {https://www.sciencedirect.com/science/article/pii/S1570826822000543},
+}
+
+@InProceedings{9161435,
+  author    = {Spasić, Mirko and Janičić, Milena Vujošević},
+  booktitle = {2020 Zooming Innovation in Consumer Technologies Conference (ZINC)},
+  title     = {SpeCS — SPARQL Query Containment Solver},
+  year      = {2020},
+  month     = {May},
+  pages     = {31-35},
+  abstract  = {With increasing popularity and importance of Semantic Web and its application, SPARQL, as a standard language for querying RDF data, gains more importance and receives additional attention from both practitioners and researchers coming from various domains. In database world, the query containment problem is a fundamental problem, crucially important in verification and optimization of queries. In this paper, we present our work on developing SPECS, an efficient solver for this problem in SPARQL query language. Our approach reduces query containment problem to the satisfiability problem in theories of the first order logic, and exploits SMT solver Z3 for checking the constructed formula. We present an evaluation that shows that our solver is much faster and covers more language features than the other available state-of-the-art solvers.},
+  doi       = {10.1109/ZINC50678.2020.9161435},
+  groups    = {SPARQL query containment, query containment},
+  keywords  = {Resource description framework;Benchmark testing;Databases;Database languages;Tools;Electronic mail;Standards;semantic web;SPARQL;query containment;query modeling;SMT solving;SPECS},
+}
+
+@Article{10.1145/1567274.1567278,
+  author     = {P\'{e}rez, Jorge and Arenas, Marcelo and Gutierrez, Claudio},
+  journal    = {ACM Trans. Database Syst.},
+  title      = {Semantics and complexity of SPARQL},
+  year       = {2009},
+  issn       = {0362-5915},
+  month      = sep,
+  number     = {3},
+  volume     = {34},
+  abstract   = {SPARQL is the standard language for querying RDF data. In this article, we address systematically the formal study of the database aspects of SPARQL, concentrating in its graph pattern matching facility. We provide a compositional semantics for the core part of SPARQL, and study the complexity of the evaluation of several fragments of the language. Among other complexity results, we show that the evaluation of general SPARQL patterns is PSPACE-complete. We identify a large class of SPARQL patterns, defined by imposing a simple and natural syntactic restriction, where the query evaluation problem can be solved more efficiently. This restriction gives rise to the class of well-designed patterns. We show that the evaluation problem is coNP-complete for well-designed patterns. Moreover, we provide several rewriting rules for well-designed patterns whose application may have a considerable impact in the cost of evaluating SPARQL queries.},
+  address    = {New York, NY, USA},
+  articleno  = {16},
+  doi        = {10.1145/1567274.1567278},
+  issue_date = {August 2009},
+  keywords   = {Complexity, RDF, SPARQL, query language, semantic Web},
+  numpages   = {45},
+  publisher  = {Association for Computing Machinery},
+  url        = {https://doi.org/10.1145/1567274.1567278},
+}
+
+@incollection{DOAN201221,
+title = {2 - Manipulating Query Expressions},
+editor = {AnHai Doan and Alon Halevy and Zachary Ives},
+booktitle = {Principles of Data Integration},
+publisher = {Morgan Kaufmann},
+address = {Boston},
+pages = {21-63},
+year = {2012},
+isbn = {978-0-12-416044-6},
+doi = {https://doi.org/10.1016/B978-0-12-416044-6.00002-8},
+url = {https://www.sciencedirect.com/science/article/pii/B9780124160446000028},
+author = {AnHai Doan and Alon Halevy and Zachary Ives}
+}
+
+
+@Article{Afrati2010,
+  author   = {Foto N. Afrati and Matthew Damigos and Manolis Gergatsoulis},
+  journal  = {Information Processing Letters},
+  title    = {Query containment under bag and bag-set semantics},
+  year     = {2010},
+  issn     = {0020-0190},
+  number   = {10},
+  pages    = {360-369},
+  volume   = {110},
+  abstract = {Conjunctive queries (CQs) are at the core of query languages encountered in many logic-based research fields such as AI, or database systems. The majority of existing work assumes set semantics but often in real applications the manipulation of duplicate tuples is required. One of the major problems that arises as part of advanced features of query optimization, data integration, query reformulation and many other research topics is testing for containment of such queries. In this work, we investigate the complexity of query containment problem for CQs under bag semantics (i.e. duplicate tuples are allowed in both the database and the results of queries) and under bag-set semantics (i.e. duplicates are allowed in the result of the queries but not in the database). We derive complexity results for these problems for five major subclasses of CQs; and we also find necessary conditions for CQ query containment. The general case of these problems remains open.},
+  doi      = {https://doi.org/10.1016/j.ipl.2010.02.017},
+  keywords = {Databases, Query containment, Conjunctive queries, Bag semantics, Bag-set semantics},
+  url      = {https://www.sciencedirect.com/science/article/pii/S0020019010000517},
+}
+
+@InProceedings{Angles2016,
+  author    = {Angles, Renzo and Gutierrez, Claudio},
+  booktitle = {The Semantic Web -- ISWC 2016},
+  title     = {The Multiset Semantics of SPARQL Patterns},
+  year      = {2016},
+  address   = {Cham},
+  editor    = {Groth, Paul and Simperl, Elena and Gray, Alasdair and Sabou, Marta and Kr{\"o}tzsch, Markus and Lecue, Freddy and Fl{\"o}ck, Fabian and Gil, Yolanda},
+  pages     = {20--36},
+  publisher = {Springer International Publishing},
+  abstract  = {The paper determines the algebraic and logic structure of the multiset semantics of the core patterns of SPARQL. We prove that the fragment formed by AND, UNION, OPTIONAL, FILTER, MINUS and SELECT corresponds precisely to both, the intuitive multiset relational algebra (projection, selection, natural join, arithmetic union and except), and the multiset non-recursive Datalog with safe negation.},
+  isbn      = {978-3-319-46523-4},
+}
+
+@InProceedings{Montoya2015,
+  author    = {Montoya, Gabriela and Skaf-Molli, Hala and Molli, Pascal and Vidal, Maria-Esther},
+  booktitle = {The Semantic Web - ISWC 2015},
+  title     = {Federated SPARQL Queries Processing with Replicated Fragments},
+  year      = {2015},
+  address   = {Cham},
+  editor    = {Arenas, Marcelo and Corcho, Oscar and Simperl, Elena and Strohmaier, Markus and d'Aquin, Mathieu and Srinivas, Kavitha and Groth, Paul and Dumontier, Michel and Heflin, Jeff and Thirunarayan, Krishnaprasad and Thirunarayan, Krishnaprasad and Staab, Steffen},
+  pages     = {36--51},
+  publisher = {Springer International Publishing},
+  abstract  = {Federated query engines provide a unified query interface to federations of SPARQL endpoints. Replicating data fragments from different Linked Data sources facilitates data re-organization to better fit federated query processing needs of data consumers. However, existing federated query engines are not designed to support replication and replicated data can negatively impact their performance. In this paper, we formulate the source selection problem with fragment replication (SSP-FR). For a given set of endpoints with replicated fragments and a SPARQL query, the problem is to select the endpoints that minimize the number of tuples to be transferred. We devise the Fedra source selection algorithm that approximates SSP-FR. We implement Fedra in the state-of-the-art federated query engines FedX and ANAPSID, and empirically evaluate their performance. Experimental results suggest that Fedra efficiently solves SSP-FR, reducing the number of selected SPARQL endpoints as well as the size of query intermediate results.},
+  isbn      = {978-3-319-25007-6},
+}
+
+@Article{BuilAranda2013,
+  author   = {Carlos Buil-Aranda and Marcelo Arenas and Oscar Corcho and Axel Polleres},
+  journal  = {Journal of Web Semantics},
+  title    = {Federating queries in SPARQL 1.1: Syntax, semantics and evaluation},
+  year     = {2013},
+  issn     = {1570-8268},
+  note     = {Special Section on the Semantic and Social Web},
+  number   = {1},
+  pages    = {1-17},
+  volume   = {18},
+  abstract = {Given the sustained growth that we are experiencing in the number of SPARQL endpoints available, the need to be able to send federated SPARQL queries across these has also grown. To address this use case, the W3C SPARQL working group is defining a federation extension for SPARQL 1.1 which allows for combining graph patterns that can be evaluated over several endpoints within a single query. In this paper, we describe the syntax of that extension and formalize its semantics. Additionally, we describe how a query evaluation system can be implemented for that federation extension, describing some static optimization techniques and reusing a query engine used for data-intensive science, so as to deal with large amounts of intermediate and final results. Finally we carry out a series of experiments that show that our optimizations speed up the federated query evaluation process.},
+  doi      = {https://doi.org/10.1016/j.websem.2012.10.001},
+  keywords = {SPARQL 1.1, Distributed data management, Distributed query processing, RDF},
+  url      = {https://www.sciencedirect.com/science/article/pii/S157082681200114X},
+}
+
+@InProceedings{Cheng2021,
+  author    = {Cheng, Sijin and Hartig, Olaf},
+  booktitle = {Proceedings of the 22nd International Conference on Information Integration and Web-Based Applications \& Services},
+  title     = {FedQPL: A Language for Logical Query Plans over Heterogeneous Federations of RDF Data Sources},
+  year      = {2021},
+  address   = {New York, NY, USA},
+  pages     = {436–445},
+  publisher = {Association for Computing Machinery},
+  series    = {iiWAS '20},
+  abstract  = {Federations of RDF data sources provide great potential when queried for answers and insights that cannot be obtained from one data source alone. A challenge for planning the execution of queries over such a federation is that the federation may be heterogeneous in terms of the types of data access interfaces provided by the federation members. This challenge has not received much attention in the literature. This paper provides a solid formal foundation for future approaches that aim to address this challenge. Our main conceptual contribution is a formal language for representing query execution plans; additionally, we identify a fragment of this language that can be used to capture the result of selecting relevant data sources for different parts of a given query. As technical contributions, we show that this fragment is more expressive than what is supported by existing source selection approaches, which effectively highlights an inherent limitation of these approaches. Moreover, we show that the source selection problem is NP-hard and in σP2, and we provide an extensive set of rewriting rules that can be used as a basis for query optimization.},
+  doi       = {10.1145/3428757.3429120},
+  file      = {:references/FedQPL_ a language for logical query plans over heterogeneous federations of RDF data sources.pdf:PDF},
+  isbn      = {9781450389228},
+  keywords  = {SPARQL, RDF, Linked Data Fragments, Federation},
+  location  = {Chiang Mai, Thailand},
+  numpages  = {10},
+  url       = {https://doi.org/10.1145/3428757.3429120},
+}
+
+@InProceedings{Salas2018,
+  author    = {Salas, Jaime and Hogan, Aidan},
+  booktitle = {The Semantic Web -- ISWC 2018},
+  title     = {Canonicalisation of Monotone SPARQL Queries},
+  year      = {2018},
+  address   = {Cham},
+  editor    = {Vrande{\v{c}}i{\'{c}}, Denny and Bontcheva, Kalina and Su{\'a}rez-Figueroa, Mari Carmen and Presutti, Valentina and Celino, Irene and Sabou, Marta and Kaffee, Lucie-Aim{\'e}e and Simperl, Elena},
+  pages     = {600--616},
+  publisher = {Springer International Publishing},
+  abstract  = {Caching in the context of expressive query languages such as SPARQL is complicated by the difficulty of detecting equivalent queries: deciding if two conjunctive queries are equivalent is NP-complete, where adding further query features makes the problem undecidable. Despite this complexity, in this paper we propose an algorithm that performs syntactic canonicalisation of SPARQL queries such that the answers for the canonicalised query will not change versus the original. We can guarantee that the canonicalisation of two queries within a core fragment of SPARQL (monotone queries with select, project, join and union) is equal if and only if the two queries are equivalent; we also support other SPARQL features but with a weaker soundness guarantee: that the (partially) canonicalised query is equivalent to the input query. Despite the fact that canonicalisation must be harder than the equivalence problem, we show the algorithm to be practical for real-world queries taken from SPARQL endpoint logs, and further show that it detects more equivalent queries than when compared with purely syntactic methods. We also present the results of experiments over synthetic queries designed to stress-test the canonicalisation method, highlighting difficult cases.},
+  file      = {:references/Canonicalisation of Monotone SPARQL Queries.pdf:PDF},
+  isbn      = {978-3-030-00671-6},
+}
+
+@InProceedings{Chaudhuri1993,
+  author    = {Chaudhuri, Surajit and Vardi, Moshe Y.},
+  booktitle = {Proceedings of the Twelfth ACM SIGACT-SIGMOD-SIGART Symposium on Principles of Database Systems},
+  title     = {Optimization of real conjunctive queries},
+  year      = {1993},
+  address   = {New York, NY, USA},
+  pages     = {59–70},
+  publisher = {Association for Computing Machinery},
+  series    = {PODS '93},
+  doi       = {10.1145/153850.153856},
+  file      = {:references/Optimization of Real Conjunctive Queries.pdf:PDF},
+  isbn      = {0897915933},
+  location  = {Washington, D.C., USA},
+  numpages  = {12},
+  url       = {https://doi.org/10.1145/153850.153856},
+}
+
+@InProceedings{Segev,
+  author    = {Segev, A. and Park, J.},
+  booktitle = {[1989] Proceedings. Fifth International Conference on Data Engineering},
+  title     = {Maintaining materialized views in distributed databases},
+  pages     = {262–270},
+  publisher = {IEEE Comput. Soc. Press},
+  doi       = {10.1109/icde.1989.47225},
+  file      = {:paper/MAINTAINING MATERIALIZED VIEWS.pdf:PDF},
+  url       = {http://dx.doi.org/10.1109/ICDE.1989.47225},
+}
+
+@InProceedings{10.1145/1516360.1516484,
+  author    = {Chaves, Leonardo Weiss F. and Buchmann, Erik and Hueske, Fabian and B\"{o}hm, Klemens},
+  booktitle = {Proceedings of the 12th International Conference on Extending Database Technology: Advances in Database Technology},
+  title     = {Towards materialized view selection for distributed databases},
+  year      = {2009},
+  address   = {New York, NY, USA},
+  pages     = {1088–1099},
+  publisher = {Association for Computing Machinery},
+  series    = {EDBT '09},
+  abstract  = {Materialized views (MV) can significantly improve the query performance of relational databases. In this paper, we consider MVs to optimize complex scenarios where many heterogeneous nodes with different resource constraints (e.g., CPU, IO and network bandwidth) query and update numerous tables on different nodes. Such problems are typical for large enterprises, e.g., global retailers storing thousands of relations on hundreds of nodes at different subsidiaries.Choosing which views to materialize in a distributed, complex scenario is NP-hard. Furthermore, the solution space is huge, and the large number of input factors results in non-monotonic cost models. This prohibits the straightforward use of brute-force algorithms, greedy approaches or proposals from organic computing. For the same reason, all solutions for choosing MVs we are aware of do not consider either distributed settings or update costs.In this paper we describe an algorithmic framework which restricts the sets of considered MVs so that a genetic algorithm can be applied. In order to let the genetic algorithm converge quickly, we generate initial populations based on knowledge on database tuning, and devise a selection function which restricts the solution space by taking the similarity of MV configurations into account. We evaluate our approach both with artificial settings and a real-world RFID scenario from retail. For a small setting consisting of 24 tables distributed over 9 nodes, an exhaustive search needs 10 hours processing time. Our approach derives a comparable set of MVs within 30 seconds. Our approach scales well: Within 15 minutes it chooses a set of MVs for a real-world scenario consisting of 1,000 relations, 400 hosts, and a workload of 3,000 queries and updates.},
+  doi       = {10.1145/1516360.1516484},
+  file      = {:paper/Towards materialized view selection for distributed databases.pdf:PDF},
+  isbn      = {9781605584225},
+  location  = {Saint Petersburg, Russia},
+  numpages  = {12},
+  url       = {https://doi.org/10.1145/1516360.1516484},
+}
+
+@Article{karde2010selection,
+  author  = {Karde, P and Thakare, VM},
+  journal = {International Journal of Management Systems},
+  title   = {Selection of materialized views using query optimization in database management: An efficient methodology},
+  year    = {2010},
+  number  = {4},
+  pages   = {116--130},
+  volume  = {2},
+  file    = {:paper/Selection of materialized views using query optimization in database management_ An efficient methodology.pdf:PDF},
+}
+
+@Article{halevy2001answering,
+  author    = {Halevy, Alon Y},
+  journal   = {The VLDB Journal},
+  title     = {Answering queries using views: A survey},
+  year      = {2001},
+  number    = {4},
+  pages     = {270--294},
+  volume    = {10},
+  file      = {:paper/Answering queries using views_ A survey.pdf:PDF},
+  publisher = {Springer},
+}
+
+@InProceedings{10.1145/1066157.1066179,
+  author    = {DeHaan, David and Larson, Per-Ake and Zhou, Jingren},
+  booktitle = {Proceedings of the 2005 ACM SIGMOD International Conference on Management of Data},
+  title     = {Stacked indexed views in microsoft SQL server},
+  year      = {2005},
+  address   = {New York, NY, USA},
+  pages     = {179–190},
+  publisher = {Association for Computing Machinery},
+  series    = {SIGMOD '05},
+  abstract  = {Appropriately selected materialized views (also called indexed views) can speed up query execution by orders of magnitude. Most database systems limit support for materialized views to select-project-join expressions, possibly with a group-by, over base tables because this class of views can be efficiently maintained incrementally and thus kept up to date with the underlying source tables. However, limiting views to reference only base tables restricts the class of queries that can be supported by materialized views. View stacking (also called views on views) relaxes one restriction by allowing a materialized view to reference both base tables and other materialized views. This extends materialized view support to additional types of queries. This paper describes a prototype implementation of stacked views within Microsoft SQL Server and explains which classes of queries can be supported. To support view matching for stacked views, a signature mechanism was added to the optimizer. This mechanism turned out to be beneficial also for regular views by significantly speeding up view matching.},
+  doi       = {10.1145/1066157.1066179},
+  file      = {:paper/Stacked Indexed Views in Microsoft SQL Server.pdf:PDF},
+  isbn      = {1595930604},
+  location  = {Baltimore, Maryland},
+  numpages  = {12},
+  url       = {https://doi.org/10.1145/1066157.1066179},
+}
+
+@InProceedings{castillo2010selecting,
+  author       = {Castillo, Roger and Leser, Ulf},
+  booktitle    = {International Conference on Web Engineering},
+  title        = {Selecting materialized views for RDF data},
+  year         = {2010},
+  organization = {Springer},
+  pages        = {126--137},
+  file         = {:paper/Selecting materialized views for RDF data.pdf:PDF},
+}
+
+@InProceedings{ibragimov2016optimizing,
+  author       = {Ibragimov, Dilshod and Hose, Katja and Pedersen, Torben Bach and Zim{\'a}nyi, Esteban},
+  booktitle    = {International Semantic Web Conference},
+  title        = {Optimizing aggregate SPARQL queries using materialized RDF views},
+  year         = {2016},
+  organization = {Springer},
+  pages        = {341--359},
+}
+
+@InProceedings{troullinou2021sofos,
+  author    = {Troullinou, Georgia and Kondylakis, Haridimos and Lissandrini, Matteo and Mottin, Davide},
+  booktitle = {Proceedings of the 2021 International Conference on management of data},
+  title     = {SOFOS: demonstrating the challenges of materialized view selection on knowledge graphs},
+  year      = {2021},
+  pages     = {2789--2793},
+  file      = {:paper/SOFOS_ Demonstrating the Challenges of Materialized View Selection on Knowledge Graphs.pdf:PDF},
+}
+
+@Article{spasic2022soundness,
+  author  = {Spasi{\'c}, Mirko and Jani{\v{c}}i{\'c}, Milena Vujo{\v{s}}evi{\'c}},
+  journal = {arXiv preprint arXiv:2210.07083},
+  title   = {Soundness and completeness of sparql query containment solver specs},
+  year    = {2022},
+  groups  = {SPARQL query containment, query containment},
+}
+
+@Article{ioannidis1995containment,
+  author    = {Ioannidis, Yannis E and Ramakrishnan, Raghu},
+  journal   = {ACM Transactions on Database Systems (TODS)},
+  title     = {Containment of conjunctive queries: Beyond relations as sets},
+  year      = {1995},
+  number    = {3},
+  pages     = {288--324},
+  volume    = {20},
+  file      = {:references/Containment of conjunctive queries_ beyond relations as sets.pdf:PDF},
+  priority  = {prio1},
+  publisher = {ACM New York, NY, USJayram2006A},
+}
+
+@inproceedings{Konstantinidis2019,
+author = {Konstantinidis, George and Mogavero, Fabio},
+title = {Attacking Diophantus: Solving a Special Case of Bag Containment},
+year = {2019},
+isbn = {9781450362276},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3294052.3319689},
+doi = {10.1145/3294052.3319689},
+abstract = {Conjunctive-query containment is the problem of deciding whether the answers of a given conjunctive query on an arbitrary database instance are always contained in the answers of a second query on the same instance. This is a very relevant question in query optimization, data integration, and other data management and artificial intelligence areas. The problem has been deeply studied and understood for the, so-called, set-semantics, i.e., when query answers and database instances are modelled as sets of tuples. In particular, it has been shown by Chandra and Merlin to be NPTIME-COMPLETE. On the contrary, when investigated under bag-semantics, a.k.a. multiset semantics, which allows for replicated tuples both in the underlying instance and in the query answers, it is not even clear whether the problem is decidable. Since this is exactly the standard interpretation for commercial relational database systems, the question turns out to be an important one. Multiple works on variations and restrictions of the bag-containment problem have been reported in the literature and, although the general problem is still open, we contribute with this article by solving a special case that has been identified as a major open problem on its own. More specifically, we study projection-free queries, i.e., queries without existentially quantified variables, and show decidability for the bag-containment problem of a projection-free conjunctive query into a generic conjunctive query. We prove indeed that deciding containment in this setting is in ¶i^p_2. Our approach relies on the solution of a special case of the Diophantine inequality problem via a reduction to the linear inequality problem and clearly exposes inherent difficulties in the analysis of the general question.},
+booktitle = {Proceedings of the 38th ACM SIGMOD-SIGACT-SIGAI Symposium on Principles of Database Systems},
+pages = {399–413},
+numpages = {15},
+keywords = {bag containment, bag semantics, diophantine inequalities, multiset semantics, query containment},
+location = {Amsterdam, Netherlands},
+series = {PODS '19}
+}
+
+@inproceedings{Jayram2006,
+author = {Jayram, T. S. and Kolaitis, Phokion G. and Vee, Erik},
+title = {The containment problem for <bi>Real</bi> conjunctive queries with inequalities},
+year = {2006},
+isbn = {1595933182},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/1142351.1142363},
+doi = {10.1145/1142351.1142363},
+abstract = {Query containment is a fundamental algorithmic problem in database query processing and optimization. Under set semantics, the query-containment problem for conjunctive queries has long been known to be NP-complete. In real database systems, however, queries are usually evaluated under bag semantics, not set semantics. In particular, SQL queries are evaluated under bag semantics and return multisets as answers, since duplicates are not eliminated unless explicitly requested. The exact complexity of the query-containment problem for conjunctive queries under bag semantics has been an open problem for more than a decade; in fact, it is not even known whether this problem is decidable.Here, we investigate, under bag semantics, the query-containment problem for conjunctive queries with inequalities. It has been previously shown that, under set semantics, this problem is complete for the second level of the polynomial hierarchy. Our main result asserts that, under bag semantics, the query-containment problem for conjunctive queries with inequalities is undecidable. Actually, we establish the stronger result that this problem is undecidable even if the following two restrictions hold at the same time: (1) the queries use just a single binary relation; and (2) the total number of inequalities is bounded by a certain fixed value. Moreover, the same undecidability results hold under bag-set semantics.},
+booktitle = {Proceedings of the Twenty-Fifth ACM SIGMOD-SIGACT-SIGART Symposium on Principles of Database Systems},
+pages = {80–89},
+numpages = {10},
+keywords = {undecidability, query containment, inequalities, conjunctive queries, bag-set semantics, bag semantics},
+location = {Chicago, IL, USA},
+series = {PODS '06}
+}
+
+@Article{khamis2021bag,
+  author    = {Khamis, Mahmoud Abo and Kolaitis, Phokion G and Ngo, Hung Q and Suciu, Dan},
+  journal   = {ACM Transactions on Database Systems (TODS)},
+  title     = {Bag query containment and information theory},
+  year      = {2021},
+  number    = {3},
+  pages     = {1--39},
+  volume    = {46},
+  file      = {:references/Bag Query Containment and Information Theory.pdf:PDF},
+  priority  = {prio1},
+  publisher = {ACM New York, NY},
+}
+
+@Article{schwentick2004xpath,
+  author    = {Schwentick, Thomas},
+  journal   = {ACM SIGMOD Record},
+  title     = {XPath query containment},
+  year      = {2004},
+  number    = {1},
+  pages     = {101--109},
+  volume    = {33},
+  groups    = {query containment},
+  publisher = {ACM New York, NY, USA},
+}
+
+@InProceedings{tang2025proving,
+  author       = {Tang, Lei and Dou, Wensheng and Zheng, Yingying and Xu, Lijie and Wang, Wei and Wei, Jun and Huang, Tao},
+  booktitle    = {2025 IEEE 41st International Conference on Data Engineering (ICDE)},
+  title        = {Proving Cypher Query Equivalence},
+  year         = {2025},
+  organization = {IEEE},
+  pages        = {3931--3944},
+  groups       = {query containment},
+}
+
+@Article{letelier2013static,
+  author    = {Letelier, Andr{\'e}s and P{\'e}rez, Jorge and Pichler, Reinhard and Skritek, Sebastian},
+  journal   = {ACM Transactions on Database Systems (TODS)},
+  title     = {Static analysis and optimization of semantic web queries},
+  year      = {2013},
+  number    = {4},
+  pages     = {1--45},
+  volume    = {38},
+  groups    = {query containment, SPARQL query containment},
+  publisher = {ACM New York, NY, USA},
+}
+
+@InProceedings{chekol2012sparql,
+  author       = {Chekol, Melisachew Wudage and Euzenat, J{\'e}r{\^o}me and Genev{\`e}s, Pierre and Laya{\"\i}da, Nabil},
+  booktitle    = {International Joint Conference on Automated Reasoning},
+  title        = {SPARQL query containment under RDFS entailment regime},
+  year         = {2012},
+  organization = {Springer},
+  pages        = {134--148},
+  groups       = {SPARQL query containment, query containment},
+}
+
+@InProceedings{chekol2012sparql2,
+  author    = {Chekol, Melisachew Wudage and Euzenat, J{\'e}r{\^o}me and Genev{\`e}s, Pierre and Laya{\"\i}da, Nabil},
+  booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  title     = {SPARQL query containment under SHI axioms},
+  year      = {2012},
+  number    = {1},
+  pages     = {10--16},
+  volume    = {26},
+  groups    = {SPARQL query containment, query containment},
+}
+
+@Misc{jenaQC,
+  author       = {Claus Stadler},
+  howpublished = {\url{https://central.sonatype.com/artifact/org.aksw.jena-sparql-api/jena-sparql-api-query-containment}},
+  note         = {[Accessed 11-05-2026]},
+  title        = {{M}aven {C}entral: org.aksw.jena-sparql-api:jena-sparql-api-query-containment --- central.sonatype.com},
+  groups       = {SPARQL query containment, query containment},
+}
+
+@InProceedings{salas2018canonicalisation,
+  author       = {Salas, Jaime and Hogan, Aidan},
+  booktitle    = {International Semantic Web Conference},
+  title        = {Canonicalisation of monotone SPARQL queries},
+  year         = {2018},
+  organization = {Springer},
+  pages        = {600--616},
+  groups       = {SPARQL query containment},
+}
+
+@InProceedings{schwarte2011fedx,
+  author       = {Schwarte, Andreas and Haase, Peter and Hose, Katja and Schenkel, Ralf and Schmidt, Michael},
+  booktitle    = {International semantic web conference},
+  title        = {Fedx: Optimization techniques for federated query processing on linked data},
+  year         = {2011},
+  organization = {Springer},
+  pages        = {601--616},
+  groups       = {federated queries},
+}
+
+@Article{gorlitz2011splendid,
+  author  = {G{\"o}rlitz, Olaf and Staab, Steffen},
+  journal = {COLD},
+  title   = {SPLENDID: SPARQL Endpoint Federation Exploiting VOID Descriptions.},
+  year    = {2011},
+  volume  = {782},
+  file    = {:papers/SPLENDID_SPARQL Endpoint Federation Exploiting.pdf:PDF},
+  groups  = {federated queries},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}
+
+@Comment{jabref-meta: grouping:
+0 AllEntriesGroup:;
+1 StaticGroup:query containment\;0\;0\;\;\;\;;
+1 StaticGroup:SPARQL query containment\;0\;1\;\;\;\;;
+1 StaticGroup:federated queries\;0\;1\;\;\;\;;
+}

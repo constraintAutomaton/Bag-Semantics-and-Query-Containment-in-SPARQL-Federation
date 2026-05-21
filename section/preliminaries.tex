@@ -1,0 +1,34 @@
+\section{Preliminaries}\label{sec:preliminaries}
+
+\subsection{SPARQL Language}
+
+\ac{RDF}~\cite{w3ConceptsAbstract} is a data model for representing knowledge on the Web.
+Information is expressed as \emph{triples} of the form $(s, p, o)$, where $s$ is the \emph{subject} (the entity being described), $p$ is the \emph{predicate} (the property or relationship), and $o$ is the \emph{object} (the value or related entity).
+A set of such triples forms an \ac{RDF} \ac{KG}, which can be thought of as a labeled directed graph: nodes are subjects and objects, and edges are predicates~\cite{w3ConceptsAbstract}.
+
+\acp{IRI} (denoted $\mathcal{I}$) are globally unique identifiers used to name resources and properties.
+Literals (denoted $\mathcal{L}$) are concrete data values such as strings, numbers, or dates.
+Blank nodes (denoted $\mathcal{B}$) are anonymous resources with no global identifier.
+A triple is formally defined as $(s, p, o)$ where $s \in \mathcal{I} \cup \mathcal{B}$, $p \in \mathcal{I}$, and $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L}$.
+An \ac{RDF} \ac{KG} is a set of such triples.
+
+SPARQL~\cite{w3SPARQLQuery} is the W3C standard language to query \ac{RDF} \ac{KG}.
+SPARQL queries are matched against an \ac{RDF} graph by substituting variables for components of triples.
+A \emph{triple pattern} extends a triple by allowing variables (drawn from a set $\mathcal{V}$, disjoint from $\mathcal{I}$, $\mathcal{B}$, and $\mathcal{L}$) in any position:
+$\mathit{tp} = (s, p, o)$ where $s \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$, $p \in \mathcal{I} \cup \mathcal{V}$, and $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L} \cup \mathcal{V}$.
+
+A \ac{BGP} is a set of triple patterns evaluated conjunctively, binding variables across all patterns.
+A query built from \acp{BGP} is called a \ac{CQ}.
+\acp{UCQ} are formed by taking the union of multiple \acp{GP} via a \ac{UGP}, allowing a query to match any of several alternative patterns.
+
+\subsection{Federated Queries}
+
+A SPARQL federated query involves executing different segments of a query across multiple endpoints.
+We denote the evaluation of a query over a \ac{KG} $G$ as $\eval{Q}{G}$, and the evaluation over a federation of endpoints $F$ as $\eval{Q}{F}$, where $F$ is defined as a set of federation members, formalized as a mapping $\mathit{fm}\colon \mathit{IRI} \mapsto G$.
+Evaluating a query over $F$ involves decomposing $Q$ into subqueries $Q_i$, where each subquery $Q_i$ is evaluated on a knowledge graph $G_j \in \operatorname{codomain}(F)$ member of the federation.
+We adopt a database-agnostic view of federation members: since query containment does not depend on the content of any particular knowledge graph, we formalize the notion of federation in terms of endpoint \acp{IRI} rather than data.
+
+We distinguish three types of federated queries: \ac{UDF}, \ac{ESA}~\cite{Cheng2021}, and \ac{ASSF}.
+In \ac{UDF}, the query specifies \texttt{SERVICE} clauses~\cite{w3SPARQLFederated} that explicitly name the target endpoint for each subquery; a variable may be used as the endpoint \ac{IRI}, in which case the query must satisfy \emph{Service-Safeness}~\cite{BuilAranda2013} to guarantee a finite federation.
+In \ac{ESA}, a finite federation $F$ is provided before execution and each triple pattern is evaluated over every $G \in \operatorname{codomain}(F)$, with results accumulated via bag union~\cite{w3SPARQLFederated}.
+In \ac{ASSF}, a finite $F$ is similarly given, but the query engine selects which federation member receives each triple pattern rather than broadcasting to all.

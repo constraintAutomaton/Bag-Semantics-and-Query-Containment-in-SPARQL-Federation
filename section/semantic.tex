@@ -1,0 +1,67 @@
+\section{Semantics of SPARQL queries}\label{sec:semantic_federated_q}
+
+Before investigating query containment, we must establish under which semantics the different queries we study are evaluated.
+This choice determines whether and how duplicate results can arise, which directly have an impact how the query containment resolution.
+We distinguish three cases: Single endpoint, federated queries with \texttt{SERVICE} clauses (\ac{UDF}), and federated queries under automatic source selection (\ac{ESA} and \ac{ASSF}).
+
+\subsection{Single Endpoint Execution}
+SPARQL queries on single sources are evaluated under bag-set semantics.
+In SPARQL queries, the underlying \ac{KG} operates under set semantics~\cite{w3ConceptsAbstract}, while SPARQL operators produce bags\footnote{Operators that can produce duplicates.}.
+The choice between bag and set semantics has a significant impact on the complexity and decidability of query containment~\cite{Afrati2010}.\footnote{This repository presents a demonstration showing when bag semantics affect the correctness of query containment in SPARQL. \url{https://github.com/constraintAutomaton/demo-semantic-query-containment-SPARQL}}
+In the context of \ac{CQ} (ignoring \texttt{VALUES} and \texttt{BIND} clauses), only projection~\cite{Afrati2010} can increase the multiplicity.
+In the context of \ac{UCQ}, the multiplicity can additionally be increased by \texttt{UNION}~\cite[Definition: Union]{w3SPARQLQuery} and by the combination of \texttt{UNION} and \texttt{JOIN}~\cite[Definition: Join]{w3SPARQLQuery}.
+A \texttt{UNION} adds the multiplicities of its two input bags of solution mappings, while a \texttt{JOIN} multiplies the multiplicities of the matching solution mappings.\footnote{The multiplicity definitions appear in the SPARQL specification under the subsections \href{https://www.w3.org/TR/sparql11-query/\#sparqlAlgebra}{``Definition: Join'' and ``Definition: Union''}.}
+Hence \texttt{JOIN} cannot on its own be a source of duplicate solutions.
+Because the underlying \ac{KG} is under set semantics, every input mapping has multiplicity one, so their product remains one unless a \texttt{UNION} in the context of \ac{UCQ} has already introduced higher multiplicities.
+\ac{UCQ} is not the subject of our study, however, the following sections show how a \ac{CQ} issued by the user can become a \ac{UCQ} during federated execution.
+In the context of federated queries, where multiple \acp{KG} are involved, the semantics of query processing are less straightforward.
+The following sections detail the semantics of each federation paradigm.
+
+\subfile{proofs/cq_join_multiplicity}
+
+\subsection{Federated Queries With \texttt{SERVICE} Clauses (\ac{UDF})}
+The SPARQL federated query extension~\cite{w3SPARQLFederated} defines the execution of federated queries with \texttt{SERVICE} clauses as a join between the bag of solution mappings from the preceding execution and the bag of solution mappings returned by the SPARQL service.
+\Cref{List:pseudoCodeFederatedQuery} presents the pseudo-code of this operation as taken from the specification~\cite{w3SPARQLFederated}.
+Since in \ac{CQ} join operations in the SPARQL specification cannot increase the multiplicity of a result bag~\cite[Definition: Join]{w3SPARQLQuery}, duplicate results cannot arise from services returning the same answer, and query processing therefore remains under bag-set semantics.
+We also provide examples in a repository.\footnote{This repository presents a demonstration of the semantics of federated queries: \url{https://github.com/constraintAutomaton/demo-federated-query-semantic}}\label{foot:experiment}
+
+\begin{figure}
+\begin{lstlisting}[basicstyle=\ttfamily\small, breaklines=true]
+Let G := the empty pattern, Z, a basic graph pattern which is the empty set.
+Let SilentOp := boolean, indicating SERVICE error behavior.
+
+[...]
+
+For each element E in the GroupGraphPattern
+  [...]
+  If E is of the form SERVICE [SILENT] IRI {P}
+    Let G := Join(G, Service(IRI, Transform(P), SilentOp))
+  End
+End
+
+The result is G.
+\end{lstlisting}
+\caption{Snippet of the algorithm from \S3.1 of ``SPARQL 1.1 Federated Query''~\cite{w3SPARQLFederated}. The \texttt{SERVICE} call is evaluated as an extension of the Group Graph Pattern evaluation: its result bag is joined with the solution mappings from the rest of the query.}
+\label{List:pseudoCodeFederatedQuery}
+\end{figure}
+
+\subsection{Federated Queries Using Automatic Source Selection}\label{sec_fed_query_without_service}
+Federated queries without \texttt{SERVICE} clauses (also called federated queries with automatic source selection) are not defined in the SPARQL specification, but have been formalized in the literature by \citeauthor{Cheng2021}~\cite{Cheng2021}.
+
+The \ac{ESA} can be considered the default strategy for source selection in federated queries without \texttt{SERVICE} clauses.
+Source selection algorithms determine which federation members should receive query subsets without losing results or causing unproductive computation.
+When information is insufficient to make this determination, or when multiple federation members could contribute to a query subset's results, the \ac{ESA} principle applies~\cite{Cheng2021}.\footnote{A query engine may choose to use the \ac{ESA} strategy for its simplicity or to avoid issuing too many requests to federation members.}
+\ac{ESA} is defined by the following equation expressed using the FedQPL formalism~\cite{Cheng2021}:
+
+\begin{equation}
+  \fmj\bigl(\fmu(\freq_{\mathit{fm}_1}^{\mathit{tp}_1}, \dots, \freq_{\mathit{fm}_m}^{\mathit{tp}_1}), \dots, \fmu(\freq_{\mathit{fm}_1}^{\mathit{tp}_n}, \dots, \freq_{\mathit{fm}_m}^{\mathit{tp}_n})\bigr)
+  \label{eq_esa}
+\end{equation}
+
+where $\fmj$ denotes a join operation over its arguments, $\fmu$ denotes a union operation over its arguments, and $\freq$ denotes the query operation of $\mathit{tp}_i$ against federation member $\mathit{fm}_j$.
+
+The above equation reveals that a \ac{CQ} involving at least two federation members becomes a \ac{UCQ} under \ac{ESA}, since each triple pattern is distributed to all members and their results are combined via \texttt{UNION}.
+This structural shift creates a challenge for query containment as \ac{UCQ} containment under bag-set semantics is undecidable and no decidable fragments have been documented.
+We therefore propose the Bag Federation Reduction, a transformation showing that \ac{ESA} evaluation is semantically equivalent to evaluating the original \ac{CQ} against a \ac{BKG} under bag semantics.
+
+\subfile{proofs/bag_federation_reduction}

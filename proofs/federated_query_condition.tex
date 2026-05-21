@@ -1,0 +1,39 @@
+\documentclass[../main]{subfiles}
+\begin{document}
+
+\begin{proposition}
+A query $Q_2$ over a federation $F_2$ is contained into a query $Q_1$ over a federation $F_1$ given this condition is valid:
+\[
+Q_1 \sqsubseteq Q_2 \iff (A \land B \land C)
+\]
+Where subconditions $A$, $B$ and $C$ are defined as follow:
+\[
+A = \forall G \in \mathcal{G} \colon \eval{\mathit{QO}(Q_1)}{G} \subseteq \eval{\mathit{QO}(Q_2)}{G}
+\]
+where $\mathcal{G}$ is the set of every \ac{KG}.
+\[
+B = \forall f_1 \in F_1 \colon \exists f_2 \in F_2 \colon \eval{\mathit{QS}(Q_1, f_1)}{f_1} \subseteq \eval{\mathit{QS}(Q_2, f_2)}{f_2}
+\]
+Where $F_i$ is a federation associated with the query $i$ and $f_j$ is a federation member.
+\[
+C = F_1 \subseteq F_2 \lor \forall f_2 \in F_2 \setminus F_1 \colon \eval{\mathit{QS}(Q_2)}{f_2} = \emptyset
+\]
+\end{proposition}
+
+\begin{proof}
+Condition $A$ is similar to the condition for query containment without \texttt{SERVICE} clauses.
+A federated query with \texttt{SERVICE} clauses is a query performed against both a \ac{KG} and a federation.
+We can therefore define a federated query as $Q = \mathit{QO}(Q) \bowtie Q_F$, where $Q_F$ is the query over the federation.
+Condition $A$ pertains to $\mathit{QO}(Q)$, the portion executed against the \ac{KG}.
+Because $Q_F$ targets knowledge graphs different from the one queried by $\mathit{QO}(Q)$, and query containment makes no assumptions about \ac{KG} content, we cannot assume that partial results absent in the evaluation of $\mathit{QO}(Q_2)$ are present in the evaluation of $Q_{F_2}$.
+Thus, for $Q_1 \sqsubseteq Q_2$, we require $\eval{\mathit{QO}(Q_1)}{G} \subseteq \eval{\mathit{QO}(Q_2)}{G}$.
+
+Condition $B$ pertains to $Q_F$.
+$Q_F$ can be defined as
+\[
+Q_{1, f_1} \bowtie Q_{2, f_2} \bowtie Q_{3, f_3} \cdots
+\]
+where $Q_{i, f_j}$ is a query $i$ performed at a federation member $j$.
+\end{proof}
+
+\end{document}

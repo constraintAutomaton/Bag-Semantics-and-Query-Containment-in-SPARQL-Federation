@@ -1,0 +1,42 @@
+\section{Related Work}\label{sec:related_works}
+
+\subsection{Query Containment}\label{sec:related_works_qc}
+
+Query containment consists of determining for every database whether the result of the evaluation of a query $Q_1$ is a subset of the result of the evaluation of a query $Q_2$, denoted $Q_1 \sqsubseteq Q_2$.
+Query containment has been used in multiple query optimization tasks, including view selection, caching, and query rewriting~\cite{Afrati2019-ch2, Shirkova2011, Halevy2001}.
+
+Query containment under bag or bag-set semantics is a strictly stronger relationship than its set-semantic counterpart~\cite{Chaudhuri1993}.
+The literature does not describe general necessary conditions for containment under bag-set and bag semantics~\cite{ioannidis1995containment, khamis2021bag}; however, sufficient conditions have been identified.
+Furthermore, the general case of bag or bag-set semantic query containment for \ac{UCQ} has been shown to be undecidable~\cite{ioannidis1995containment, Jayram2006, Afrati2010}.
+However, some fragments of bag-set and bag semantic conjunctive queries have been proven decidable~\cite{khamis2021bag}.
+\Cref{tab_decidable_containment_bag_bag_set} presents query fragments with decidable bag and bag-set query containment.
+
+\begin{table*}
+  \caption{Decidable bag and bag-set query fragment}
+  \label{tab_decidable_containment_bag_bag_set}
+  \begin{tabular}{llll}
+    \toprule
+    Case & Semantic & Time Complexity & Necessary Condition\\
+    \midrule
+    General \ac{CQ}~\cite{Chaudhuri1993} & Bag and Bag-set & $\Pi^p_2$-hard & No\\
+    \ac{CQ} where $Q_2$ is without projections~\cite{Afrati2010} & Bag-set & NP-complete & Yes\\
+    \ac{CQ} where $Q_2$ is without projections~\cite{Konstantinidis2019} & Bag & $\Pi^p_2$ & Yes\\
+    Pathstar \ac{CQ}~\cite{Afrati2010} & Bag and Bag-set & $O(n^2 \cdot \log(n))$ & Yes\\
+    Simple general Pathstar \ac{CQ}~\cite{Afrati2010} & Bag and Bag-set & $O(n)$ & Yes\\
+    $Q_2$ is an enhance version of $Q_1$ & Bag-set & $O(n)$ & Yes\\
+    \bottomrule
+  \end{tabular}
+\end{table*}
+
+Beyond relational databases, query containment has been studied in other graph query languages, including XPath~\cite{schwentick2004xpath} and Cypher~\cite{tang2025proving}.
+In the context of SPARQL, set-semantic query containment has received considerable attention~\cite{WudageChekol2013, letelier2013static, chekol2012sparql, chekol2012sparql2, jenaQC, Spasic2023}.
+Extensions incorporating RDF schemas and OWL entailment regimes have also been proposed~\cite{WudageChekol2013}, though these fall outside the scope of this paper.
+
+\subsection{Federated Queries}
+
+Federated SPARQL queries have been formalized from multiple perspectives.
+The SPARQL 1.1 Federated Query specification~\cite{w3SPARQLFederated} introduces the \texttt{SERVICE} clause as the W3C standard mechanism for directing subexpressions to specific endpoints.
+\citeauthor{BuilAranda2013}~\cite{BuilAranda2013} introduced the notion of \emph{Service-Safeness}, a syntactic condition that guarantees that the set of federation members is finite prior to query execution, thereby ensuring the decidability of queries that use variables as endpoint IRIs.
+\citeauthor{Cheng2021}~\cite{Cheng2021} proposed FedQPL, a formalism to express federated queries under automatic source selection, addressing the difficulty of manually determining which federation members to query for a given graph pattern~\cite{hanski2025observations}.
+They also introduced the \ac{ESA}, a query planning strategy used when no statistical information about the federation is available.
+In \ac{ESA}, each triple pattern is evaluated against every federation member and the results are combined via bag union, guaranteeing complete results regardless of how data is distributed across the federation.
