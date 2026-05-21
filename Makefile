@@ -31,6 +31,6 @@ clean:
 	      *.out *.text.bbl main.*.blg *.blg *.bbl *.fls *.fdb_latexmk \
 	      main.log *.synctex.gz section/*.aux *.bcf *-blx.bib *.run.xml \
 	      svg-inkscape/* $(PROOF_PDF) proofs/*.aux proofs/*.fls \
-	      proofs/*.fdb_latexmk proofs/*.log
+	      proofs/*.fdb_latexmk proofs/*.log proofs/*.out
 
 .PHONY: all clean watch proofs $(WATCH_PROOFS)
