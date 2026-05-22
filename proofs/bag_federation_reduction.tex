@@ -2,19 +2,11 @@
 \externaldocument[main-]{../main}
 \begin{document}
 
-\subsection{Bag Federation Reduction}\label{sec_bag_federation_reduction}
+\subsection{\acl{BFR}}\label{sec_bag_federation_reduction}
 
 \begin{definition}\label{def_bkg}
-A \ac{BKG} is defined by a special bag union of all \ac{KG} of each federation member.
-This special bag union gives a multiplicity $m_{\mathrm{BKG}}$ given the multiplicity $m_{\mathrm{bag}}$ of a standard bag union define by
-\[
-m_{\mathrm{BKG}} =
-\begin{cases}
-1 & \text{if } m_{\mathrm{bag}} = 1,\\
-x & \text{if } m_{\mathrm{bag}} > 1,
-\end{cases}
-\quad \text{for some } x \in \mathbb{N}_{\geq 1}
-\]
+The \ac{BKG} of a federation $F$ is the bag union $\biguplus_{G \in \operatorname{codomain}(F)} G$ of all its members' \acp{KG}.
+A triple $t$ thus has multiplicity $|\{\, G \in \operatorname{codomain}(F) : t \in G \,\}|$, the number of members whose \ac{KG} contains it.
 \end{definition}
 
 We show that any union-based federation strategy is equivalent to executing the original query against a \emph{\ac{BKG}} as defined in \Cref{def_bkg}, making the query execution follow bag semantics rather than bag-set semantics.
@@ -86,6 +78,6 @@ The multiplicities therefore coincide in both evaluations.
 In \ac{ASSF}, the source selection algorithm determines the form of the FedQPL query plan.
 When the plan contains \texttt{UNION} over multiple members for some triple pattern, \Cref{cor_bfr} applies and the evaluation follows bag semantics.
 When the plan uses only joins, \Cref{prop_no_overlap} applies and bag-set semantics hold.
-The \emph{Bag Federation Reduction} thus covers the full spectrum of union-based federation strategies.
+The \emph{\acl{BFR}} thus covers the full spectrum of union-based federation strategies.
 
 \end{document}

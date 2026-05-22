@@ -20,6 +20,41 @@
 \DeclareMathOperator{\fmu}{mu}
 \DeclareMathOperator{\freq}{req}
 
+% --- SPARQL syntax highlighting for listings ---
+\definecolor{sparqlKeyword}{RGB}{0,0,180}
+\definecolor{sparqlVar}{RGB}{170,0,90}
+\definecolor{sparqlString}{RGB}{160,80,0}
+\definecolor{sparqlComment}{RGB}{110,110,110}
+\definecolor{sparqlURI}{RGB}{0,110,90}
+
+\lstdefinelanguage{SPARQL}{
+  morekeywords=[2]{SELECT,WHERE,PREFIX,BASE,FILTER,DISTINCT,REDUCED,OPTIONAL,
+    UNION,MINUS,GRAPH,SERVICE,SILENT,BIND,VALUES,AS,FROM,NAMED,
+    ORDER,BY,GROUP,HAVING,LIMIT,OFFSET,ASK,CONSTRUCT,DESCRIBE,
+    BOUND,EXISTS,REGEX,STR,LANG,DATATYPE,IF,COALESCE,
+    COUNT,SUM,AVG,MIN,MAX,SAMPLE,GROUP_CONCAT,a},
+  keywordstyle=[2]\color{sparqlKeyword}\bfseries,
+  alsoletter={?},                           % so ?name is one token
+  emph={?s,?age,?job},                      % SPARQL variables used in the paper
+  emphstyle=\color{sparqlVar},
+  sensitive=false,                          % SPARQL keywords are case-insensitive
+  morecomment=[l]{\#},
+  commentstyle=\color{sparqlComment}\itshape,
+  morestring=[b]",
+  morestring=[b]',
+  stringstyle=\color{sparqlString},
+  moredelim=[s][\color{sparqlURI}]{<}{>},   % colors <IRI> literals
+}
+
+\lstdefinestyle{sparql}{
+  language=SPARQL,
+  basicstyle=\ttfamily\small,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  breaklines=true,
+}
+
 \setcopyright{cc}
 \copyrightyear{2026}
 \acmYear{2026}
@@ -76,8 +111,8 @@ We demonstrate how query containment can be decided for federated SPARQL queries
 \maketitle
 
 \input{section/introduction}
-\input{section/related_work}
 \input{section/preliminaries}
+\input{section/related_work}
 \input{section/semantic}
 \input{section/federated_query_evaluation}
 \input{section/conclusion}

@@ -7,22 +7,23 @@ In the context of \ac{CQ}, \texttt{Join} cannot produce a bag of solution mappin
 
 \begin{proof}
 Let $\Omega_1$ and $\Omega_2$ be the input bags of solution mappings of the \texttt{Join}. By definition,
-\[
-\operatorname{multiplicity}(\mu, \operatorname{Join}(\Omega_1, \Omega_2)) = \sum_{m(\mu)} \operatorname{multiplicity}(\mu_1, \Omega_1) \times \operatorname{multiplicity}(\mu_2, \Omega_2)
-\]
+\begin{multline*}
+\operatorname{multiplicity}(\mu \mid \operatorname{Join}(\Omega_1, \Omega_2)) = \\
+\sum_{m(\mu)} \operatorname{multiplicity}(\mu_1 \mid \Omega_1) \times \operatorname{multiplicity}(\mu_2 \mid \Omega_2)
+\end{multline*}
 where $m(\mu)$ is the index set of the summation, defined as
 \[
 m(\mu) = [(\mu_1, \mu_2) \mid \operatorname{merge}(\mu_1 \in \Omega_1, \mu_2 \in \Omega_2) = \mu]
 \]
-The result multiplicity therefore exceeds one only if (i) some
-$\operatorname{multiplicity}(\mu_1, \Omega_1) \times \operatorname{multiplicity}(\mu_2, \Omega_2)$ exceeds one, or (ii) the index set $m(\mu)$ contains more than one pair.
+The result multiplicity therefore exceeds one only if (i) some \\
+$\operatorname{multiplicity}(\mu_1 \mid \Omega_1) \times \allowbreak \operatorname{multiplicity}(\mu_2 \mid \Omega_2)$ exceeds one, or (ii) the index set $m(\mu)$ contains more than one pair.
 We rule out both in the context of a \ac{CQ}.
 
 Case (i). In a \ac{CQ} the only operator in the query body is \texttt{Join}, and the underlying knowledge graph is set-semantic, so every input solution mapping has multiplicity one.
 Hence, given case (ii) does not in a previous \texttt{Join} introduce an higher multiplicity the multiplicity will remain one.
 
 Case (ii). For $|m(\mu)| > 1$, two distinct pairs of solution mappings must merge to the same $\mu$.
-The \texttt{merge} function is defined as the set union of two solution mappings when, for every variable in the domain of both, they have equal value or is not defined.
+By \Cref{def_merge}, $\operatorname{merge}(\mu_1, \mu_2)$ is the union of two compatible solution mappings.
 For the index set to be larger than one, there must therefore exist within an input bag solution mappings carrying complementary information, for instance $\Omega_1 = [\{?x \mapsto a\}, \{?y \mapsto b, ?x \mapsto a\}]$ and $\Omega_2 = [\{?y \mapsto b, ?x \mapsto a\}, \{?x \mapsto a\}]$.
 This situation cannot arise in a \ac{CQ}, since there is no mechanism for solution mappings a single bag to have a different arity: a triple pattern, or a \ac{BGP}, binds a fixed set of variables, so all mappings in one input bag share the same domain.
 Hence $|m(\mu)| \leq 1$.

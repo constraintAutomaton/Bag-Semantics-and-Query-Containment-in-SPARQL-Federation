@@ -23,7 +23,6 @@ The following sections detail the semantics of each federation paradigm.
 The SPARQL federated query extension~\cite{w3SPARQLFederated} defines the execution of federated queries with \texttt{SERVICE} clauses as a join between the bag of solution mappings from the preceding execution and the bag of solution mappings returned by the SPARQL service.
 \Cref{List:pseudoCodeFederatedQuery} presents the pseudo-code of this operation as taken from the specification~\cite{w3SPARQLFederated}.
 Since in \ac{CQ} join operations in the SPARQL specification cannot increase the multiplicity of a result bag~\cite[Definition: Join]{w3SPARQLQuery}, duplicate results cannot arise from services returning the same answer, and query processing therefore remains under bag-set semantics.
-We also provide examples in a repository.\footnote{This repository presents a demonstration of the semantics of federated queries: \url{https://github.com/constraintAutomaton/demo-federated-query-semantic}}\label{foot:experiment}
 
 \begin{figure}
 \begin{lstlisting}[basicstyle=\ttfamily\small, breaklines=true]
@@ -62,6 +61,6 @@ where $\fmj$ denotes a join operation over its arguments, $\fmu$ denotes a union
 
 The above equation reveals that a \ac{CQ} involving at least two federation members becomes a \ac{UCQ} under \ac{ESA}, since each triple pattern is distributed to all members and their results are combined via \texttt{UNION}.
 This structural shift creates a challenge for query containment as \ac{UCQ} containment under bag-set semantics is undecidable and no decidable fragments have been documented.
-We therefore propose the Bag Federation Reduction, a transformation showing that \ac{ESA} evaluation is semantically equivalent to evaluating the original \ac{CQ} against a \ac{BKG} under bag semantics.
+We therefore propose the \ac{BFR}, a transformation showing that \ac{ESA} evaluation is semantically equivalent to evaluating the original \ac{CQ} against a \ac{BKG} under bag semantics.
 
 \subfile{proofs/bag_federation_reduction}

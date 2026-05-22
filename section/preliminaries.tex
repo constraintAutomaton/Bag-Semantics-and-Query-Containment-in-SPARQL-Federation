@@ -21,6 +21,18 @@ A \ac{BGP} is a set of triple patterns evaluated conjunctively, binding variable
 A query built from \acp{BGP} is called a \ac{CQ}.
 \acp{UCQ} are formed by taking the union of multiple \acp{GP} via a \ac{UGP}, allowing a query to match any of several alternative patterns.
 
+Matching a graph pattern against an \ac{RDF} graph produces \emph{solution mappings}, partial functions from variables to \ac{RDF} terms.
+The following definitions make precise two notions on solution mappings used throughout the paper.
+
+\begin{definition}[Multiplicity]\label{def_multiplicity}
+  Given a multiset or sequence $\Omega$ of solution mappings and a solution mapping $\mu$, we write $\operatorname{multiplicity}(\mu \mid \Omega)$ to denote the number of times $\mu$ appears in $\Omega$.
+\end{definition}
+
+\begin{definition}[Merge~\cite{w3ConceptsAbstract}]\label{def_merge}
+  Two solution mappings $\mu_1$ and $\mu_2$ are \emph{compatible} if $\mu_1(v)$ and $\mu_2(v)$ are the same \ac{RDF} term~\cite{w3ConceptsAbstract} for every variable $v \in \operatorname{dom}(\mu_1) \cap \operatorname{dom}(\mu_2)$.
+  The \emph{merge} of two compatible solution mappings is their union, written $\operatorname{merge}(\mu_1, \mu_2) = \mu_1 \cup \mu_2$.
+\end{definition}
+
 \subsection{Federated Queries}
 
 A SPARQL federated query involves executing different segments of a query across multiple endpoints.
@@ -32,3 +44,9 @@ We distinguish three types of federated queries: \ac{UDF}, \ac{ESA}~\cite{Cheng2
 In \ac{UDF}, the query specifies \texttt{SERVICE} clauses~\cite{w3SPARQLFederated} that explicitly name the target endpoint for each subquery; a variable may be used as the endpoint \ac{IRI}, in which case the query must satisfy \emph{Service-Safeness}~\cite{BuilAranda2013} to guarantee a finite federation.
 In \ac{ESA}, a finite federation $F$ is provided before execution and each triple pattern is evaluated over every $G \in \operatorname{codomain}(F)$, with results accumulated via bag union~\cite{w3SPARQLFederated}.
 In \ac{ASSF}, a finite $F$ is similarly given, but the query engine selects which federation member receives each triple pattern rather than broadcasting to all.
+
+\begin{definition}[FedQPL operators~\cite{Cheng2021}]\label{def_fedqpl}
+  We express federated query plans with three operators of the FedQPL formalism.
+  The \emph{request} $\freq_{\mathit{fm}}^{P}$ evaluates a graph pattern $P$ against a single federation member $\mathit{fm}$.
+  The \emph{multiway union} $\fmu$ and \emph{multiway join} $\fmj$ combine the results of their arguments by bag union and by join, respectively.
+\end{definition}
