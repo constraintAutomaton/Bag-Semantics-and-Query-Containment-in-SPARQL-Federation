@@ -22,7 +22,7 @@ A query built from \acp{BGP} is called a \ac{CQ}.
 \acp{UCQ} are formed by taking the union of multiple \acp{GP} via a \ac{UGP}, allowing a query to match any of several alternative patterns.
 
 Matching a graph pattern against an \ac{RDF} graph produces \emph{solution mappings}, partial functions from variables to \ac{RDF} terms.
-The following definitions make precise two notions on solution mappings used throughout the paper.
+The following definitions make precise notions on solution mappings used throughout the paper.
 
 \begin{definition}[Multiplicity]\label{def_multiplicity}
   Given a multiset or sequence $\Omega$ of solution mappings and a solution mapping $\mu$, we write $\operatorname{multiplicity}(\mu \mid \Omega)$ to denote the number of times $\mu$ appears in $\Omega$.
@@ -47,7 +47,7 @@ The following definitions make precise two notions on solution mappings used thr
   \operatorname{multiplicity}(\mu \mid \texttt{JOIN}(\Omega_1, \Omega_2)) = \\
   \sum_{(\mu_1, \mu_2) \in m(\mu)} \operatorname{multiplicity}(\mu_1 \mid \Omega_1) \cdot \operatorname{multiplicity}(\mu_2 \mid \Omega_2),
   \end{multline*}
-  where $m(\mu) = \{(\mu_1, \mu_2) \in \Omega_1 \times \Omega_2 : \operatorname{merge}(\mu_1, \mu_2) = \mu\}$.
+  where $m(\mu) = \{(\mu_1, \mu_2) | \operatorname{merge}(\mu_1 \in \Omega_1, \mu_2 \in \Omega_2) = \mu\}$.
 \end{definition}
 
 \subsection{Federated Queries}
@@ -68,8 +68,9 @@ Orthogonally, federated queries can be classified by \emph{when} the source assi
 Under \ac{SSA}, the assignment is fixed prior to execution: \ac{UDF} (\texttt{SERVICE} clauses name the target) and \ac{ESA} (every triple pattern is broadcast to every member) both fall in this regime.
 Under \ac{DSA}, the assignment is determined by the engine during query planning; this covers \ac{ASSF} strategies other than \ac{ESA}.
 
+Throughout this paper, we use the FedQPL formalism~\cite{Cheng2021} to express federated query plans.
+
 \begin{definition}[FedQPL operators~\cite{Cheng2021}]\label{def_fedqpl}
-  We express federated query plans with three operators of the FedQPL formalism.
   The \emph{request} $\freq_{\mathit{fm}}^{P}$ evaluates a graph pattern $P$ against a single federation member $\mathit{fm}$.
   The \emph{multiway union} $\fmu$ and \emph{multiway join} $\fmj$ combine the results of their arguments by bag union and by join, respectively.
 \end{definition}

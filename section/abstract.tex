@@ -1,0 +1,11 @@
+\begin{abstract}
+Querying over federations of distributed data sources enables applications to integrate heterogeneous datasets without centralizing data, but can impose significant computational overhead on both federation endpoints and querying clients.
+In contexts such as scientific reproducibility studies, it is often necessary to re-execute queries or run refinement queries.
+However, reissuing these queries can lead to unnecessary load, creating a barrier to such use cases.
+To mitigate this, it is necessary to develop mechanisms that allow reusing previously computed query results to reduce redundant computation and network traffic.
+In this paper, we explore query containment as a mechanism to enable optimization of federated queries.
+The current literature on SPARQL query containment focuses on set semantics, whereas the SPARQL query language operates under bag-set semantics.
+Furthermore, the query containment problem has not been explored in the context of federated queries.
+This paper explores and defines the problem of query containment in the context of federated queries and the semantics of those queries.
+We demonstrate how query containment can be decided for federated SPARQL queries under bag and bag-set semantics, opening the door to SPARQL query result caching and reuse, with direct applications to query optimization, incremental querying, and reproducibility of federated SPARQL data access workflows.
+\end{abstract}

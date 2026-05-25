@@ -1,0 +1,44 @@
+\documentclass[../main]{subfiles}
+\begin{document}
+
+\begin{proposition}
+A query $Q_1$ over a federation $F_1$ is contained into a query $Q_2$ over a federation $F_2$ given this condition is valid:
+\[
+Q_1 \sqsubseteq Q_2 \iff (A \land B)
+\]
+Where subconditions $A$ and $B$ are defined as follow:
+\[
+A = \forall G \in \mathcal{G} \colon \eval{\mathit{QO}(Q_1)}{G} \subseteq \eval{\mathit{QO}(Q_2)}{G}
+\]
+\begin{align*}
+B = \forall f \in F_1, \forall G \in \mathcal{G} \colon \\
+\Bigl( \exists f \in F_2 \land \bigl( \eval{\mathit{QS}(Q_1, f)}{G} \subseteq \eval{\mathit{QS}(Q_2, f)}{G}\bigr)\Bigr) \\
+	\lor \bigl(\eval{\mathit{QS}(Q_1, f)}{G} = \emptyset\bigr)
+\end{align*}
+Where $F_i$ is a federation associated with the query $i$ and $f$ is a federation member.
+% We need to consider every possible KG in a federation
+\end{proposition}
+
+Query containment in the context of federated queries needs to consider the provenance of the data.
+Let us suppose a query where the federation member $f_G$ denotes the local database being queried:
+\[
+	Q = \fmj(\freq_{f_G}^{Q_1}, \freq_{f_2}^{Q_2}, \freq_{f_3}^{Q_3}).
+\]
+Query containment of federated queries cannot use as a condition the containment of the whole query expression $Q$ with no regard to which specific federation member each sub-query $Q_i$ is issued against, as the computation is defined as performing an operation over a database at a specific location; performing the same operation at another location is not equivalent.
+
+Thus the query containment of $Q$ has to be seen as determining the containment of $N_1$ sub-queries from $Q_1$ with $N_2$ sub-queries from $Q_2$.
+A question remains about which operation links the $Q_i$ in $Q$.
+Even if there is a $Q_i \in Q_1$ contained in a $Q_j \in Q_2$, if $Q_{j+1}$ is joined with $Q_j$ whereas $Q_i$ is unioned with $Q_{i+1}$, the queries will not produce a result that is a subset of another query.
+With the absence of a query containment condition that considers the operation linking two sub-queries, this accentuates the relevance of the \ac{BFR} when performing containment involving \ac{ASSF}.
+However, the containment algorithm needs to consider bag semantics.
+As bag-semantic query containment is strictly stronger than bag-set-semantic containment~\cite{Chaudhuri1993}, solving bag-semantic query containment cannot return false positives, but can return false negatives.
+
+Let us first investigate condition $A$.
+This condition is similar to the classic query containment.
+If there exists a local \ac{KG} from which $\eval{\mathit{QO}(Q_1)}{G}$ returns a bag that is not a subset of the one produced by $Q_2$, then independently of databases the queries will not produce the same results.
+For condition $B$, to produce a subset of the results of $Q_2$, $Q_1$ must target federation members that are part of the federation of $Q_2$.
+If a federation member is not shared between the two federations, the \texttt{SERVICE} call would not be at the same federation member in $Q_2$, and we cannot know the relationship between the data held at different endpoints (this paper does not consider such constraints, cf.\ \Cref{sec:federated_queries_query_containment}).
+For each $f \in F_1$, there must therefore exist a federation member in $F_2$ such that $Q_1$'s \texttt{SERVICE} call at $f$ is contained in $Q_2$'s call at the same member.
+If $Q_1$ queries a federation member that is not in $F_2$ but for every possible \ac{KG} the call returns the empty set, then the bag of solution mappings is not affected and the query is still contained.
+
+\end{document}

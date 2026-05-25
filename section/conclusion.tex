@@ -1,1 +1,10 @@
 \section{Conclusion}\label{sec:conclusion}
+
+This paper formalizes query containment for conjunctive SPARQL federated queries under bag-set semantics.
+We distinguish two source-selection mechanisms, \ac{UDF} and \ac{ASSF}, and an orthogonal axis between \ac{SSA} and \ac{DSA} that captures when source assignment is determined.
+We introduce the \ac{BFR}, a transformation showing that \ac{ASSF} evaluation is equivalent to evaluating the original \ac{CQ} against a \ac{BKG} under bag semantics, which lets us inherit existing bag-semantic \ac{CQ} containment results into the federated setting.
+
+These results open the door to result caching and reuse across federated SPARQL workflows.
+This has direct applications to query optimization, incremental querying, and the reproducibility of federated SPARQL data access workflows.
+
+Future work could consist of investigating containment between queries evaluated under bag and bag-set semantics in the context of the \ac{BFR}, analyzing the complexity of the proposed containment condition, implementing it in a query containment solver, and extending the framework to additional SPARQL fragments.

@@ -11,7 +11,7 @@ A triple $t$ thus has multiplicity $|\{\, G \in \operatorname{codomain}(F) : t \
 
 We show that any union-based federation strategy is equivalent to executing the original query against a \emph{\ac{BKG}} as defined in \Cref{def_bkg}, making the query execution follow bag semantics rather than bag-set semantics.
 One can think of this as a virtual operator that aggregates the federation members into a \ac{BKG} and rewrites the query to be evaluated exclusively over it.
-This is particularly useful given that \ac{UCQ} containment under bag-set and set semantics is undecidable, as discussed in \Cref{sec:related_works_qc}.
+This is particularly useful given that \ac{UCQ} containment under bag and bag-set semantics is undecidable, as discussed in \Cref{sec:related_works_qc}.
 We establish this using \ac{ESA} as the canonical proof vehicle, through the following propositions.
 
 We first handle the case where federation members have no overlapping query-relevant knowledge.
@@ -35,16 +35,16 @@ The join evaluation therefore produces the same result bag.
 We now consider the opposite case, where all federation members host an identical \ac{KG}.
 
 \begin{proposition}\label{prop_duplicate_fed_mem}
-There exist a \ac{BKG} for which the query performed over a federation where all members host identical \ac{KG} produce the same results in this \ac{BKG}.
+For a federation where all members host an identical \ac{KG}, the query produces the same results when evaluated over the federation's \ac{BKG}.
 \end{proposition}
 
 \begin{proof}
-When all $m$ members host identical \ac{KG}, every $\freq_{\mathit{fm}_i}^{\mathit{tp}_j}$ produces the same result for a given $\mathit{tp}_j$.
+When all $m$ members host an identical \ac{KG}, every $\freq_{\mathit{fm}_i}^{\mathit{tp}_j}$ produces the same result for a given $\mathit{tp}_j$.
 
 By the SPARQL definition of \texttt{UNION}, the multiplicity of the result bag equals the sum of the multiplicities of each operand's solution bag, so this produces $m$ copies of each result of $\freq_{\mathit{fm}_i}^{\mathit{tp}_j}$.
-By definition of the \texttt{JOIN} the multiplicity will $m^2$ times the number of times solution mappings can be merged.
+By definition of the \texttt{JOIN}, the multiplicity will be $m^3$ times the number of times solution mappings can be merged.
 
-In the \ac{BKG}, the special bag union of $m$ identical \acp{KG} can be given each triple a multiplicity of $m$, so evaluating the query over the \ac{BKG} produces the same multiplicities.
+In a \ac{BKG} each triple will have a multiplicity of $m$, and given the definition of \texttt{JOIN} the multiplicity of each solution mapping will be $m^3$.
 Both evaluations therefore produce the same result bag.
 \end{proof}
 
