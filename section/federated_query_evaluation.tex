@@ -8,7 +8,9 @@ The following section explains our approach for federated queries.
 \subsection{\ac{UDF} Particularities}
 We define a \texttt{SERVICE} clause as a function $\mathit{Service}(\mathit{IRI}, P)$, where $\mathit{IRI}$ is the IRI of the target federation member and $P$ is the \ac{GGP}~\cite{w3SPARQLQueryFormal} associated with the service.
 $P$ is transformed into a \texttt{SELECT} query where all the variables are projected as defined in the specification.\footnote{\url{https://www.w3.org/TR/2013/REC-sparql11-federated-query-20130321/\#algebra_service}}
-In this paper, we do not consider nested \texttt{SERVICE} clauses. Delegating the remote execution of a \texttt{SERVICE} clause to a third-party engine is generally considered poor practice, as it raises load-management concerns and leaves the query issuer unable to guarantee that the endpoint supports federated query execution. Furthermore, as shown in the proposition below, nested \texttt{SERVICE} clauses are semantically equivalent to a flattened form in which all \texttt{SERVICE} clauses appear at the basic graph pattern level.
+In this paper, we do not consider nested \texttt{SERVICE} clauses.
+Delegating the remote execution of a \texttt{SERVICE} clause to a third-party engine can raises load-management concerns and leaves the query issuer unable to guarantee that the endpoint supports federated query execution.
+Furthermore, as shown in the proposition below, nested \texttt{SERVICE} clauses are semantically equivalent to a flattened form in which all \texttt{SERVICE} clauses appear at the basic graph pattern level.
 
 \subfile{proofs/nested_service_flattening}
 
