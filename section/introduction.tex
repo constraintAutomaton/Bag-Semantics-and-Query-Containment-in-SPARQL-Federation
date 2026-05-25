@@ -6,9 +6,9 @@ Solving this problem underpins a wide range of optimization techniques, includin
 Under set semantics, multiple query fragments have been thoroughly characterized~\cite{Chandra1977, aho1979equivalences, aho1979efficient, Chekuri2000}.
 Bag-semantic and bag-set semantic containment have also been studied~\cite{Chaudhuri1993, Afrati2010, khamis2021bag}; however, several query fragments remain undecidable under these semantics and open problems persist.
 
-\ac{KG} has become a widely adopted paradigm for representing and integrating heterogeneous data, enabling applications in scientific data management, enterprise knowledge representation, and the Web of Data.
+\acp{KG} has become a widely adopted paradigm for representing and integrating heterogeneous data, enabling applications in scientific data management, enterprise knowledge representation, and the Web of Data.
 SPARQL is the standard query language for \ac{KG} built on \ac{RDF}, and federated SPARQL extends this by enabling virtual data integration across distributed \ac{KG} sources, allowing heterogeneous data to be queried jointly without centralization, which is particularly valuable when sources are governed by different policies, maintained by independent parties, or too large to consolidate.
-However, federated queries impose significant computational demands on both endpoints and clients, a challenge further compounded by the reliability limitations of public SPARQL endpoints, which frequently experience downtime or performance degradation under load~\cite{buil2013sparql}.
+Federation members may be SPARQL endpoints deployed on an internal network or exposed openly over the Web, and in either case federated queries impose significant computational demands on both endpoints and clients.\footnote{The open-Web setting can be fragile. Public SPARQL endpoints frequently experience downtime or performance degradation under load~\cite{buil2013sparql}.}
 In settings such as scientific reproducibility studies, where queries must be re-executed or iteratively refined, this overhead is especially costly.
 Query containment is therefore a natural optimization: when a new query is contained in a previously executed one, results can be derived from cached data without re-querying the federation, reducing both endpoint load and network traffic.
 

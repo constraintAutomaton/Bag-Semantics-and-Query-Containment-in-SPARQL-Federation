@@ -2,25 +2,16 @@
 \begin{document}
 
 \begin{proposition}\label{prop_cq_join_no_dup}
-In the context of \ac{CQ}, \texttt{Join} cannot produce a bag of solution mappings containing an element with multiplicity higher than one.
+In the context of \ac{CQ}, \texttt{JOIN} cannot produce a bag of solution mappings containing an element with multiplicity higher than one.
 \end{proposition}
 
 \begin{proof}
-Let $\Omega_1$ and $\Omega_2$ be the input bags of solution mappings of the \texttt{Join}. By definition,
-\begin{multline*}
-\operatorname{multiplicity}(\mu \mid \operatorname{Join}(\Omega_1, \Omega_2)) = \\
-\sum_{m(\mu)} \operatorname{multiplicity}(\mu_1 \mid \Omega_1) \times \operatorname{multiplicity}(\mu_2 \mid \Omega_2)
-\end{multline*}
-where $m(\mu)$ is the index set of the summation, defined as
-\[
-m(\mu) = [(\mu_1, \mu_2) \mid \operatorname{merge}(\mu_1 \in \Omega_1, \mu_2 \in \Omega_2) = \mu]
-\]
-The result multiplicity therefore exceeds one only if (i) some \\
-$\operatorname{multiplicity}(\mu_1 \mid \Omega_1) \times \allowbreak \operatorname{multiplicity}(\mu_2 \mid \Omega_2)$ exceeds one, or (ii) the index set $m(\mu)$ contains more than one pair.
+Let $\Omega_1$ and $\Omega_2$ be the input bags of solution mappings of the \texttt{JOIN}.
+By \Cref{def_join_multiplicity}, $\operatorname{multiplicity}(\mu \mid \texttt{JOIN}(\Omega_1, \Omega_2))$ exceeds one only if (i) some $\operatorname{multiplicity}(\mu_1 \mid \Omega_1) \cdot \operatorname{multiplicity}(\mu_2 \mid \Omega_2)$ exceeds one, or (ii) the index set $m(\mu)$ contains more than one pair.
 We rule out both in the context of a \ac{CQ}.
 
-Case (i). In a \ac{CQ} the only operator in the query body is \texttt{Join}, and the underlying knowledge graph is set-semantic, so every input solution mapping has multiplicity one.
-Hence, given case (ii) does not in a previous \texttt{Join} introduce an higher multiplicity the multiplicity will remain one.
+Case (i). In a \ac{CQ} the only operator in the query body is \texttt{JOIN}, and the underlying knowledge graph is set-semantic, so every input solution mapping has multiplicity one.
+Hence, given case (ii) does not in a previous \texttt{JOIN} introduce an higher multiplicity the multiplicity will remain one.
 
 Case (ii). For $|m(\mu)| > 1$, two distinct pairs of solution mappings must merge to the same $\mu$.
 By \Cref{def_merge}, $\operatorname{merge}(\mu_1, \mu_2)$ is the union of two compatible solution mappings.

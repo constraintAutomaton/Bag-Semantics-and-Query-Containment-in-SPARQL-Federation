@@ -1,4 +1,4 @@
-\section{Semantics of SPARQL queries}\label{sec:semantic_federated_q}
+\section{Semantics of the Query Results of SPARQL Queries}\label{sec:semantic_federated_q}
 
 Before investigating query containment, we must establish under which semantics the different queries we study are evaluated.
 This choice determines whether and how duplicate results can arise, which directly have an impact how the query containment resolution.
@@ -9,8 +9,7 @@ SPARQL queries on single sources are evaluated under bag-set semantics.
 In SPARQL queries, the underlying \ac{KG} operates under set semantics~\cite{w3ConceptsAbstract}, while SPARQL operators produce bags\footnote{Operators that can produce duplicates.}.
 The choice between bag and set semantics has a significant impact on the complexity and decidability of query containment~\cite{Afrati2010}.\footnote{This repository presents a demonstration showing when bag semantics affect the correctness of query containment in SPARQL. \url{https://github.com/constraintAutomaton/demo-semantic-query-containment-SPARQL}}
 In the context of \ac{CQ} (ignoring \texttt{VALUES} and \texttt{BIND} clauses), only projection~\cite{Afrati2010} can increase the multiplicity.
-In the context of \ac{UCQ}, the multiplicity can additionally be increased by \texttt{UNION}~\cite[Definition: Union]{w3SPARQLQuery} and by the combination of \texttt{UNION} and \texttt{JOIN}~\cite[Definition: Join]{w3SPARQLQuery}.
-A \texttt{UNION} adds the multiplicities of its two input bags of solution mappings, while a \texttt{JOIN} multiplies the multiplicities of the matching solution mappings.\footnote{The multiplicity definitions appear in the SPARQL specification under the subsections \href{https://www.w3.org/TR/sparql11-query/\#sparqlAlgebra}{``Definition: Join'' and ``Definition: Union''}.}
+In the context of \ac{UCQ}, the multiplicity can additionally be increased by \texttt{UNION} and by the combination of \texttt{UNION} and \texttt{JOIN}, as defined in \Cref{def_union_multiplicity,def_join_multiplicity}.
 Hence \texttt{JOIN} cannot on its own be a source of duplicate solutions.
 Because the underlying \ac{KG} is under set semantics, every input mapping has multiplicity one, so their product remains one unless a \texttt{UNION} in the context of \ac{UCQ} has already introduced higher multiplicities.
 \ac{UCQ} is not the subject of our study, however, the following sections show how a \ac{CQ} issued by the user can become a \ac{UCQ} during federated execution.

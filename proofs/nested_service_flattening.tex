@@ -18,7 +18,7 @@ Service $a$ therefore evaluates $\fmj(\mathit{tp}_a, \freq_b^{\mathit{tp}_b})$ b
 \fmj(\freq_a^{\mathit{tp}_a}, \freq_b^{\mathit{tp}_b})
 \]
 which is the FedQPL expression for the flattened form.
-Since $\fmj$ is commutative and associative and variables have global scope in SPARQL\footnote{\url{https://www.w3.org/TR/2010/WD-sparql11-query-20101014/\#QSynVariables}}, flattening a nested \texttt{SERVICE} clause amounts to reordering operands in the $\fmj$ expression, which does not affect the result.\footnote{Evaluation order does have a significant impact on performance, particularly for federated queries with variable-bound service IRIs, but from a logical standpoint, as opposed to a computational one, it does not affect the results produced, in the same way that join ordering affects computation but not the logic of a query.}
+Since $\fmj$ is commutative and associative and variables have global scope in SPARQL\footnote{\url{https://www.w3.org/TR/2010/WD-sparql11-query-20101014/\#QSynVariables}}, flattening a nested \texttt{SERVICE} clause amounts to reordering operands in the $\fmj$ expression, which does not affect the result.
 This reasoning generalises to any nesting depth.
 \end{proof}
 

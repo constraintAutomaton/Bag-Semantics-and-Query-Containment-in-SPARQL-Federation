@@ -6,8 +6,7 @@ The fact that IRIs are referenced opens the door to optimizations by establishin
 The following section explains our approach for federated queries.
 
 \subsection{\ac{UDF} Particularities}
-We define \texttt{SERVICE} clause as a function $\mathit{Service}(\mathit{IRI}, P)$, where $\mathit{IRI}$ is a set of IRIs associated with federation members\footnote{We consider a set of IRIs because \texttt{SERVICE} clauses accept variables as IRIs~\cite{w3SPARQLFederated}. We do not consider a bag of IRI because it is not computationally necessary to evaluate the same \texttt{SERVICE} call multiple times.}
-and $P$ is the \ac{GGP}~\cite{w3SPARQLQueryFormal} associated with the service.
+We define a \texttt{SERVICE} clause as a function $\mathit{Service}(\mathit{IRI}, P)$, where $\mathit{IRI}$ is the IRI of the target federation member and $P$ is the \ac{GGP}~\cite{w3SPARQLQueryFormal} associated with the service.
 $P$ is transformed into a \texttt{SELECT} query where all the variables are projected as defined in the specification.\footnote{\url{https://www.w3.org/TR/2013/REC-sparql11-federated-query-20130321/\#algebra_service}}
 In this paper, we do not consider nested \texttt{SERVICE} clauses. Delegating the remote execution of a \texttt{SERVICE} clause to a third-party engine is generally considered poor practice, as it raises load-management concerns and leaves the query issuer unable to guarantee that the endpoint supports federated query execution. Furthermore, as shown in the proposition below, nested \texttt{SERVICE} clauses are semantically equivalent to a flattened form in which all \texttt{SERVICE} clauses appear at the basic graph pattern level.
 
@@ -19,7 +18,7 @@ Unlike \ac{UDF}, where \texttt{SERVICE} clauses make source assignment explicit 
 \ac{ESA} is a specific instance of \ac{ASSF} where every triple pattern is sent to every federation member, so the source assignment is known prior to any computation.
 Other \ac{ASSF} algorithms may assign triple patterns to a subset of members based on analytic queries~\cite{schwarte2011fedx} or metadata about the federation~\cite{gorlitz2011splendid}.\footnote{Some systems may determine their \ac{ASSF} algorithm during query planning.}
 
-Because source assignments are generally not fixed at query-write time, federated query containment under \ac{ASSF} cannot always be resolved as a classical static analysis: at least partial query planning must be performed to determine the source assignment of each triple pattern.
+Under \ac{DSA}, source assignments are not fixed at query-write time, so federated query containment cannot be resolved as a classical static analysis: at least partial query planning must be performed to determine the source assignment of each triple pattern.
 The source assignment does not affect completeness of results, provided the \ac{ASSF} algorithm is sound, but it does affect the containment algorithm.
 As established in \Cref{sec_fed_query_without_service} and \Cref{sec_bag_federation_reduction}, when the plan assigns triple patterns to multiple members, a \ac{CQ} becomes a \ac{UCQ}, which impacts the decidability and complexity of the containment check.
 We propose using bag-semantic containment to avoid this decidability issue, at the cost of switching from bag-set to bag semantics for the containment criterion.

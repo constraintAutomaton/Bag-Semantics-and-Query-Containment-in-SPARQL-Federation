@@ -33,17 +33,40 @@ The following definitions make precise two notions on solution mappings used thr
   The \emph{merge} of two compatible solution mappings is their union, written $\operatorname{merge}(\mu_1, \mu_2) = \mu_1 \cup \mu_2$.
 \end{definition}
 
+\begin{definition}[SPARQL Union multiplicity~\cite{w3SPARQLQuery}]\label{def_union_multiplicity}
+  The multiplicity of a solution mapping $\mu$ in the SPARQL \texttt{UNION} of two bags $\Omega_1$ and $\Omega_2$ is
+  \begin{multline*}
+  \operatorname{multiplicity}(\mu \mid \texttt{UNION}(\Omega_1, \Omega_2)) = \\
+  \operatorname{multiplicity}(\mu \mid \Omega_1) + \operatorname{multiplicity}(\mu \mid \Omega_2).
+  \end{multline*}
+\end{definition}
+
+\begin{definition}[SPARQL Join multiplicity~\cite{w3SPARQLQuery}]\label{def_join_multiplicity}
+  The multiplicity of a solution mapping $\mu$ in the SPARQL \texttt{JOIN} of two bags $\Omega_1$ and $\Omega_2$ is
+  \begin{multline*}
+  \operatorname{multiplicity}(\mu \mid \texttt{JOIN}(\Omega_1, \Omega_2)) = \\
+  \sum_{(\mu_1, \mu_2) \in m(\mu)} \operatorname{multiplicity}(\mu_1 \mid \Omega_1) \cdot \operatorname{multiplicity}(\mu_2 \mid \Omega_2),
+  \end{multline*}
+  where $m(\mu) = \{(\mu_1, \mu_2) \in \Omega_1 \times \Omega_2 : \operatorname{merge}(\mu_1, \mu_2) = \mu\}$.
+\end{definition}
+
 \subsection{Federated Queries}
 
 A SPARQL federated query involves executing different segments of a query across multiple endpoints.
-We denote the evaluation of a query over a \ac{KG} $G$ as $\eval{Q}{G}$, and the evaluation over a federation of endpoints $F$ as $\eval{Q}{F}$, where $F$ is defined as a set of federation members, formalized as a mapping $\mathit{fm}\colon \mathit{IRI} \mapsto G$.
+We denote the evaluation of a query over a \ac{KG} $G$ as $\eval{Q}{G}$, and the evaluation over a federation of endpoints $F$ as $\eval{Q}{F}$, where $F$ is defined as a set of federation members
+\footnote{We use \emph{federation member} and \emph{endpoint} interchangeably; an endpoint is the concrete interface being queried, whereas a federation member is its abstraction.},
+formalized as a mapping $\mathit{fm}\colon \mathit{IRI} \mapsto G$.
 Evaluating a query over $F$ involves decomposing $Q$ into subqueries $Q_i$, where each subquery $Q_i$ is evaluated on a knowledge graph $G_j \in \operatorname{codomain}(F)$ member of the federation.
 We adopt a database-agnostic view of federation members: since query containment does not depend on the content of any particular knowledge graph, we formalize the notion of federation in terms of endpoint \acp{IRI} rather than data.
 
-We distinguish three types of federated queries: \ac{UDF}, \ac{ESA}~\cite{Cheng2021}, and \ac{ASSF}.
-In \ac{UDF}, the query specifies \texttt{SERVICE} clauses~\cite{w3SPARQLFederated} that explicitly name the target endpoint for each subquery; a variable may be used as the endpoint \ac{IRI}, in which case the query must satisfy \emph{Service-Safeness}~\cite{BuilAranda2013} to guarantee a finite federation.
-In \ac{ESA}, a finite federation $F$ is provided before execution and each triple pattern is evaluated over every $G \in \operatorname{codomain}(F)$, with results accumulated via bag union~\cite{w3SPARQLFederated}.
-In \ac{ASSF}, a finite $F$ is similarly given, but the query engine selects which federation member receives each triple pattern rather than broadcasting to all.
+We distinguish two source-selection mechanisms for federated queries: \ac{UDF} and \ac{ASSF}~\cite{Cheng2021}.
+Under \ac{UDF}, the query uses \texttt{SERVICE} clauses~\cite{w3SPARQLFederated} that name the target endpoint of each subquery; in this paper, we restrict attention to \texttt{SERVICE} clauses whose target is a constant \ac{IRI}.
+Under \ac{ASSF}, a finite federation $F$ is given and the query engine selects which federation member receives each triple pattern.
+\ac{ESA} is the particular case of \ac{ASSF} in which every triple pattern is evaluated against every $G \in \operatorname{codomain}(F)$, with results accumulated via bag union~\cite{w3SPARQLFederated}.
+
+Orthogonally, federated queries can be classified by \emph{when} the source assignment is determined.
+Under \ac{SSA}, the assignment is fixed prior to execution: \ac{UDF} (\texttt{SERVICE} clauses name the target) and \ac{ESA} (every triple pattern is broadcast to every member) both fall in this regime.
+Under \ac{DSA}, the assignment is determined by the engine during query planning; this covers \ac{ASSF} strategies other than \ac{ESA}.
 
 \begin{definition}[FedQPL operators~\cite{Cheng2021}]\label{def_fedqpl}
   We express federated query plans with three operators of the FedQPL formalism.

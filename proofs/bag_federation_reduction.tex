@@ -10,8 +10,7 @@ A triple $t$ thus has multiplicity $|\{\, G \in \operatorname{codomain}(F) : t \
 \end{definition}
 
 We show that any union-based federation strategy is equivalent to executing the original query against a \emph{\ac{BKG}} as defined in \Cref{def_bkg}, making the query execution follow bag semantics rather than bag-set semantics.
-The exact bag multiplicity is left unspecified beyond being greater than one, which can appear problematic, however, the \ac{BKG} is a fictional construction used only to determine the semantics of the query.
-As long as the multiplicity of a solution mapping related to a triple is greater than one in a conventional federated query and the corresponding multiplicity is also greater than one in the \ac{BKG}, the construction is sound for our purpose.
+One can think of this as a virtual operator that aggregates the federation members into a \ac{BKG} and rewrites the query to be evaluated exclusively over it.
 This is particularly useful given that \ac{UCQ} containment under bag-set and set semantics is undecidable, as discussed in \Cref{sec:related_works_qc}.
 We establish this using \ac{ESA} as the canonical proof vehicle, through the following propositions.
 
