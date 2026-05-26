@@ -6,10 +6,10 @@
 
 \begin{definition}\label{def_bkg}
 The \ac{BKG} of a federation $F$ is the bag union $\biguplus_{G \in \operatorname{codomain}(F)} G$ of all its members' \acp{KG}.
-A triple $t$ thus has multiplicity $|\{\, G \in \operatorname{codomain}(F) : t \in G \,\}|$, the number of members whose \ac{KG} contains it.
+A triple $t$ thus has multiplicity $|\{\, G \in \operatorname{codomain}(F) : t \in G \,\}|$ meaning the number of members whose \ac{KG} contains it.
 \end{definition}
 
-We show that any union-based federation strategy is equivalent to executing the original query against a \emph{\ac{BKG}} as defined in \Cref{def_bkg}, making the query execution follow bag semantics rather than bag-set semantics.
+We show that any union-based federation strategy is equivalent to executing the original query against a \emph{\ac{BKG}} as defined in \Cref{def_bkg}, making the query execution of a \ac{CQ} follow bag semantics rather than bag-set semantics of a \ac{UCQ}.
 One can think of this as a virtual operator that aggregates the federation members into a \ac{BKG} and rewrites the query to be evaluated exclusively over it.
 This is particularly useful given that \ac{UCQ} containment under bag and bag-set semantics is undecidable, as discussed in \Cref{sec:related_works_qc}.
 We establish this using \ac{ESA} as the canonical proof vehicle, through the following propositions.
@@ -42,10 +42,62 @@ For a federation where all members host an identical \ac{KG}, the query produces
 When all $m$ members host an identical \ac{KG}, every $\freq_{\mathit{fm}_i}^{\mathit{tp}_j}$ produces the same result for a given $\mathit{tp}_j$.
 
 By the SPARQL definition of \texttt{UNION}, the multiplicity of the result bag equals the sum of the multiplicities of each operand's solution bag, so this produces $m$ copies of each result of $\freq_{\mathit{fm}_i}^{\mathit{tp}_j}$.
-By definition of the \texttt{JOIN}, the multiplicity will be $m^3$ times the number of times solution mappings can be merged.
+By definition of the \texttt{JOIN}, the multiplicity will be at most $m^3$ times the number of times solution mappings can be merged.
+We say \emph{at most} because, depending on the query, some solution mappings may not merge; for a given query, however, evaluation over a \ac{BKG} and over a federation exhibits the same behavior.
+% mu(u) = m, because we have m identical partial solution mapping if they can all merge together
+% the multiplicity of each solution mapping will be m since we are dealing with duplicate
+% Thus we have m time m time m
+
+Let's suppose $\Omega_1$ being one set of $mu$
+
+we know that the multiplcitiy of $operatorname{multiplicity}(\mu \mid \Omega)$ is 1 because we do not do projections,
+and we are in the context of a set semantic database thus $\freq_{\mathit{fm}_i}^{\mathit{tp}_j}$ has a multiplicity of 1.
+\begin{multline*}
+\operatorname{multiplicity}(\mu \mid \Omega) = \sum_{i}^{m} \operatorname{multiplicity}(\mu \mid \Omega) = \sum_{i}^m 1 = $m$
+\end{multline*}
+
+for each union branch we have a multiplicity of $m$.
+
+Let;s join 2 union branch
+
+we know that the multiplicity of each branch $\operatorname{multiplicity}(\mu_u \mid \Omega_i)$ has a multiplicity of $m$ given we are joining the first
+two branch of the euqation
+\begin{align*}
+\operatorname{multiplicity}(\mu \mid \texttt{JOIN}(\Omega_1, \Omega_2)) = \\
+\sum_{(\mu_1, \mu_2) \in m(\mu)} \operatorname{multiplicity}(\mu_1 \mid \Omega_1) \cdot \operatorname{multiplicity}(\mu_2 \mid \Omega_2) = \\
+\sum_{(\mu_1, \mu_2) \in m(\mu)} m \cdot m
+\end{align*}
+
+For the multiplicity of join let's first analyse this equation.
+
+since in a branch of union there can only be the same result then we know that either no solution can be merged thus
+$m(\mu)$ is equal to 0 or
+
+\begin{align*}
+\max(|m(\mu)|) = \max(\{(\mu_1, \mu_2) | \operatorname{merge}(\mu_1 \in \Omega_1, \mu_2 \in \Omega_2) = \mu\}) \\
+= m^3
+\end{align*}
+
+because every solution mapping from $\Omega_1$ can be mapped to a solution mapping from  $\Omega_2$.
+
+thus the multiplicity of the join become,
+\begin{align*}
+\max(\operatorname{multiplicity}(\mu \mid \texttt{JOIN}(\Omega_1, \Omega_2))) = \\
+\max(\sum_{(\mu_1, \mu_2) \in m(\mu)} \operatorname{multiplicity}(\mu_1 \mid \Omega_1) \cdot \operatorname{multiplicity}(\mu_2 \mid \Omega_2)) = \\
+\max(\sum_{(\mu_1, \mu_2) \in m(\mu)} m \cdot m) = m^5
+\end{align*}
+
+for subsequent join
+
+
 
 In a \ac{BKG} each triple will have a multiplicity of $m$, and given the definition of \texttt{JOIN} the multiplicity of each solution mapping will be $m^3$.
 Both evaluations therefore produce the same result bag.
+
+
+for \ac{BKG}
+
+
 \end{proof}
 
 The general case combines both observations: partial knowledge overlap is handled by the same UNION mechanism, with multiplicities determined by how many members hold each piece of data.
@@ -57,9 +109,9 @@ A query performed using \ac{ESA} over a federation yields the same results as a 
 \begin{proof}
 Query-irrelevant triples do not affect results.
 For query-relevant knowledge, \Cref{eq_esa} introduces a \texttt{UNION} over all $m$ members for each triple pattern, distributing every triple pattern to each federation member to prevent result loss from joins requiring data from multiple members.
-When a triple pattern can be answered by $k$ out of $m$ members, the \texttt{UNION} retrieves it $k$ times.
+When a triple pattern can be answered by $k$ out of $m$ members, the \texttt{UNION}s retrieves $k$ times the triples matching the pattern.
 By \Cref{def_bkg}, that same triple appears with multiplicity $k$ in the \ac{BKG}.
-The \texttt{UNION} multiplicities in the federated evaluation therefore coincide with the \ac{BKG} multiplicities, and both produce the same result bag.
+Generalizing \Cref{prop_duplicate_fed_mem}, the join multiplicity for a solution mapping $\mu$ is at most a factor $k$ instead of $m$; the \ac{BKG} therefore produces the same result bag.
 \end{proof}
 
 \begin{corollary}\label{cor_bfr}

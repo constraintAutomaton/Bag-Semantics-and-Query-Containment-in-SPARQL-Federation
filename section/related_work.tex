@@ -40,6 +40,6 @@ The SPARQL 1.1 Federated Query specification~\cite{w3SPARQLFederated} introduces
 The SPARQL specification mentions the use of variables as endpoint \acp{IRI} in \texttt{SERVICE} clauses but does not give an official interpretation of their behavior\footnote{\url{https://www.w3.org/TR/sparql11-federated-query/\#variableService}}.
 \citeauthor{BuilAranda2013}~\cite{BuilAranda2013} introduced \emph{Service-Safeness}, a syntactic rule outside the SPARQL specification that makes such queries computable by guaranteeing a finite set of federation members.
 Because Service-Safeness is not part of the specification, this paper does not support variables as endpoint \acp{IRI}.
-\citeauthor{Cheng2021}~\cite{Cheng2021} proposed FedQPL, a formalism to express federated queries under automatic source selection, addressing the difficulty of manually determining which federation members to query for a given graph pattern~\cite{hanski2025observations}.
+\citeauthor{Cheng2021}~\cite{Cheng2021} proposed FedQPL, a formalism to express federated queries under \ac{ASSF}, addressing the difficulty of manually determining which federation members to query for a given graph pattern~\cite{hanski2025observations}.
 They also introduced the \ac{ESA}, a query planning strategy used when no statistical information about the federation is available.
 In \ac{ESA}, each triple pattern is evaluated against every federation member and the results are combined via bag union, guaranteeing complete results regardless of how data is distributed across the federation.

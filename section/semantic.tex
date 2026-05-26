@@ -8,15 +8,18 @@ We distinguish three cases: Single endpoint, federated queries with \texttt{SERV
 SPARQL queries on single sources are evaluated under bag-set semantics.
 In SPARQL queries, the underlying \ac{KG} operates under set semantics~\cite{w3ConceptsAbstract}, while SPARQL operators produce bags\footnote{Operators that can produce duplicates.}.
 The choice between bag and set semantics has a significant impact on the complexity and decidability of query containment~\cite{Afrati2010}.\footnote{This repository presents a demonstration showing when bag semantics affect the correctness of query containment in SPARQL. \url{https://github.com/constraintAutomaton/demo-semantic-query-containment-SPARQL}}
-In the context of \ac{CQ} (ignoring \texttt{VALUES} and \texttt{BIND} clauses), only projection~\cite{Afrati2010} can increase the multiplicity.
+In the context of \ac{CQ}, only projection~\cite{Afrati2010} can increase the multiplicity.
 In the context of \ac{UCQ}, the multiplicity can additionally be increased by \texttt{UNION} and by the combination of \texttt{UNION} and \texttt{JOIN}, as defined in \Cref{def_union_multiplicity,def_join_multiplicity}.
+\ac{UCQ} is not the subject of our study, however, the following sections show how a \ac{CQ} issued by the user can become a \ac{UCQ} during federated execution.
 Hence \texttt{JOIN} cannot on its own be a source of duplicate solutions.
 Because the underlying \ac{KG} is under set semantics, every input mapping has multiplicity one, so their product remains one unless a \texttt{UNION} in the context of \ac{UCQ} has already introduced higher multiplicities.
-\ac{UCQ} is not the subject of our study, however, the following sections show how a \ac{CQ} issued by the user can become a \ac{UCQ} during federated execution.
+
+\subfile{proofs/cq_join_multiplicity}
+
+
 In the context of federated queries, where multiple \acp{KG} are involved, the semantics of query processing are less straightforward.
 The following sections detail the semantics of each federation paradigm.
 
-\subfile{proofs/cq_join_multiplicity}
 
 \subsection{Federated Queries With \texttt{SERVICE} Clauses (\ac{UDF})}
 The SPARQL federated query extension~\cite{w3SPARQLFederated} defines the execution of federated queries with \texttt{SERVICE} clauses as a join between the bag of solution mappings from the preceding execution and the bag of solution mappings returned by the SPARQL service.
@@ -44,7 +47,7 @@ The result is G.
 \end{figure}
 
 \subsection{Federated Queries Using Automatic Source Selection}\label{sec_fed_query_without_service}
-Federated queries without \texttt{SERVICE} clauses (also called federated queries with automatic source selection) are not defined in the SPARQL specification, but have been formalized in the literature by \citeauthor{Cheng2021}~\cite{Cheng2021}.
+\ac{ASSF} is not defined in the SPARQL specification, but have been formalized in the literature by \citeauthor{Cheng2021}~\cite{Cheng2021}.
 
 The \ac{ESA} can be considered the default strategy for source selection in federated queries without \texttt{SERVICE} clauses.
 Source selection algorithms determine which federation members should receive query subsets without losing results or causing unproductive computation.
@@ -55,8 +58,6 @@ When information is insufficient to make this determination, or when multiple fe
   \fmj\bigl(\fmu(\freq_{\mathit{fm}_1}^{\mathit{tp}_1}, \dots, \freq_{\mathit{fm}_m}^{\mathit{tp}_1}), \dots, \fmu(\freq_{\mathit{fm}_1}^{\mathit{tp}_n}, \dots, \freq_{\mathit{fm}_m}^{\mathit{tp}_n})\bigr)
   \label{eq_esa}
 \end{equation}
-
-where $\fmj$ denotes a join operation over its arguments, $\fmu$ denotes a union operation over its arguments, and $\freq$ denotes the query operation of $\mathit{tp}_i$ against federation member $\mathit{fm}_j$.
 
 The above equation reveals that a \ac{CQ} involving at least two federation members becomes a \ac{UCQ} under \ac{ESA}, since each triple pattern is distributed to all members and their results are combined via \texttt{UNION}.
 This structural shift creates a challenge for query containment as \ac{UCQ} containment under bag-set semantics is undecidable and no decidable fragments have been documented.
