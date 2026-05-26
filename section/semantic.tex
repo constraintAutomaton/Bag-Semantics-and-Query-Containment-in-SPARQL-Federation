@@ -1,4 +1,4 @@
-\section{Semantics of the Query Results of SPARQL Queries}\label{sec:semantic_federated_q}
+\section{Semantics of the Query Results of SPARQL Queries}\label{sec:semantic_federated_q}\rt{This title is still very generic...}
 
 Before investigating query containment, we must establish under which semantics the different queries we study are evaluated.
 This choice determines whether and how duplicate results can arise, which directly impacts how query containment is resolved.
@@ -39,14 +39,14 @@ End
 
 The result is G.
 \end{lstlisting}
-\caption{Snippet of the algorithm from \S3.1 of ``SPARQL 1.1 Federated Query''~\cite{w3SPARQLFederated}. The \texttt{SERVICE} call is evaluated as an extension of the Group Graph Pattern evaluation: its result bag is joined with the solution mappings from the rest of the query.}
+\caption{Snippet of the algorithm from \S3.1 of ``SPARQL 1.1 Federated Query''~\cite{w3SPARQLFederated}. The \texttt{SERVICE} call is evaluated as an extension of the Group Graph Pattern evaluation: its result bag is joined with the solution mappings from the rest of the query.\rt{I would omit the SILENT stuff. Also, Group Graph Pattern has not been defined anywhere yet(?). Can we just refer to BGP instead?}}
 \label{List:pseudoCodeFederatedQuery}
 \end{figure}
 
 \subsection{Federated Queries Using Automatic Source Selection}\label{sec_fed_query_without_service}
 Federated queries without \texttt{SERVICE} clauses (also called federated queries with automatic source selection) are not defined in the SPARQL specification, but have been formalized in the literature by \citeauthor{Cheng2021}~\cite{Cheng2021}.
 
-The \ac{ESA} can be considered the default strategy for source selection in federated queries without \texttt{SERVICE} clauses.
+The \ac{ESA} \rt{Since we don't have space issues, I would write out ESA everywhere without abbreviation.} can be considered the default strategy for source selection in federated queries without \texttt{SERVICE} clauses.
 Source selection algorithms determine which federation members should receive query subsets without losing results or causing unproductive computation.
 When information is insufficient to make this determination, or when multiple federation members could contribute to a query subset's results, the \ac{ESA} principle applies~\cite{Cheng2021}.\footnote{A query engine may choose to use the \ac{ESA} strategy for its simplicity or to avoid issuing too many requests to federation members.}
 \ac{ESA} is defined by the following equation expressed using the FedQPL formalism~\cite{Cheng2021}:
@@ -60,6 +60,6 @@ where $\fmj$ denotes a join operation over its arguments, $\fmu$ denotes a union
 
 The above equation reveals that a \ac{CQ} involving at least two federation members becomes a \ac{UCQ} under \ac{ESA}, since each triple pattern is distributed to all members and their results are combined via \texttt{UNION}.
 This structural shift creates a challenge for query containment as \ac{UCQ} containment under bag-set semantics is undecidable and no decidable fragments have been documented.
-We therefore propose the \ac{BFR}, a transformation showing that \ac{ESA} evaluation is semantically equivalent to evaluating the original \ac{CQ} against a \ac{BKG} under bag semantics.
+We therefore propose the \ac{BFR}, a transformation showing that \ac{ESA} evaluation is semantically equivalent to evaluating the original \ac{CQ} against a \ac{BKG} \rt{"Pseudo Knowledge Graph with Bag Semantic" sounds very esoteric. Can we simplify the name? Also, there's a spelling issue in the name.} under bag semantics.
 
 \subfile{proofs/bag_federation_reduction}

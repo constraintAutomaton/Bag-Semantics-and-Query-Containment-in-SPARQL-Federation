@@ -20,9 +20,10 @@ $\mathit{tp} = (s, p, o)$ where $s \in \mathcal{I} \cup \mathcal{B} \cup \mathca
 
 A \ac{BGP} is a set of triple patterns evaluated conjunctively, binding variables across all patterns.
 A query built from \acp{BGP} is called a \ac{CQ}.
-\acp{UCQ} are formed by taking the union of multiple \acp{GP} via a \ac{UGP}, allowing a query to match any of several alternative patterns.
+\acp{UCQ} \rt{Several spelling mistakes here} are formed by taking the union of multiple \acp{GP} via a \ac{UGP}, allowing a query to match any of several alternative patterns.
 
-Matching a graph pattern against an \ac{RDF} graph produces \emph{solution mappings}, partial functions from variables to \ac{RDF} terms.
+Matching a graph pattern \rt{What is a graph pattern? Do you mean a BGP?} against an \ac{RDF} graph produces \emph{solution mappings}, partial functions from variables to \ac{RDF} terms.
+\rt{Let's also mention solution sequence here.}
 The following definitions make precise notions on solution mappings used throughout the paper.
 
 \begin{definition}[Multiplicity]\label{def_multiplicity}
@@ -54,18 +55,19 @@ The following definitions make precise notions on solution mappings used through
 \subsection{Federated Queries}
 
 A SPARQL federated query involves executing different segments of a query across multiple endpoints.
-We denote the evaluation of a query over a \ac{KG} $G$ as $\eval{Q}{G}$, and the evaluation over a federation of endpoints $F$ as $\eval{Q}{F}$, where $F$ is defined as a set of federation members
+We denote the evaluation of a query over a \ac{KG} $G$ as $\eval{Q}{G}$ \rt{This first part probably should have come before already}, and the evaluation over a federation of endpoints $F$ as $\eval{Q}{F}$, where $F$ is defined as a set of federation members
 \footnote{We use \emph{federation member} and \emph{endpoint} interchangeably; an endpoint is the concrete interface being queried, whereas a federation member is its abstraction.},
-formalized as a mapping $\mathit{fm}\colon \mathit{IRI} \mapsto G$.
+formalized as a mapping $\mathit{fm}\colon \mathit{IRI} \mapsto G$.\rt{Endpoints should be dereferenceable, so let's use URL instead of IRI.}
 Evaluating a query over $F$ involves decomposing $Q$ into subqueries $Q_i$, where each subquery $Q_i$ is evaluated on a knowledge graph $G_j \in \operatorname{codomain}(F)$ member of the federation.
 We adopt a database-agnostic view of federation members: since query containment does not depend on the content of any particular knowledge graph, we formalize the notion of federation in terms of endpoint \acp{IRI} rather than data.
 
-We distinguish two source-selection mechanisms for federated queries: \ac{UDF} and \ac{ASSF}~\cite{Cheng2021}.
-Under \ac{UDF}, the query uses \texttt{SERVICE} clauses~\cite{w3SPARQLFederated} that name the target endpoint of each subquery; in this paper, we restrict attention to \texttt{SERVICE} clauses whose target is a constant \ac{IRI}.
+We distinguish two source-selection mechanisms for federated queries: \ac{UDF} and \ac{ASSF}~\cite{Cheng2021} \rt{I strongly recommend using automatic source selection and manual source selection}.
+Under \ac{UDF}, the query uses \texttt{SERVICE} clauses~\cite{w3SPARQLFederated} that name the target endpoint of each subquery; in this paper, we restrict attention to \texttt{SERVICE} clauses whose target is a constant \ac{IRI}\rt{Let's add a footnote explaining that this is the only thing that the spec is normative about, and most engines actually do. And that the alternative would be to also support variables, which is non-normative in the spec.}.
 Under \ac{ASSF}, a finite federation $F$ is given and the query engine selects which federation member receives each triple pattern.
 \ac{ESA} is the particular case of \ac{ASSF} in which every triple pattern is evaluated against every $G \in \operatorname{codomain}(F)$, with results accumulated via bag union~\cite{w3SPARQLFederated}.
 
 Orthogonally, federated queries can be classified by \emph{when} the source assignment is determined.
+\rt{Do we really need these extra SSA and DSA concepts? Can we not just only keep automatic and manual source selection/assignment? All these abbreviations make the paper very hard to read.}
 Under \ac{SSA}, the assignment is fixed prior to execution: \ac{UDF} (\texttt{SERVICE} clauses name the target) and \ac{ESA} (every triple pattern is broadcast to every member) both fall in this regime.
 Under \ac{DSA}, the assignment is determined by the engine during query planning; this covers \ac{ASSF} strategies other than \ac{ESA}.
 

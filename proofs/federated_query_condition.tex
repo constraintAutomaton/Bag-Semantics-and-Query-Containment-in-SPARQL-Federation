@@ -18,6 +18,7 @@ B = \forall f \in F_1, \forall G \in \mathcal{G} \colon \\
 Where $F_i$ is a federation associated with the query $i$ and $f$ is a federation member.
 % We need to consider every possible KG in a federation
 \end{proposition}
+\rt{Can you give an intuitive explanation of this proposition?}
 
 \paragraph{Informal proof.}
 Query containment in the context of federated queries needs to consider the provenance of the data.
@@ -25,7 +26,9 @@ Let us suppose a query where the federation member $f_G$ denotes the local datab
 \[
 	Q = \fmj(\freq_{f_G}^{P_1}, \freq_{f_2}^{P_2}, \freq_{f_3}^{P_3}).
 \]
-Query containment of federated queries cannot use as a condition the containment of the whole query expression $Q$ with no regard to which specific federation member each sub-query $P_i$ is issued against, as the computation is defined as performing an operation over a database at a specific location; performing the same operation at another location is not equivalent.
+Query containment of federated queries cannot use as a condition the containment of the whole query expression $Q$ with no regard to which specific federation member each sub-query $P_i$ is issued against, as the computation is defined as performing an operation over a database at a specific location; performing the same operation at another location is not equivalent.\rt{This sentence is very hard to read...}
+
+\rt{I did not read the rest of this, as I got lost in trying to understand the parts above.}
 
 Thus the query containment of $Q$ has to be seen as determining the containment of $N_1$ sub-queries from $Q_1$ with $N_2$ sub-queries from $Q_2$.
 A question remains about which operation links the $P_i$ in $Q$.

@@ -10,7 +10,7 @@ Let $\Omega_1$ and $\Omega_2$ be the input bags of solution mappings of the \tex
 By \Cref{def_join_multiplicity}, $\operatorname{multiplicity}(\mu \mid \texttt{JOIN}(\Omega_1, \Omega_2))$ exceeds one only if (i) some $\operatorname{multiplicity}(\mu_1 \mid \Omega_1) \cdot \operatorname{multiplicity}(\mu_2 \mid \Omega_2)$ exceeds one, or (ii) the index set $m(\mu)$ contains more than one pair.
 We rule out both in the context of a \ac{CQ}.
 
-Case (i). In a \ac{CQ} the only operator in the query body is \texttt{JOIN}, and the underlying knowledge graph is set-semantic, so every input solution mapping has multiplicity one.
+Case (i). In a \ac{CQ} the only operator in the query body is \texttt{JOIN}, and the underlying knowledge graph operates under set-semantics, so every input solution mapping has multiplicity one.
 Hence, provided that case (ii) does not introduce a higher multiplicity in a previous \texttt{JOIN}, the multiplicity will remain one.
 
 Case (ii). For $|m(\mu)| > 1$, two distinct pairs of solution mappings must merge to the same $\mu$.

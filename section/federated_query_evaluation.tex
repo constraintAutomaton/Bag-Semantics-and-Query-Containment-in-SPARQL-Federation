@@ -1,14 +1,15 @@
-\section{Federated Queries Evaluation}\label{sec:federated_queries_query_containment}
+\section{Federated Query Evaluation}\label{sec:federated_queries_query_containment}
 
 In the context of query containment, federated queries initially appear fundamentally different from single-source query containment, as query containment is supposed to be data source independent whereas federated queries specify particular databases.
 However, this difference is not fundamental.
 We propose that for federated query containment, the IRIs of federation members must be considered, but not their content.
-The fact that IRIs are referenced opens the door to optimizations by establishing guarantees about the lack of overlap between sources, which could change the semantics of such queries without \texttt{SERVICE} clauses from bag to bag-set semantics.
+The fact that IRIs are referenced opens the door to optimizations by establishing guarantees about the lack of overlap between sources\rt{But there could be overlap, right? Same triple could exist at different endpoints.}, which could change the semantics of such queries without \texttt{SERVICE} clauses from bag to bag-set semantics.
 However, this is not considered in this paper.
 The following section explains our approach for federated queries.
+\rt{At this point, it's still not clear what this section will talk about (the title also doesn't help).}
 
 \subsection{\ac{UDF} Particularities}
-We define a \texttt{SERVICE} clause as a function $\mathit{Service}(\mathit{IRI}, P)$, where $\mathit{IRI}$ is the IRI of the target federation member and $P$ is the \ac{GGP}~\cite{w3SPARQLQueryFormal} associated with the service.
+We define a \texttt{SERVICE} clause as a function $\mathit{Service}(\mathit{IRI}, P)$, where $\mathit{IRI}$ is the IRI of the target federation member and $P$ is the \ac{GGP} \rt{Unclear for the reader what GGP is}~\cite{w3SPARQLQueryFormal} associated with the service.
 $P$ is transformed into a \texttt{SELECT} query where all the variables are projected as defined in the specification.\footnote{\url{https://www.w3.org/TR/2013/REC-sparql11-federated-query-20130321/\#algebra_service}}
 In this paper, we do not consider nested \texttt{SERVICE} clauses.
 Delegating the remote execution of a \texttt{SERVICE} clause to a third-party engine can raise load-management concerns and leaves the query issuer unable to guarantee that the endpoint supports federated query execution.
@@ -24,7 +25,7 @@ Other \ac{ASSF} algorithms may assign triple patterns to a subset of members bas
 
 After source selection, the FedQPL plan trivially translates to a SERVICE-clause SPARQL query (we omit the construction), so the containment condition for \ac{UDF} applies uniformly to \ac{ASSF}.
 
-Under \ac{DSA}, source assignments are not fixed at query-write time, so federated query containment cannot be resolved as a classical static analysis: at least partial query planning must be performed to determine the source assignment of each triple pattern.
+Under \ac{DSA} \rt{To be honest, I'm getting lost in all these abbreviations...}, source assignments are not fixed at query-write time, so federated query containment cannot be resolved as a classical static analysis: at least partial query planning must be performed to determine the source assignment of each triple pattern.\rt{Clarify here that this may involve sending introspective queries to the endpoint, such as ASK queries}
 The source assignment does not affect completeness of results, provided the \ac{ASSF} algorithm is sound, but it does affect the containment algorithm.
 As established in \Cref{sec_fed_query_without_service} and \Cref{sec_bag_federation_reduction}, when the plan assigns triple patterns to multiple members, a \ac{CQ} becomes a \ac{UCQ}, which impacts the decidability and complexity of the containment check.
 We propose using bag-semantic containment to avoid this decidability issue, at the cost of switching from bag-set to bag semantics for the containment criterion.

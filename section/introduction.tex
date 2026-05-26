@@ -1,5 +1,6 @@
 \section{Introduction}
 
+\rt{These first two sentences are not really accurate. Minimizing comp is a concern indeed, but query containment is not a direct solution to that. Query containment in combination with materialized views on the other hand is a solution to that. So some rephrasing is needed here.}
 Minimizing redundant computation is a fundamental concern in query optimization.
 Query containment is a classic tool for this purpose: it determines whether the results of one query are always included in those of another, independently of the targeted database.
 Solving this problem underpins a wide range of optimization techniques, including caching, view selection, query rewriting, and equivalence validation~\cite{Afrati2019-ch1, DOAN201221, Chaudhuri1993}.
@@ -7,8 +8,8 @@ Under set semantics, multiple query fragments have been thoroughly characterized
 Bag-semantic and bag-set semantic containment have also been studied~\cite{Chaudhuri1993, Afrati2010, khamis2021bag}; however, several query fragments are undecidable under these semantics and open problems persist.
 
 \acp{KG} has become a widely adopted paradigm for representing and integrating heterogeneous data, enabling applications in scientific data management, enterprise knowledge representation, and the Web of Data.
-SPARQL is the standard query language for \ac{KG} built on \ac{RDF}, and federated SPARQL extends this by enabling virtual data integration across distributed \ac{KG} sources, allowing heterogeneous data to be queried jointly without centralization, which is particularly valuable when sources are governed by different policies, maintained by independent parties, or too large to consolidate.
-Federation members may be SPARQL endpoints deployed on an internal network or exposed openly over the Web, and in either case federated queries impose significant computational demands on both endpoints and clients.\footnote{The open-Web setting can be fragile. Public SPARQL endpoints frequently experience downtime or performance degradation under load~\cite{buil2013sparql}.}
+SPARQL is the standard query language for \ac{KG} \rt{plural} built on \ac{RDF}, and federated SPARQL extends this by enabling virtual data integration across distributed \ac{KG} sources, allowing heterogeneous data to be queried jointly without centralization, which is particularly valuable when sources are governed by different policies, are maintained by independent parties, or are too large to consolidate.
+Federation members may be SPARQL endpoints \rt{Before this, subtly explain what a SPARQL endpoint is} deployed on an internal network or exposed openly over the Web, and in either case federated queries impose significant computational demands on both endpoints and clients\rt{Instead of client, federation engine is more accurate, as it does not necessarily have to run client-side.}.\footnote{The open-Web setting can be fragile. Public SPARQL endpoints frequently experience downtime or performance degradation under load~\cite{buil2013sparql}.}
 In settings such as scientific reproducibility studies, where queries must be re-executed or iteratively refined, this overhead is especially costly.
 Query containment is therefore a natural optimization: when a new query is contained in a previously executed one, results can be derived from cached data without re-querying the federation or by issuing easier queries, reducing both endpoint load and network traffic.
 
@@ -16,9 +17,10 @@ For SPARQL, existing research has addressed set-semantic query containment~\cite
 Yet the SPARQL query language operates under bag-set semantics~\cite{Perez2006, Angles2016}, in which the underlying database operates under set semantics~\cite{w3ConceptsAbstract} while query operators produce bags\footnote{A bag, or multiset, is similar to set but allows duplicate elements.}~\cite{w3SPARQLQuery}.
 Set-semantic containment does not imply bag-set semantic containment, making existing containment results invalid for real-world SPARQL query optimization.
 
-For example\footnote{Inspired by \citeauthor{Afrati2010}}, \Cref{fig:bag-set-example} presents a super query (a query that produces more results regardless of the data) and a sub query.
+For example\footnote{Inspired by \citeauthor{Afrati2010}}, \Cref{fig:bag-set-example} presents a super query (a query that produces more results regardless of the data) and a sub query.\rt{AFAIK, this is not the right terminology. I think it should be "contained query" and "containing query".}
 Under set semantics the two queries are contained.
 Under bag-set semantics, however, projection together with data containing individuals with multiple jobs makes the query results differ, so a set-semantic solver would err in the computation.\footnote{An executable example is provided at \url{https://github.com/constraintAutomaton/demo-semantic-query-containment-SPARQL} using the Comunica~\cite{taelman_iswc_resources_comunica_2018} query engine and the Specs~\cite{Spasic2023} SPARQL query containment solver}
+\rt{Can you explain a bit more why it's contained under set but not under bag? Some intuitive explanation (not going into details) would help the reader here. Also keep in mind that some readers may not know SPARQL.}
 
 \begin{figure}
   \textbf{Super query}
@@ -29,7 +31,7 @@ Under bag-set semantics, however, projection together with data containing indiv
   \label{fig:bag-set-example}
 \end{figure}
 
-The problem is further compounded by the fact that there are two formalisms of federated queries: the SPARQL 1.1 Federated Query specification~\cite{w3SPARQLFederated} and \ac{ASSF}~\cite{Cheng2021}.
+The problem is further compounded by the fact that there are two formalisms of federated queries: the SPARQL 1.1 Federated Query specification~\cite{w3SPARQLFederated} and \ac{ASSF}~\cite{Cheng2021}.\rt{The more I read your paper, the more I'm starting to wonder if it's really necessary to talk much about automatic source selection. Maybe we can just focus on manual source select (and refer to the spec indeed). And keep auto source selection as a special case that we briefly explain somewhere, but not spend much more attention to, as it can be reduced to the manual source selection case (which is where we'd do containment over in any case).}\rt{Also, I'm not a big fan on "ASSF". Can we just call it "automatic source selection"?}
 For \ac{CQ}, those two formalisms do not exhibit the same semantics.
 
 \begin{figure*}
@@ -52,7 +54,7 @@ For \ac{CQ}, those two formalisms do not exhibit the same semantics.
   \medskip
 
   \begin{minipage}{0.48\textwidth}
-    \textbf{Federated query under ESA}
+    \textbf{Federated query under ESA\rt{ESA has not been explained yet. But I also don't think it's necessary to explain it already.}}
     \lstinputlisting[style=sparql]{code/bag_federation_esa_q.rq}
   \end{minipage}\hfill
   \begin{minipage}{0.48\textwidth}
@@ -62,22 +64,22 @@ For \ac{CQ}, those two formalisms do not exhibit the same semantics.
 
   \caption{A projection-free conjunctive query retrieving each person's job, age, e-mail, and identifier from a federation of three members.
   The job registry and the social network redundantly store every person's age and job.
-  Under \ac{ASSF} the query returns a bag of results, whereas with \texttt{SERVICE} clauses it returns the same four solutions as a set.}
+  Under \ac{ASSF} the query returns a bag of results, whereas with \texttt{SERVICE} clauses it returns the same four solutions as a set.\rt{This example feels a bit chaotic and unpolished. For EDBT readers that don't know RDF, they won't know what this "ex:" is about. The datasets and invalid Turtle (and the fact that it's Turtle is not mentioned). It's also unclear that these are RDF datasets hosted by a SPARQL endpoint through some URL. It's also unclear which results are returned exactly. I would find the example more understandable if the two queries produces the exact same results.}}
   \label{fig:bag-federation-example}
 \end{figure*}
 
-\Cref{fig:bag-federation-example} illustrates this.
+\Cref{fig:bag-federation-example} illustrates this\rt{Within this sentence, can you very briefly summarize the use case?}.
 A federation of three members, an identifier registry, a job registry, and a social network, redundantly stores part of its data: each person's age and current job are recorded by both the job registry and the social network.
 The federated query retrieves each person's job, age, e-mail, and identifier.
 It is a \ac{CQ} \emph{without projection}, so on a single endpoint it would return a set.
-Yet, given the definition of the canonical \ac{ASSF}, \ac{ESA}~\cite{Cheng2021}, evaluating it over the federation duplicates solutions, the solution mapping for \texttt{ex:jan} is returned 4 times, so the query exhibits bag semantics, even though every federation member contains a set-semantic \ac{KG}.
-A similar query expressed with \texttt{SERVICE} clauses returns the same answer as a set.
+Yet, given the definition of the canonical \ac{ASSF}, \ac{ESA}~\cite{Cheng2021}, evaluating it over the federation duplicates solutions, the solution mapping for \texttt{ex:jan} is returned 4 times\rt{It's unclear why this is so.}, so the query exhibits bag semantics, even though every federation member is \ac{KG} under set-semantics.
+A similar query expressed with \texttt{SERVICE}\rt{The reader does not know what SERVICE is yet} clauses returns the same answer as a set.
 \footnote{An executable demonstration of the semantics of federated queries, evaluated with the Comunica~\cite{taelman_iswc_resources_comunica_2018} query engine, is available at \url{https://github.com/constraintAutomaton/demo-federated-query-semantic}}
 
 To the best of our knowledge, bag-set semantic SPARQL query containment remains unexplored, as does query containment in the context of federated queries.
 \footnote{Note that QCan~\cite{salas2018canonicalisation} deals with bag-set semantics, however, it addresses query equivalence rather than query containment, by transforming SPARQL queries into a canonical form and performing syntactic comparison.}
 
-This paper bridges these gaps by formalizing query containment for conjunctive SPARQL federated queries under bag-set semantics.
+This paper bridges these gaps by formalizing query containment for conjunctive SPARQL federated queries under bag-set semantics.\rt{Would be good to specify that you do this for both manual and automatic source selection.}
 We first present the \hyperref[sec:related_works]{related works},
 then the \hyperref[sec:preliminaries]{preliminaries},
 the \hyperref[sec:semantic_federated_q]{semantics of federated queries},
