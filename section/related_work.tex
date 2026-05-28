@@ -8,19 +8,24 @@ Query containment has been used in multiple query optimization tasks, including 
 Query containment under bag or bag-set semantics is a strictly stronger relationship than its set-semantic counterpart~\cite{Chaudhuri1993}.
 The literature does not describe general necessary conditions for containment under bag-set and bag semantics~\cite{ioannidis1995containment, khamis2021bag}; however, sufficient conditions have been identified.
 Furthermore, the general case of bag or bag-set semantic query containment for \ac{UCQ} has been shown to be undecidable~\cite{ioannidis1995containment, Jayram2006, Afrati2010}.
-However, some fragments of bag-set and bag semantic conjunctive queries have been proven decidable~\cite{khamis2021bag}.
+However, some fragments of bag-set and bag semantic conjunctive queries have been proven decidable~\cite{khamis2021bag, KOPPARTY20111097, Chaudhuri1993, Afrati2010}.
 \Cref{tab_decidable_containment_bag_bag_set} presents query fragments with decidable bag and bag-set query containment.
 
 \begin{table*}
-  \caption{Decidable bag and bag-set query fragment}
+  \caption{Decidable bag and bag-set query fragment\protect\footnote{Inspired from \citeauthor{Afrati2010}~\cite{Afrati2010}.}}
   \label{tab_decidable_containment_bag_bag_set}
   \begin{tabular}{llll}
     \toprule
     Case & Semantic & Time Complexity & Necessary Condition\\
     \midrule
     General \ac{CQ}~\cite{Chaudhuri1993} & Bag and Bag-set & $\Pi^p_2$-hard & No\\
+
     \ac{CQ} where $Q_2$ is without projections~\cite{Afrati2010} & Bag-set & NP-complete & Yes\\
     \ac{CQ} where $Q_2$ is without projections~\cite{Konstantinidis2019} & Bag & $\Pi^p_2$ & Yes\\
+
+    \ac{CQ} where $Q_1$ and $Q_2$ are without projections~\cite{Afrati2010} & Bag-set & $O(n^2\log(n)\times n_{sQ1} \times n_{sQ2})$ & Yes\\
+    \ac{CQ} where $Q_1$ and $Q_2$ are without projections~\cite{Afrati2010} & Bag & $O(n^2\log(n)\times n_{sQ1} \times n_{sQ2})$ & Yes\\
+
     Pathstar \ac{CQ}~\cite{Afrati2010} & Bag and Bag-set & $O(n^2 \cdot \log(n))$ & Yes\\
     Simple general Pathstar \ac{CQ}~\cite{Afrati2010} & Bag and Bag-set & $O(n)$ & Yes\\
     $Q_2$ is an enhanced version of $Q_1$~\cite{Afrati2010} & Bag-set & $O(n)$ & Yes\\

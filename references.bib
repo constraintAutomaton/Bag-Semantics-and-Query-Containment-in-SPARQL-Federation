@@ -610,22 +610,39 @@ author = {AnHai Doan and Alon Halevy and Zachary Ives}
   publisher = {ACM New York, NY, USJayram2006A},
 }
 
-@inproceedings{Konstantinidis2019,
-author = {Konstantinidis, George and Mogavero, Fabio},
-title = {Attacking Diophantus: Solving a Special Case of Bag Containment},
-year = {2019},
-isbn = {9781450362276},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/3294052.3319689},
-doi = {10.1145/3294052.3319689},
-abstract = {Conjunctive-query containment is the problem of deciding whether the answers of a given conjunctive query on an arbitrary database instance are always contained in the answers of a second query on the same instance. This is a very relevant question in query optimization, data integration, and other data management and artificial intelligence areas. The problem has been deeply studied and understood for the, so-called, set-semantics, i.e., when query answers and database instances are modelled as sets of tuples. In particular, it has been shown by Chandra and Merlin to be NPTIME-COMPLETE. On the contrary, when investigated under bag-semantics, a.k.a. multiset semantics, which allows for replicated tuples both in the underlying instance and in the query answers, it is not even clear whether the problem is decidable. Since this is exactly the standard interpretation for commercial relational database systems, the question turns out to be an important one. Multiple works on variations and restrictions of the bag-containment problem have been reported in the literature and, although the general problem is still open, we contribute with this article by solving a special case that has been identified as a major open problem on its own. More specifically, we study projection-free queries, i.e., queries without existentially quantified variables, and show decidability for the bag-containment problem of a projection-free conjunctive query into a generic conjunctive query. We prove indeed that deciding containment in this setting is in ¶i^p_2. Our approach relies on the solution of a special case of the Diophantine inequality problem via a reduction to the linear inequality problem and clearly exposes inherent difficulties in the analysis of the general question.},
-booktitle = {Proceedings of the 38th ACM SIGMOD-SIGACT-SIGAI Symposium on Principles of Database Systems},
-pages = {399–413},
-numpages = {15},
-keywords = {bag containment, bag semantics, diophantine inequalities, multiset semantics, query containment},
-location = {Amsterdam, Netherlands},
-series = {PODS '19}
+@InProceedings{Konstantinidis2019,
+  author    = {Konstantinidis, George and Mogavero, Fabio},
+  booktitle = {Proceedings of the 38th ACM SIGMOD-SIGACT-SIGAI Symposium on Principles of Database Systems},
+  title     = {Attacking Diophantus: Solving a Special Case of Bag Containment},
+  year      = {2019},
+  address   = {New York, NY, USA},
+  pages     = {399–413},
+  publisher = {Association for Computing Machinery},
+  series    = {PODS '19},
+  abstract  = {Conjunctive-query containment is the problem of deciding whether the answers of a given conjunctive query on an arbitrary database instance are always contained in the answers of a second query on the same instance. This is a very relevant question in query optimization, data integration, and other data management and artificial intelligence areas. The problem has been deeply studied and understood for the, so-called, set-semantics, i.e., when query answers and database instances are modelled as sets of tuples. In particular, it has been shown by Chandra and Merlin to be NPTIME-COMPLETE. On the contrary, when investigated under bag-semantics, a.k.a. multiset semantics, which allows for replicated tuples both in the underlying instance and in the query answers, it is not even clear whether the problem is decidable. Since this is exactly the standard interpretation for commercial relational database systems, the question turns out to be an important one. Multiple works on variations and restrictions of the bag-containment problem have been reported in the literature and, although the general problem is still open, we contribute with this article by solving a special case that has been identified as a major open problem on its own. More specifically, we study projection-free queries, i.e., queries without existentially quantified variables, and show decidability for the bag-containment problem of a projection-free conjunctive query into a generic conjunctive query. We prove indeed that deciding containment in this setting is in ¶i^p_2. Our approach relies on the solution of a special case of the Diophantine inequality problem via a reduction to the linear inequality problem and clearly exposes inherent difficulties in the analysis of the general question.},
+  doi       = {10.1145/3294052.3319689},
+  file      = {:references/AttackingKonstantinidisPods19.pdf:PDF},
+  groups    = {query containment},
+  isbn      = {9781450362276},
+  keywords  = {bag containment, bag semantics, diophantine inequalities, multiset semantics, query containment},
+  location  = {Amsterdam, Netherlands},
+  numpages  = {15},
+  url       = {https://doi.org/10.1145/3294052.3319689},
+}
+
+@article{KOPPARTY20111097,
+title = {The homomorphism domination exponent},
+journal = {European Journal of Combinatorics},
+volume = {32},
+number = {7},
+pages = {1097-1114},
+year = {2011},
+note = {Homomorphisms and Limits},
+issn = {0195-6698},
+doi = {https://doi.org/10.1016/j.ejc.2011.03.009},
+url = {https://www.sciencedirect.com/science/article/pii/S0195669811000606},
+author = {Swastik Kopparty and Benjamin Rossman},
+abstract = {We initiate a study of the homomorphism domination exponent of a pair of graphs F and G, defined as the maximum real number c such that |Hom(F,T)|⩾|Hom(G,T)|c for every graph T. The problem of determining whether HDE(F,G)⩾1 is known as the homomorphism domination problem, and its decidability is an important open question arising in the theory of relational databases. We investigate the combinatorial and computational properties of the homomorphism domination exponent, proving upper and lower bounds and isolating classes of graphs F and G for which HDE(F,G) is computable. In particular, we present a linear program computing HDE(F,G) in the special case, where F is chordal and G is series–parallel.}
 }
 
 @inproceedings{Jayram2006,
@@ -757,6 +774,6 @@ series = {PODS '06}
 @Comment{jabref-meta: grouping:
 0 AllEntriesGroup:;
 1 StaticGroup:query containment\;0\;0\;\;\;\;;
-1 StaticGroup:SPARQL query containment\;0\;1\;\;\;\;;
+1 StaticGroup:SPARQL query containment\;0\;0\;\;\;\;;
 1 StaticGroup:federated queries\;0\;1\;\;\;\;;
 }

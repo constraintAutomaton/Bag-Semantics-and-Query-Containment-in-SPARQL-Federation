@@ -56,6 +56,20 @@ and we are in the context of a set semantic database thus $\freq_{\mathit{fm}_i}
 \operatorname{multiplicity}(\mu \mid \Omega) = \sum_{i}^{m} \operatorname{multiplicity}(\mu \mid \Omega) = \sum_{i}^m 1 = $m$
 \end{multline*}
 
+$\Omega_1$ and and $\Omega_2$ are the two first union of the equation.
+
+We are investigating the max of $mu$ because given the data is identitcal inside of the $\Omega_i$, either the data can me merged fully or no results are produced
+\begin{align*}
+\max(|m(\mu)|) = \max(\{(\mu_1, \mu_2) | \operatorname{merge}(\mu_1 \in \Omega_1, \mu_2 \in \Omega_2) = \mu\}) \\
+= m^3
+\end{align*}
+
+for \ac{BKG}, there is no union involved.
+$\freq_{\mathit{fm}_i}^{\mathit{tp}_j}$ has a multiplicity of $m$ given in the \ac{BKG} the data is multiplied by $m$
+
+%thus $$
+
+\iffalse
 for each union branch we have a multiplicity of $m$.
 
 Let;s join 2 union branch
@@ -68,24 +82,15 @@ two branch of the euqation
 \sum_{(\mu_1, \mu_2) \in m(\mu)} m \cdot m
 \end{align*}
 
+\fi
 For the multiplicity of join let's first analyse this equation.
 
 since in a branch of union there can only be the same result then we know that either no solution can be merged thus
 $m(\mu)$ is equal to 0 or
 
-\begin{align*}
-\max(|m(\mu)|) = \max(\{(\mu_1, \mu_2) | \operatorname{merge}(\mu_1 \in \Omega_1, \mu_2 \in \Omega_2) = \mu\}) \\
-= m^3
-\end{align*}
+
 
 because every solution mapping from $\Omega_1$ can be mapped to a solution mapping from  $\Omega_2$.
-
-thus the multiplicity of the join become,
-\begin{align*}
-\max(\operatorname{multiplicity}(\mu \mid \texttt{JOIN}(\Omega_1, \Omega_2))) = \\
-\max(\sum_{(\mu_1, \mu_2) \in m(\mu)} \operatorname{multiplicity}(\mu_1 \mid \Omega_1) \cdot \operatorname{multiplicity}(\mu_2 \mid \Omega_2)) = \\
-\max(\sum_{(\mu_1, \mu_2) \in m(\mu)} m \cdot m) = m^5
-\end{align*}
 
 for subsequent join
 
@@ -95,7 +100,10 @@ In a \ac{BKG} each triple will have a multiplicity of $m$, and given the definit
 Both evaluations therefore produce the same result bag.
 
 
-for \ac{BKG}
+for \ac{BKG} there is no union so we can start with the join.
+
+the mu remain the same.
+
 
 
 \end{proof}

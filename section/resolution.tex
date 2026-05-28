@@ -1,0 +1,25 @@
+\section{Federated Query Containment Resolution}\label{sec:resolution}
+
+In the previous section we defined the condition of query containment for federated queries however we did not touch on the algorithm to perform the containment evalution.
+The goal of this section is to evaluate that.
+
+The SPARQL specification~\cite{w3SPARQLFederated} define \texttt{SERVICE} the evaluation of the inner query without projection thus in the context of bag-set semantic the evaluation is the same as with set semantic~\cite{Afrati2010}.
+Thus, for the evaluation the condition $B$ of ~\Cref{prop:condition-containment} any SPARQL query containment solver from the current literature
+\footnote{See section \Cref{sec:related_works_qc} } can be orchestrated to implement condition $B$.
+In that case the time complexity is $NP-complete$~\cite{Afrati2010}, like set-semantic query containmet.
+
+
+With adjustement of the algorithm the complexity can be $O(n^2\log(n)\times)$~\cite{Afrati2010}, thus to satisfy condition $B$,
+$O(n^2\log(n)\times n_{sQ1} \times n_{sQ2})$ where $n_{sQ1}$ and $ n_{sQ2}$ are respectively the number of service clauses from $Q_1$ and $Q_2$.
+The adjustment consist of defining the bag-set query containment in terms of variables-onto containment mappings~\cite{Chaudhuri1993}.
+Variable-onto mean that every variable in the sub query is present in the containment mapping.
+% I need to define what i a containment mapping
+
+The case is more complicated when considering \acl{BFR}.
+Indeed without projection the problem cannot be reduced to set semantic query containment.
+Thus, it is not possible to simply orchestrate existing set semantic query containment solvers.
+However, it has the same time complexity then the bag-set semantic case~\cite{Afrati2010}.
+To perform the computation of the containment it is necessary to consider goal-onto containment mappings~\cite{Chaudhuri1993, Afrati2010}.
+Goal into containment mapping means that every cunjunct  as a containment mapping with the super query and that
+the super query has more or the same number of cunjunct as the sub query.
+% make it more formal and refer to the proposition from the paper (4.3)
