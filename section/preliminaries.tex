@@ -18,9 +18,11 @@ SPARQL queries are matched against an \ac{RDF} graph by substituting variables f
 A \emph{triple pattern} extends a triple by allowing variables (drawn from a set $\mathcal{V}$, disjoint from $\mathcal{I}$, $\mathcal{B}$, and $\mathcal{L}$) in any position:
 $\mathit{tp} = (s, p, o)$ where $s \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$, $p \in \mathcal{I} \cup \mathcal{V}$, and $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L} \cup \mathcal{V}$.
 
-A \ac{BGP} is a set of triple patterns evaluated conjunctively, binding variables across all patterns.
-A query built from \acp{BGP} is called a \ac{CQ}.
-\acp{UCQ} are formed by taking the union of multiple \acp{GP} via a \ac{UGP}, allowing a query to match any of several alternative patterns.
+A \ac{BGP} is a set of triple patterns evaluated conjunctively, binding variables across all the patterns it contains.
+A \ac{GP} generalizes a \ac{BGP} with additional operators; here the only such operator is union, which combines \acp{GP} into a \ac{UGP}, so every \ac{BGP} is a \ac{GP}.
+A \ac{CQ} is a query whose body is a single \ac{BGP}, optionally followed by a projection.
+A \ac{UCQ} is a union of \acp{CQ}: a query whose body is a \ac{UGP} whose disjuncts are \acp{BGP}.
+A \ac{CQ} is then the special case of a \ac{UCQ} with a single disjunct, so the \acp{CQ} form a subclass of the \acp{UCQ}.
 
 Matching a \ac{GP}~\cite{w3SPARQLQueryFormal} against an \ac{RDF} graph produces a \emph{bag} of \emph{solution mappings}, each a partial function from variables to \ac{RDF} terms.
 The following definitions make precise notions on solution mappings used throughout the paper.
@@ -56,7 +58,7 @@ The following definitions make precise notions on solution mappings used through
 A SPARQL federated query involves executing different segments of a query across multiple federation members.
 We denote the evaluation of a query over a \ac{KG} $G$ as $\eval{Q}{G}$.
 A set of federation members is called a \emph{federation}.
-Evaluating a query over a federation $F$ involves decomposing $Q$ into subqueries $P_i$, where each subquery $P_i$ is evaluated on a knowledge graph $G \in \operatorname{codomain}(F)$ held by a federation member.
+Evaluating a query over a federation $F$ involves decomposing $Q$ into subqueries $P_i$, where each subquery $P_i$ is evaluated on a knowledge graph $G_i \in \operatorname{codomain}(f_i \in F)$ held by a federation member.
 We adopt a database-agnostic view of federation members: since query containment does not depend on the content of any particular knowledge graph, we formalize the notion of federation in terms of endpoint \acp{IRI} rather than data.
 A \texttt{SERVICE} clause, written \texttt{SERVICE :anIRI \{?s ?p ?o\}} in SPARQL syntax and denoted $SERVICE(I, P)$~\cite{w3SPARQLFederated}
 \footnote{We do not consider the \texttt{SILENT} parameter in this formalization.}
