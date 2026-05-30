@@ -22,10 +22,10 @@ A \ac{BGP} is a set of triple patterns evaluated conjunctively, binding variable
 A query built from \acp{BGP} is called a \ac{CQ}.
 \acp{UCQ} are formed by taking the union of multiple \acp{GP} via a \ac{UGP}, allowing a query to match any of several alternative patterns.
 
-Matching a graph pattern against an \ac{RDF} graph produces \emph{solution mappings}, partial functions from variables to \ac{RDF} terms.
+Matching a \ac{GP}~\cite{w3SPARQLQueryFormal} against an \ac{RDF} graph produces a \emph{bag} of \emph{solution mappings}, each a partial function from variables to \ac{RDF} terms.
 The following definitions make precise notions on solution mappings used throughout the paper.
 
-\begin{definition}[Multiplicity]\label{def_multiplicity}
+\begin{definition}[Multiplicity~\cite{w3ConceptsAbstract}]\label{def_multiplicity}
   Given a multiset or sequence $\Omega$ of solution mappings and a solution mapping $\mu$, we write $\operatorname{multiplicity}(\mu \mid \Omega)$ to denote the number of times $\mu$ appears in $\Omega$.
 \end{definition}
 
@@ -53,25 +53,22 @@ The following definitions make precise notions on solution mappings used through
 
 \subsection{Federated Queries}
 
-A SPARQL federated query involves executing different segments of a query across multiple endpoints.
-We denote the evaluation of a query over a \ac{KG} $G$ as $\eval{Q}{G}$, and the evaluation over a federation of endpoints $F$ as $\eval{Q}{F}$, where $F$ is defined as a set of federation members
-\footnote{We use \emph{federation member} and \emph{endpoint} interchangeably; an endpoint is the concrete interface being queried, whereas a federation member is its abstraction.},
-formalized as a mapping $\mathit{fm}\colon \mathit{IRI} \mapsto G$.
-Evaluating a query over $F$ involves decomposing $Q$ into subqueries $Q_i$, where each subquery $Q_i$ is evaluated on a knowledge graph $G_j \in \operatorname{codomain}(F)$ member of the federation.
+A SPARQL federated query involves executing different segments of a query across multiple federation members.
+We denote the evaluation of a query over a \ac{KG} $G$ as $\eval{Q}{G}$.
+A set of federation members is called a \emph{federation}.
+Evaluating a query over a federation $F$ involves decomposing $Q$ into subqueries $P_i$, where each subquery $P_i$ is evaluated on a knowledge graph $G \in \operatorname{codomain}(F)$ held by a federation member.
 We adopt a database-agnostic view of federation members: since query containment does not depend on the content of any particular knowledge graph, we formalize the notion of federation in terms of endpoint \acp{IRI} rather than data.
+A \texttt{SERVICE} clause, written \texttt{SERVICE :anIRI \{?s ?p ?o\}} in SPARQL syntax and denoted $SERVICE(I, P)$~\cite{w3SPARQLFederated}
+\footnote{We do not consider the \texttt{SILENT} parameter in this formalization.}
+where $I$ is the \ac{IRI} locating the federation member and $P$ is the graph pattern to evaluate,
+performs $P$ at the endpoint identified by $I$.
 
-We distinguish two source-selection mechanisms for federated queries: \ac{UDF} and \ac{ASSF}~\cite{Cheng2021}.
-Under \ac{UDF}, the query uses \texttt{SERVICE} clauses~\cite{w3SPARQLFederated} that name the target endpoint of each subquery; in this paper, we restrict attention to \texttt{SERVICE} clauses whose target is a constant \ac{IRI}.
-Under \ac{ASSF}, a finite federation $F$ is given and the query engine selects which federation member receives each triple pattern.
-\ac{ESA} is the particular case of \ac{ASSF} in which every triple pattern is evaluated against every $G \in \operatorname{codomain}(F)$, with results accumulated via bag union~\cite{w3SPARQLFederated}.
-
-Orthogonally, federated queries can be classified by \emph{when} the source assignment is determined.
-Under \ac{SSA}, the assignment is fixed prior to execution: \ac{UDF} (\texttt{SERVICE} clauses name the target) and \ac{ESA} (every triple pattern is broadcast to every member) both fall in this regime.
-Under \ac{DSA}, the assignment is determined by the engine during query planning; this covers \ac{ASSF} strategies other than \ac{ESA}.
-
-Throughout this paper, we use the FedQPL formalism~\cite{Cheng2021} to express federated query plans.
+To reason about federated query plans we use the FedQPL formalism~\cite{Cheng2021}, a more formal and extensible algebra, with the operators defined below.
 
 \begin{definition}[FedQPL operators~\cite{Cheng2021}]\label{def_fedqpl}
   The \emph{request} $\freq_{\mathit{fm}}^{P}$ evaluates a graph pattern $P$ against a single federation member $\mathit{fm}$.
   The \emph{multiway union} $\fmu$ and \emph{multiway join} $\fmj$ combine the results of their arguments by bag union and by join, respectively.
 \end{definition}
+
+A SPARQL $SERVICE(I, P)$ is thus expressed in FedQPL by the request $\freq_{I}^{P}$, linking the specification syntax to the algebra we use throughout.
+\footnote{We slightly simplify the formalism: FedQPL has a sophisticated representation of federation members, but for query containment a member can be represented by its \ac{IRI}.}
