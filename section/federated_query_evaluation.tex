@@ -1,22 +1,28 @@
 \section{Conditions for Federated Query Containment}\label{sec:federated_queries_query_containment}
 
-In the context of query containment, federated queries initially appear fundamentally different from single-source query containment, as query containment is supposed to be data source independent whereas federated queries specify particular databases.
+Federated query containment may initially appear fundamentally different from single-source query containment, since containment is data-source independent while a federated query names particular databases.
 However, this difference is not fundamental.
-We propose that for federated query containment, the IRIs of federation members must be considered, but not their content.
-The fact that IRIs are referenced opens the door to optimizations by establishing guarantees about the lack of overlap between sources, which could change the semantics of such queries without \texttt{SERVICE} clauses from bag to bag-set semantics.
-However, this is not considered in this paper.
-The following section explains our approach for federated queries.
+We propose that federated query containment must consider the \acp{IRI} of the federation members, but not their content.
+Referencing these \acp{IRI} could benefit the resolution of query containment, for instance by guaranteeing the absence of overlap between members, since bag semantics is generally more complex to decide than bag-set semantics.
+We leave such optimizations out of scope.
 
-\subsection{\ac{UDF} Particularities}
-We define a \texttt{SERVICE} clause as a function $\mathit{Service}(\mathit{IRI}, P)$, where $\mathit{IRI}$ is the IRI of the target federation member and $P$ is the \ac{GGP}~\cite{w3SPARQLQueryFormal} associated with the service.
-$P$ is transformed into a \texttt{SELECT} query where all the variables are projected as defined in the specification.\footnote{\url{https://www.w3.org/TR/2013/REC-sparql11-federated-query-20130321/\#algebra_service}}
-In this paper, we do not consider nested \texttt{SERVICE} clauses.
-Delegating the remote execution of a \texttt{SERVICE} clause to a third-party engine can raise load-management concerns and leaves the query issuer unable to guarantee that the endpoint supports federated query execution.
-Furthermore, as shown in the proposition below, nested \texttt{SERVICE} clauses are semantically equivalent to a flattened form in which all \texttt{SERVICE} clauses appear at the basic graph pattern level.
+Without loss of generality, we work only with flattened \texttt{SERVICE} clauses, where every \texttt{SERVICE} clause appears at the \ac{BGP} level.
+The proposition below shows that a nested \texttt{SERVICE} clause is semantically equivalent to such a flattened form, so nesting reduces to this case.\footnote{Nesting is also discouraged in practice, as delegating the remote execution of a \texttt{SERVICE} clause to a third-party engine can raise load-management concerns and leaves the query issuer unable to guarantee that the endpoint supports federated query execution.}
 
 \subfile{proofs/nested_service_flattening}
 
-\subsection{\ac{ASSF} Particularities}
+
+\subsection{Query Containment Condition}
+
+We define a function $\mathit{QS}\colon (\mathcal{Q}, \mathcal{F}) \to \mathcal{Q}$ that returns the query associated with the \ac{GGP} of a \texttt{SERVICE} clause.
+Here $\mathcal{F}$ is the set of all federation members associated with a \texttt{SERVICE} clause and $\mathcal{Q}$ is the set of all queries.
+We also define $\mathit{QO}\colon \mathcal{Q} \to \mathcal{Q}$, a function that returns the segments of a query evaluated against the local \ac{KG}.
+
+\subfile{proofs/federated_query_condition}
+
+
+
+\subsection{Automatic Source Selection Particularities}
 
 Unlike \ac{UDF}, where \texttt{SERVICE} clauses make source assignment explicit in the query syntax, \ac{ASSF} delegates assignment to the query engine's source-selection algorithm.
 \ac{ESA} is a specific instance of \ac{ASSF} where every triple pattern is sent to every federation member, so the source assignment is known prior to any computation.
@@ -28,11 +34,3 @@ Under \ac{DSA}, source assignments are not fixed at query-write time, so federat
 The source assignment does not affect completeness of results, provided the \ac{ASSF} algorithm is sound, but it does affect the containment algorithm.
 As established in \Cref{sec_fed_query_without_service} and \Cref{sec_bag_federation_reduction}, when the plan assigns triple patterns to multiple members, a \ac{CQ} becomes a \ac{UCQ}, which impacts the decidability and complexity of the containment check.
 We propose using bag-semantic containment to avoid this decidability issue, at the cost of switching from bag-set to bag semantics for the containment criterion.
-
-\subsection{Query Containment Condition}
-
-We define a function $\mathit{QS}\colon (\mathcal{Q}, \mathcal{F}) \to \mathcal{Q}$ that returns the query associated with the \ac{GGP} of a \texttt{SERVICE} clause.
-Here $\mathcal{F}$ is the set of all federation members associated with a \texttt{SERVICE} clause and $\mathcal{Q}$ is the set of all queries.
-We also define $\mathit{QO}\colon \mathcal{Q} \to \mathcal{Q}$, a function that returns the segments of a query evaluated against the local \ac{KG}.
-
-\subfile{proofs/federated_query_condition}
