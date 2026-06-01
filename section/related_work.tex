@@ -2,7 +2,7 @@
 
 \subsection{Query Containment}\label{sec:related_works_qc}
 
-Query containment consists of determining for every database whether the result of the evaluation of a query $Q_1$ is a subset of the result of the evaluation of a query $Q_2$, denoted $Q_1 \sqsubseteq Q_2$.
+Query containment is the problem of deciding, for every possible database, whether the result of a query $Q_1$ is a subset of the result of a query $Q_2$, denoted $Q_1 \sqsubseteq Q_2$; in this case $Q_1$ is the \emph{contained query} and $Q_2$ the \emph{containing query}.
 Query containment has been used in multiple query optimization tasks, including view selection, caching, and query rewriting~\cite{Afrati2019-ch2, Shirkova2011, Halevy2001}.
 
 Query containment under bag or bag-set semantics is a strictly stronger relationship than its set-semantic counterpart~\cite{Chaudhuri1993}.
@@ -12,7 +12,7 @@ However, some fragments of bag-set and bag semantic conjunctive queries have bee
 \Cref{tab_decidable_containment_bag_bag_set} presents query fragments with decidable bag and bag-set query containment.
 
 \begin{table*}
-  \caption{Decidable bag and bag-set query fragment\protect\footnote{Inspired from \citeauthor{Afrati2010}~\cite{Afrati2010}.}}
+  \caption{Decidable bag and bag-set query fragments\protect\footnote{Inspired by \citeauthor{Afrati2010}~\cite{Afrati2010}.}}
   \label{tab_decidable_containment_bag_bag_set}
   \begin{tabular}{llll}
     \toprule
@@ -40,11 +40,15 @@ Extensions incorporating RDF schemas, OWL entailment regimes~\cite{WudageChekol2
 
 \subsection{Federated Queries}
 
-Federated SPARQL queries have been formalized from multiple perspectives.
+Federated SPARQL queries have been approached from two perspectives: explicit federation through the \texttt{SERVICE} clause, and automatic source selection.
 The SPARQL 1.1 Federated Query specification~\cite{w3SPARQLFederated} introduces the \texttt{SERVICE} clause as the W3C standard mechanism for directing subexpressions to specific endpoints.
-The SPARQL specification mentions the use of variables as endpoint \acp{IRI} in \texttt{SERVICE} clauses but does not give an official interpretation of their behavior\footnote{\url{https://www.w3.org/TR/sparql11-federated-query/\#variableService}}.
+The SPARQL specification mentions the use of variables as endpoint \acp{IRI} in \texttt{SERVICE} clauses but does not give an official interpretation of their behavior.~\footnote{\url{https://www.w3.org/TR/sparql11-federated-query/\#variableService}}
 \citeauthor{BuilAranda2013}~\cite{BuilAranda2013} introduced \emph{Service-Safeness}, a syntactic rule outside the SPARQL specification that makes such queries computable by guaranteeing a finite set of federation members.
-Because Service-Safeness is not part of the specification, this paper does not support variables as endpoint \acp{IRI}.
-\citeauthor{Cheng2021}~\cite{Cheng2021} proposed FedQPL, a formalism to express federated queries under \ac{ASSF}, addressing the difficulty of manually determining which federation members to query for a given graph pattern~\cite{hanski2025observations}.
-They also introduced the \ac{ESA}, a query planning strategy used when no statistical information about the federation is available.
+Because Service-Safeness is not part of the specification and multiple SPARQL query engines use their own interpretation, this paper does not consider variables as endpoint \acp{IRI}.
+\citeauthor{Cheng2021}~\cite{Cheng2021} proposed FedQPL, a formalism to express federated queries under automatic source selection.
+Automatic source selection provides algorithms that alleviate the practical difficulty of determining which federation member each subquery should be sent to~\cite{hanski2025observations}.
+Thus users can query a federation without knowing how the data is distributed.
+Furthermore, \citeauthor{Cheng2021}~\cite{Cheng2021} introduce \ac{ESA}, a canonical source-selection algorithm that requires no prior information about the federation.
 In \ac{ESA}, each triple pattern is evaluated against every federation member and the results are combined via bag union, guaranteeing complete results regardless of how data is distributed across the federation.
+
+To the best of our knowledge, no contribution has addressed query containment for federated SPARQL queries; this is the gap our paper addresses.

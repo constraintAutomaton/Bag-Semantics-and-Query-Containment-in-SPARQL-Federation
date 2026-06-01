@@ -2,141 +2,49 @@
 \externaldocument[main-]{../main}
 \begin{document}
 
-\subsection{\acl{BFR}}\label{sec_bag_federation_reduction}
-
 \begin{definition}\label{def_bkg}
 The \ac{BKG} of a federation $F$ is the bag union $\biguplus_{G \in \operatorname{codomain}(F)} G$ of all its members' \acp{KG}.
-A triple $t$ thus has multiplicity $|\{\, G \in \operatorname{codomain}(F) : t \in G \,\}|$ meaning the number of members whose \ac{KG} contains it.
+A triple $t$ thus has multiplicity $|\{\, G \in \operatorname{codomain}(F) : t \in G \,\}|$, i.e., the number of members whose \ac{KG} contains it.
 \end{definition}
 
-We show that any union-based federation strategy is equivalent to executing the original query against a \emph{\ac{BKG}} as defined in \Cref{def_bkg}, making the query execution of a \ac{CQ} follow bag semantics rather than bag-set semantics of a \ac{UCQ}.
-One can think of this as a virtual operator that aggregates the federation members into a \ac{BKG} and rewrites the query to be evaluated exclusively over it.
-This is particularly useful given that \ac{UCQ} containment under bag and bag-set semantics is undecidable, as discussed in \Cref{sec:related_works_qc}.
-We establish this using \ac{ESA} as the canonical proof vehicle, through the following propositions.
+Evaluating a triple pattern $\mathit{tp}$ over the \ac{BKG} yields each solution mapping $\mu$ with the multiplicity of its matching triple $\mu(\mathit{tp})$.
 
-We first handle the case where federation members have no overlapping query-relevant knowledge.
 
 \begin{proposition}\label{prop_no_overlap}
-A query performed over a federation where each triple pattern can only be answered by one federation member yields the same result when performed over a \ac{BKG}.
+Consider a \ac{UCFQ} over a federation $F$ with union branches $U_1, \dots, U_n$, and let $F_i \subseteq F$ be the sub-federation of members appearing in $U_i$.
+If, within each $F_i$, the triples matching $\mathit{tp}_i$ reside in a single member, then the \ac{UCFQ} yields the same result bag as joining each $\mathit{tp}_i$ evaluated over the \ac{BKG} of $F_i$.
 \end{proposition}
 
 \begin{proof}
-Since each triple pattern $\mathit{tp}_j$ can only be answered by one member $\mathit{fm}_i$, every $\fmu$ in \Cref{eq_esa} collapses to a single $\freq_{\mathit{fm}_i}^{\mathit{tp}_j}$, leaving only join operations:
+Within each $F_i$, the triples matching $\mathit{tp}_i$ reside in a single member $\mathit{fm}_i$, so the branch $U_i = \fmu(\dots)$ collapses to the single request $\freq_{\mathit{fm}_i}^{\mathit{tp}_i}$ and introduces no \texttt{UNION} duplication.
+The \ac{UCFQ} therefore reduces to a join of one request per branch:
 \[
-\fmj(\freq_{\mathit{fm}_i}^{\mathit{tp}_1}, \dots, \freq_{\mathit{fm}_{n_{\mathrm{fm}}}}^{\mathit{tp}_{n_{\mathrm{tp}}}})
+\fmj(\freq_{\mathit{fm}_1}^{\mathit{tp}_1}, \dots, \freq_{\mathit{fm}_n}^{\mathit{tp}_n}).
 \]
-where $n_{\mathrm{fm}}$ denotes the number of query-relevant federation members and $n_{\mathrm{tp}}$ the number of triple patterns in the query.
-Given that no \texttt{UNION} are present, no duplicates arise from the federation structure.
-
-In the \ac{BKG}, since no query-relevant triple appears in more than one member's \ac{KG}, each relevant triple appears exactly once.
-The join evaluation therefore produces the same result bag.
+Because the matching triple lies in only one member of $F_i$, it has multiplicity one in the \ac{BKG} of $F_i$, so evaluating $\mathit{tp}_i$ over that \ac{BKG} returns the same bag as the request.
+Joining over all branches, the two evaluations coincide.
+Since each branch is tied to its own \ac{BKG}, a triple duplicated across different sub-federations inflates no branch's multiplicity and the result bag is unaffected.
 \end{proof}
 
-We now consider the opposite case, where all federation members host an identical \ac{KG}.
+We now consider the general case, where a triple matching $\mathit{tp}_i$ may reside in several members of $F_i$.
 
 \begin{proposition}\label{prop_duplicate_fed_mem}
-For a federation where all members host an identical \ac{KG}, the query produces the same results when evaluated over the federation's \ac{BKG}.
+Consider a \ac{UCFQ} over a federation $F$ with union branches $U_1, \dots, U_n$, and let $F_i \subseteq F$ be the sub-federation of members appearing in $U_i$.
+The \ac{UCFQ} yields the same result bag as joining each $\mathit{tp}_i$ evaluated over the \ac{BKG} of $F_i$.
 \end{proposition}
 
 \begin{proof}
-When all $m$ members host an identical \ac{KG}, every $\freq_{\mathit{fm}_i}^{\mathit{tp}_j}$ produces the same result for a given $\mathit{tp}_j$.
-
-By the SPARQL definition of \texttt{UNION}, the multiplicity of the result bag equals the sum of the multiplicities of each operand's solution bag, so this produces $m$ copies of each result of $\freq_{\mathit{fm}_i}^{\mathit{tp}_j}$.
-By definition of the \texttt{JOIN}, the multiplicity will be at most $m^3$ times the number of times solution mappings can be merged.
-We say \emph{at most} because, depending on the query, some solution mappings may not merge; for a given query, however, evaluation over a \ac{BKG} and over a federation exhibits the same behavior.
-% mu(u) = m, because we have m identical partial solution mapping if they can all merge together
-% the multiplicity of each solution mapping will be m since we are dealing with duplicate
-% Thus we have m time m time m
-
-Let's suppose $\Omega_1$ being one set of $mu$
-
-we know that the multiplcitiy of $operatorname{multiplicity}(\mu \mid \Omega)$ is 1 because we do not do projections,
-and we are in the context of a set semantic database thus $\freq_{\mathit{fm}_i}^{\mathit{tp}_j}$ has a multiplicity of 1.
-\begin{multline*}
-\operatorname{multiplicity}(\mu \mid \Omega) = \sum_{i}^{m} \operatorname{multiplicity}(\mu \mid \Omega) = \sum_{i}^m 1 = $m$
-\end{multline*}
-
-$\Omega_1$ and and $\Omega_2$ are the two first union of the equation.
-
-We are investigating the max of $mu$ because given the data is identitcal inside of the $\Omega_i$, either the data can me merged fully or no results are produced
-\begin{align*}
-\max(|m(\mu)|) = \max(\{(\mu_1, \mu_2) | \operatorname{merge}(\mu_1 \in \Omega_1, \mu_2 \in \Omega_2) = \mu\}) \\
-= m^3
-\end{align*}
-
-for \ac{BKG}, there is no union involved.
-$\freq_{\mathit{fm}_i}^{\mathit{tp}_j}$ has a multiplicity of $m$ given in the \ac{BKG} the data is multiplied by $m$
-
-%thus $$
-
-\iffalse
-for each union branch we have a multiplicity of $m$.
-
-Let;s join 2 union branch
-
-we know that the multiplicity of each branch $\operatorname{multiplicity}(\mu_u \mid \Omega_i)$ has a multiplicity of $m$ given we are joining the first
-two branch of the euqation
-\begin{align*}
-\operatorname{multiplicity}(\mu \mid \texttt{JOIN}(\Omega_1, \Omega_2)) = \\
-\sum_{(\mu_1, \mu_2) \in m(\mu)} \operatorname{multiplicity}(\mu_1 \mid \Omega_1) \cdot \operatorname{multiplicity}(\mu_2 \mid \Omega_2) = \\
-\sum_{(\mu_1, \mu_2) \in m(\mu)} m \cdot m
-\end{align*}
-
-\fi
-For the multiplicity of join let's first analyse this equation.
-
-since in a branch of union there can only be the same result then we know that either no solution can be merged thus
-$m(\mu)$ is equal to 0 or
-
-
-
-because every solution mapping from $\Omega_1$ can be mapped to a solution mapping from  $\Omega_2$.
-
-for subsequent join
-
-
-
-In a \ac{BKG} each triple will have a multiplicity of $m$, and given the definition of \texttt{JOIN} the multiplicity of each solution mapping will be $m^3$.
-Both evaluations therefore produce the same result bag.
-
-
-for \ac{BKG} there is no union so we can start with the join.
-
-the mu remain the same.
-
-
-
+Fix a branch $U_j = \fmu(\dots)$ and a triple $t$ matching $\mathit{tp}_j$, with $m_j$ the number of members of $F_j$ that hold $t$.
+In $U_j$, the solution mapping matching $t$ is returned once by each of those $m_j$ members, so by \Cref{def_union_multiplicity} it has multiplicity $m_j$ in $U_j$.
+In the \ac{BKG} of $F_j$ there is no union, but $t$ is held by those same $m_j$ members and so has multiplicity $m_j$ (\Cref{def_bkg}); evaluating $\mathit{tp}_j$ over it gives that solution mapping the same multiplicity $m_j$.
+This holds for every branch and every matching triple, so each branch carries the same multiplicities under both evaluations.
+By \Cref{def_join_multiplicity}, the multiplicity of a joined solution mapping is determined by the multiplicities of the input bags and by which input pairs merge to it.
+Both evaluations feed the join the same per-branch multiplicities and the same solution mappings, so each joined solution mapping receives the same multiplicity in both.
+The two evaluations therefore produce the same result bag.
 \end{proof}
 
-The general case combines both observations: partial knowledge overlap is handled by the same UNION mechanism, with multiplicities determined by how many members hold each piece of data.
-
-\begin{proposition}\label{prop_esa_bkg}
-A query performed using \ac{ESA} over a federation yields the same results as a query over a \ac{BKG}.
-\end{proposition}
-
-\begin{proof}
-Query-irrelevant triples do not affect results.
-For query-relevant knowledge, \Cref{eq_esa} introduces a \texttt{UNION} over all $m$ members for each triple pattern, distributing every triple pattern to each federation member to prevent result loss from joins requiring data from multiple members.
-When a triple pattern can be answered by $k$ out of $m$ members, the \texttt{UNION}s retrieves $k$ times the triples matching the pattern.
-By \Cref{def_bkg}, that same triple appears with multiplicity $k$ in the \ac{BKG}.
-Generalizing \Cref{prop_duplicate_fed_mem}, the join multiplicity for a solution mapping $\mu$ is at most a factor $k$ instead of $m$; the \ac{BKG} therefore produces the same result bag.
-\end{proof}
-
-\begin{corollary}\label{cor_bfr}
-Any FedQPL query plan that distributes triple patterns to multiple federation members via \texttt{UNION} produces results equivalent to evaluating the original query over a \ac{BKG}.
-\end{corollary}
-
-\begin{proof}
-A FedQPL query plan either routes each triple pattern to exactly one member or routes some patterns to multiple members via \texttt{UNION}.
-In the first case, the plan takes the join-only form of \Cref{prop_no_overlap} and no duplicates arise from federation structure.
-In the second case, for each triple pattern $\mathit{tp}_i$ distributed to $k_i$ members, the \texttt{UNION} produces $k_i$ copies of each result.
-By \Cref{def_bkg}, that triple appears with multiplicity $k_i$ in the \ac{BKG}.
-The multiplicities therefore coincide in both evaluations.
-\end{proof}
-
-In \ac{ASSF}, the source selection algorithm determines the form of the FedQPL query plan.
-When the plan contains \texttt{UNION} over multiple members for some triple pattern, \Cref{cor_bfr} applies and the evaluation follows bag semantics.
-When the plan uses only joins, \Cref{prop_no_overlap} applies and bag-set semantics hold.
-The \emph{\acl{BFR}} thus covers the full spectrum of union-based federation strategies.
+Together, \Cref{prop_no_overlap,prop_duplicate_fed_mem} establish the \ac{BFR}.
+Evaluating a \ac{UCFQ} yields the same result bag, under bag semantics, as joining each branch's triple pattern $\mathit{tp}_i$ over the \ac{BKG} of its sub-federation $F_i$.
+When every branch ranges over the same sub-federation, this target is a single \ac{BKG}, and the resulting bag \ac{CQ} containment is taken up in \Cref{sec:related_works_qc}.
 
 \end{document}
