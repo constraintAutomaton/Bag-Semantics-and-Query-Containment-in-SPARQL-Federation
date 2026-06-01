@@ -80,11 +80,11 @@ Intuitively, a virtual operator aggregates the members of each branch's sub-fede
 
 \subsection{Federated Queries Using Automatic Source Selection}\label{sec_fed_query_without_service}
 Under automatic source selection, a query written as a \ac{CQ} can be evaluated as a \ac{UCQ}, and therefore return a bag rather than a set.
-This happens when duplicate data is stored across several SPARQL endpoints of the federation, which the engine retrieves from each endpoint and combines by \texttt{UNION}.
+This happens when duplicate data is stored across several members of the federation, which the engine retrieves from each member and combines by \texttt{UNION}.
 The assignment of triple patterns to federation members is delegated to the query engine rather than expressed in the query syntax.
 This mechanism is not defined in the SPARQL specification but has been formalized by \citeauthor{Cheng2021}~\cite{Cheng2021}.
 
-A pattern matched by several members is returned once per member, and when the query joins several such patterns these multiplicities increase.
+Joining several such patterns increases the multiplicity of the resulting solution mappings.
 A projection-free \ac{CQ} can therefore return duplicate solution mappings, even though every member stores a set.
 
 The canonical strategy of automatic source selection is \ac{ESA}, which sends every triple pattern to every federation member~\cite{Cheng2021}.
@@ -118,19 +118,39 @@ More performant strategies minimize the routing of triple patterns to federation
     \lstinputlisting[style=sparql]{code/bag_federation_service_q.rq}
   \end{minipage}
 
-  \caption{A projection-free \ac{QC} retrieving each person's job, age, e-mail, and identifier from a federation of three members.
+  \caption{A projection-free \ac{CQ} retrieving each person's job, age, e-mail, and identifier from a federation of three members.
   The job registry and the social network redundantly store every person's age and job.
-  Under automatic source selection the query returns a bag of results, whereas with \texttt{SERVICE} clauses it returns the same four solutions as a set.}
+  Under automatic source selection the query returns a bag of results, whereas with \texttt{SERVICE} clauses it returns those solutions as a set.}
   \label{fig:bag-federation-example}
 \end{figure*}
 
-\Cref{fig:bag-federation-example} makes this concrete.
-A federation of three members, an identifier registry, a job registry, and a social network, redundantly stores part of its data, each person's age and current job are recorded by both the job registry and the social network.
+\Cref{fig:bag-federation-example} illustrates this duplication.
+A federation of three members, an identifier registry, a job registry, and a social network, redundantly stores part of its data.
+Each person's age and current job are recorded by both the job registry and the social network.
 The federated query retrieves each person's job, age, e-mail, and identifier.
 It is a \ac{CQ} \emph{without projection}, so on a single endpoint it would return a set.
 Yet under \ac{ESA} the query is in fact a \ac{UCQ} and returns a bag.
 The age and the job of \texttt{ex:jan} are each answered by two members, so the join multiplies their two unions and the solution mapping for \texttt{ex:jan} is returned four times, even though every member contains a set-semantic \ac{KG}.
 The \texttt{SERVICE} query of \Cref{fig:bag-federation-example} is the rewriting one would naturally write, yet it joins the members and returns the solutions as a set, so it does not reproduce this bag.\footnote{An executable demonstration of the semantics of federated queries, evaluated with the Comunica~\cite{taelman_iswc_resources_comunica_2018} query engine, is available at \url{https://github.com/constraintAutomaton/demo-federated-query-semantic}}
+The query that does reproduce the bag instead unions each triple pattern across the members with \texttt{SERVICE} clauses, as in \Cref{fig:bag-federation-union}.
+The query syntax and the set semantics of the underlying \acp{KG} can be misleading, so that seemingly equivalent queries exhibit different result semantics.
+
+Such a query evaluated under \ac{ESA} is a particular case of \ac{UCFQ} (\Cref{def_ucfq}), where every union branch ranges over the entire federation.
+In the FedQPL formalism~\cite{Cheng2021}, it is written as follows.
+
+\begin{equation}
+  \fmj\bigl(\fmu(\freq_{\mathit{fm}_1}^{\mathit{tp}_1}, \dots, \freq_{\mathit{fm}_m}^{\mathit{tp}_1}), \dots, \fmu(\freq_{\mathit{fm}_1}^{\mathit{tp}_n}, \dots, \freq_{\mathit{fm}_m}^{\mathit{tp}_n})\bigr)
+  \label{eq_esa}
+\end{equation}
+
+Most federated query engines produce plans of the same join-over-union shape~\cite{Cheng2021}, for instance FedX~\cite{schwarte2011fedx}, SemaGrow~\cite{charalambidis2015semagrow}, and CostFed~\cite{saleem2018costfed}.
+
+\begin{figure}
+\lstinputlisting[style=sparql]{code/bag_federation_union_q.rq}
+\caption{The query of \Cref{fig:bag-federation-example} as \ac{ESA} evaluates it, each triple pattern unioned across all three members.
+The query is a \ac{UCFQ}, and it returns the same bag as under \ac{ESA}.}
+\label{fig:bag-federation-union}
+\end{figure}
 
 Such join-over-union plans can be rewritten into a \ac{UCFQ}, and the \ac{BFR} (\Cref{sec_bag_federation_reduction}) can transform this type of query as well.
 Under \ac{ESA} every branch ranges over the whole federation, so the query reduces to a \ac{CQ} over a single \ac{BKG}, whereas a plan routing patterns to a subset of members reduces over one \ac{BKG} per branch.
