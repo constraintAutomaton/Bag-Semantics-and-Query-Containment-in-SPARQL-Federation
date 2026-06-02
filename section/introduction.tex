@@ -10,9 +10,9 @@ Bag and bag-set semantic containment have also been studied~\cite{Chaudhuri1993,
 They are typically encoded as \ac{RDF} data, the W3C standard for graph-structured data, and queried with SPARQL, its companion query language.
 SPARQL provides federation through the \texttt{SERVICE} operator~\cite{w3SPARQLFederated}, which executes a sub-query at a SPARQL endpoint identified by a URL.
 This enables virtual data integration across distributed \ac{KG} sources, allowing heterogeneous data to be queried jointly without centralization.
-This is particularly valuable when sources are governed by different policies, maintained by independent parties, or too large to consolidate.
+This is particularly valuable when sources are governed by different policies, are maintained by independent parties, or are too large to consolidate.
 Whether federation members are SPARQL endpoints on an internal network or exposed openly over the Web, federated queries impose substantial computational load on both endpoints and clients.\footnote{The open-Web setting can be fragile. Public SPARQL endpoints frequently experience downtime or performance degradation under load~\cite{buil2013sparql}.}
-This cost is especially acute in workflows such as scientific reproducibility studies, where queries are routinely re-executed or iteratively refined.
+This cost is especially acute in data analysis workflows, where queries are routinely re-executed or iteratively refined.
 Query optimization that avoids such re-execution is therefore highly desirable, and query containment is a foundational mechanism for achieving it.
 
 Existing research on SPARQL query containment has focused on set semantics~\cite{WudageChekol2013}.
@@ -23,6 +23,7 @@ The containing query retrieves the ages of all people in the dataset, whereas th
 Under set semantics, the two queries are contained.
 Under bag-set semantics, however, projecting away variables can introduce duplicates, which occurs in the example whenever an individual holds multiple jobs.\footnote{An executable example is provided at \url{https://github.com/constraintAutomaton/demo-semantic-query-containment-SPARQL} using the Comunica~\cite{taelman_iswc_resources_comunica_2018} query engine and the Specs~\cite{Spasic2023} SPARQL query containment solver.}
 
+\rt{For all query examples, could we use real use cases? For example from uniprot or dbpedia? Only do this if it's feasible, and does not blow up the complexity/understandability of the examples.}
 \begin{figure}
   \textbf{Containing query}
   \lstinputlisting[style=sparql]{code/bag_set_super_q.rq}
@@ -37,7 +38,7 @@ To the best of our knowledge, bag-set semantic SPARQL query containment remains 
 
 This paper bridges these gaps by giving a decision procedure for query containment under bag-set semantics for federated SPARQL queries with \texttt{SERVICE} clauses.
 We additionally cover \ac{UCFQ}, a class in which each disjunct is a \ac{CQ} evaluated over a distinct federation member.
-This class strictly extends \ac{CQ} but lies inside \ac{UCQ}.
+This class strictly extends \ac{CQ} but lies inside \ac{UCQ} \rt{Typo}.
 It is of further interest because it captures \acp{CQ} of federated queries using under automatic source selection~\cite{Cheng2021}.
-The procedure relies on \ac{BFR}, a transformation from \ac{UCQ} to \ac{CQ} under bag semantics.
+The procedure relies on \ac{BFR}, a transformation from \ac{UCQ} to \ac{CQ} under bag semantics.\rt{Should be clarified that you introduce this transformation yourself}
 We first present the \hyperref[sec:preliminaries]{preliminaries} and \hyperref[sec:related_works]{related work}, then formalize the \hyperref[sec:semantic_federated_q]{semantics of federated SPARQL queries}, establish the \hyperref[sec:federated_queries_query_containment]{containment conditions}, and present a \hyperref[sec:resolution]{decision procedure}, before \hyperref[sec:conclusion]{concluding}.

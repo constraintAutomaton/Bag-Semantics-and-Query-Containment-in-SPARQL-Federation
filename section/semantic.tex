@@ -7,7 +7,7 @@ This choice determines whether and how duplicate results can arise, which direct
 SPARQL queries on single sources are evaluated under bag-set semantics.
 The underlying \ac{KG} operates under set semantics~\cite{w3ConceptsAbstract}, whereas SPARQL operators produce bags.
 The choice between bag and set semantics has a significant impact on the complexity and decidability of query containment~\cite{Chaudhuri1993}.
-In the relational-database setting, \citeauthor{Chaudhuri1993}~\cite{Chaudhuri1993, Afrati2010} established that for \acp{CQ} only projection can increase the multiplicity of a result.
+For relational databases, \citeauthor{Chaudhuri1993}~\cite{Chaudhuri1993, Afrati2010} established that for \acp{CQ} only projection can increase the multiplicity of a result.
 The same property holds for SPARQL \acp{CQ}: the only body operator is \texttt{JOIN}, and \Cref{prop_cq_join_no_dup} shows that \texttt{JOIN} cannot raise the multiplicity, so projection at the head remains the only operator that can do so.
 In the context of \ac{UCQ}, the multiplicity can additionally be increased by \texttt{UNION} and by the combination of \texttt{UNION} and \texttt{JOIN}, as defined in \Cref{def_union_multiplicity,def_join_multiplicity}.
 \ac{UCQ} is not the subject of our study; however, in the next sections we introduce \ac{UCFQ}, a subclass of \ac{UCQ}, together with the semantics of federated queries.
@@ -16,10 +16,11 @@ In the context of \ac{UCQ}, the multiplicity can additionally be increased by \t
 
 
 \subsection{Federated Queries}
-A \ac{KG} is set-semantic, and querying a single endpoint yields bag-set semantics.
+A \ac{KG} is stored under set-semantics, and querying a single endpoint operates under bag-set semantics.
 A federated query, however, combines solution mappings drawn from several \acp{KG} at once, so it is not obvious whether spanning multiple members can introduce duplicate results.
 We therefore examine the semantics of federated query evaluation.
-The SPARQL federated query extension~\cite{w3SPARQLFederated} defines the execution of federated queries with \texttt{SERVICE} clauses as a join between the bag of solution mappings from the preceding execution and the bag of solution mappings returned by the SPARQL service.
+\rt{You explicitly cite the spec a lot hereafter. It can probably be reduced a bit.}
+The SPARQL federated query specification~\cite{w3SPARQLFederated} defines the execution of federated queries with \texttt{SERVICE} clauses as a join between the bag of solution mappings from the preceding execution and the bag of solution mappings returned by the SPARQL service.
 \Cref{List:pseudoCodeFederatedQuery} presents the pseudo-code of this operation as taken from the specification~\cite{w3SPARQLFederated}.
 By the SPARQL specification~\cite{w3SPARQLFederated}, the \ac{GP} inside a \texttt{SERVICE} clause has no projection, so each federation member returns a set of solution mappings.
 A \texttt{SERVICE} clause is nested in the query through a \texttt{JOIN}, and \Cref{prop_cq_join_no_dup} shows that such a \texttt{JOIN} cannot increase the multiplicity.
@@ -79,6 +80,11 @@ Intuitively, a virtual operator aggregates the members of each branch's sub-fede
 
 
 \subsection{Federated Queries Using Automatic Source Selection}\label{sec_fed_query_without_service}
+
+\rt{After reading this subsection again, I still find it very confusing. (You even hint to it yourself, saying it can be misleading)
+To be honest, I'm not really sure that the point of this subsection even is.
+The concept of auto-source-sel has already been explained before. So what is added here? Can we remove this subsection? What purpose does it have for the larger paper? Motivating these unions of services? If so, I think we can just explain the ESA, without adding the confusion of how it's different to some manually constructed query with SERVICE clauses.}
+
 Under automatic source selection, a query written as a \ac{CQ} can be evaluated as a \ac{UCQ}, and therefore return a bag rather than a set.
 This happens when duplicate data is stored across several members of the federation, which the engine retrieves from each member and combines by \texttt{UNION}.
 The assignment of triple patterns to federation members is delegated to the query engine rather than expressed in the query syntax.
@@ -91,6 +97,7 @@ The canonical strategy of automatic source selection is \ac{ESA}, which sends ev
 More performant strategies minimize the routing of triple patterns to federation members that cannot answer them, and optimize the size of the \ac{BGP} sent to each member, without sacrificing the completeness of the results.\footnote{A query engine may choose the \ac{ESA} strategy for its simplicity or to avoid analyzing which members to contact.}
 
 \begin{figure*}
+    \rt{The subfigures are still not nicely aligned. I recommend using proper subfigures, each having their own caption and label.}
   \begin{minipage}{0.20\textwidth}
     \textbf{Identifier registry}\\
     \texttt{\scriptsize ex:identifierRegistry}
@@ -130,7 +137,7 @@ Each person's age and current job are recorded by both the job registry and the 
 The federated query retrieves each person's job, age, e-mail, and identifier.
 It is a \ac{CQ} \emph{without projection}, so on a single endpoint it would return a set.
 Yet under \ac{ESA} the query is in fact a \ac{UCQ} and returns a bag.
-The age and the job of \texttt{ex:jan} are each answered by two members, so the join multiplies their two unions and the solution mapping for \texttt{ex:jan} is returned four times, even though every member contains a set-semantic \ac{KG}.
+The age and the job of \texttt{ex:jan} are each answered by two members, so the join multiplies their two unions and the solution mapping for \texttt{ex:jan} is returned four times, even though every member contains a \ac{KG} under set-semantics.
 The \texttt{SERVICE} query of \Cref{fig:bag-federation-example} is the rewriting one would naturally write, yet it joins the members and returns the solutions as a set, so it does not reproduce this bag.\footnote{An executable demonstration of the semantics of federated queries, evaluated with the Comunica~\cite{taelman_iswc_resources_comunica_2018} query engine, is available at \url{https://github.com/constraintAutomaton/demo-federated-query-semantic}}
 The query that does reproduce the bag instead unions each triple pattern across the members with \texttt{SERVICE} clauses, as in \Cref{fig:bag-federation-union}.
 The query syntax and the set semantics of the underlying \acp{KG} can be misleading, so that seemingly equivalent queries exhibit different result semantics.

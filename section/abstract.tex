@@ -1,9 +1,12 @@
 \begin{abstract}
-Querying federations of distributed data sources lets applications integrate heterogeneous datasets without centralizing them, but places significant computational load on both federation endpoints and querying clients.
-In settings such as scientific reproducibility studies, queries are frequently re-executed or iteratively refined, compounding this cost.
-Query containment is a classical mechanism enabling a range of techniques to optimize queries.
+Querying federations of distributed data sources lets applications integrate multiple datasets without first having to centralize them,
+but comes at the cost of higher execution times and bandwidth usage.
+In various use cases such as data analyses, queries are frequently re-executed or iteratively refined, compounding this cost.
+Materialized views and query containment form the basis for improving the performance of such query sequences.
 Query containment for federated SPARQL queries, however, remains unexplored.
-This paper closes this gap by giving a decision procedure for query containment under bag-set semantics for federated SPARQL queries with \texttt{SERVICE} clauses.
-We additionally cover \aclp{UCFQ}, a fragment strictly between \aclp{CQ} and \aclp{UCQ} that captures the queries arising under automatic source selection.
+This paper focuses on closing this gap by formalizing query containment under bag-set semantics for federated SPARQL queries,
+as SPARQL offers a natural foundation for integrating RDF data via universal identifiers and global semantics.
+\rt{These last sentences are too detailed for an abstract}
+We additionally cover \aclp{UCFQ}, a fragment strictly between \aclp{CQ} and \aclp{UCQ} that captures the queries arising under automatic source selection.\rt{The reader has no idea what automatic source selection is.}
 The procedure relies on \acl{BFR}, a transformation from \acl{UCQ} to \acl{CQ} under bag semantics.
 \end{abstract}
