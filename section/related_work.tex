@@ -48,7 +48,7 @@ Because Service-Safeness is not part of the specification and multiple SPARQL qu
 \citeauthor{Cheng2021}~\cite{Cheng2021} proposed FedQPL, a formalism to express federated queries under automatic source selection.
 Automatic source selection provides algorithms that alleviate the practical difficulty of determining which federation member each subquery should be sent to~\cite{hanski2025observations}.
 Thus, users can query a federation without knowing how the data is distributed.
-Furthermore, \citeauthor{Cheng2021}~\cite{Cheng2021} introduces \ac{ESA}, a canonical source-selection algorithm that requires no prior information about the federation.
+Furthermore, \citeauthor{Cheng2021}~\cite{Cheng2021} introduce \ac{ESA}, a canonical source-selection algorithm that requires no prior information about the federation.
 In \ac{ESA}, each triple pattern is evaluated against every federation member and the results are combined via bag union, guaranteeing complete results regardless of how data is distributed across the federation.
 
 To the best of our knowledge, no contribution has addressed query containment for federated SPARQL queries; this is the gap our paper addresses.
