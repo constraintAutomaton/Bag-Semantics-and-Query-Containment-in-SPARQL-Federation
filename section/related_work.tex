@@ -42,7 +42,7 @@ Extensions incorporating RDF schemas, OWL entailment regimes~\cite{WudageChekol2
 
 Federated SPARQL queries have been approached from two perspectives: explicit federation through the \texttt{SERVICE} clause, and automatic source selection.
 The SPARQL 1.1 Federated Query specification~\cite{w3SPARQLFederated} introduces the \texttt{SERVICE} clause as the W3C standard mechanism for directing subexpressions to specific endpoints.
-The SPARQL specification mentions the use of variables as endpoint \acp{IRI} in \texttt{SERVICE} clauses but does not give an official interpretation of their behavior.~\footnote{\url{https://www.w3.org/TR/sparql11-federated-query/\#variableService}}
+The SPARQL specification mentions the use of variables as endpoint \acp{IRI} in \texttt{SERVICE} clauses but does not give an official interpretation of their behavior.\footnote{\url{https://www.w3.org/TR/sparql11-federated-query/\#variableService}}
 \citeauthor{BuilAranda2013}~\cite{BuilAranda2013} introduced \emph{Service-Safeness}, a syntactic rule outside the SPARQL specification that makes such queries computable by guaranteeing a finite set of federation members.
 Because Service-Safeness is not part of the specification and multiple SPARQL query engines use their own interpretation, this paper does not consider variables as endpoint \acp{IRI}.
 \citeauthor{Cheng2021}~\cite{Cheng2021} proposed FedQPL, a formalism to express federated queries under automatic source selection.

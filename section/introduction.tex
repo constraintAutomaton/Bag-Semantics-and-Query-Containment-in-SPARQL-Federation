@@ -18,7 +18,7 @@ Query optimization that avoids such re-execution is therefore highly desirable, 
 Existing research on SPARQL query containment has focused on set semantics~\cite{WudageChekol2013}.
 Yet the SPARQL query language operates under bag-set semantics~\cite{Perez2006, Angles2016}: the underlying database follows set semantics~\cite{w3ConceptsAbstract}, while query operators produce bags\footnote{A bag, or multiset, is similar to a set but allows duplicate elements.}~\cite{w3SPARQLQuery}.
 Set-semantic containment does not imply bag-set semantic containment, so existing containment results do not apply to real-world SPARQL query optimization.
-For example\footnote{Inspired by \citeauthor{Chaudhuri1993}}, \Cref{fig:bag-set-example} presents a containing query (a query whose results always include those of a contained query, regardless of the database) and a contained query.
+For example,\footnote{Inspired by \citeauthor{Chaudhuri1993}} \Cref{fig:bag-set-example} presents a containing query (a query whose results always include those of a contained query, regardless of the database) and a contained query.
 The containing query retrieves the ages of all people in the dataset, whereas the contained query refines it to those who have a job.
 Under set semantics, the two queries are contained.
 Under bag-set semantics, however, projecting away variables can introduce duplicates, which occurs in the example whenever an individual holds multiple jobs.\footnote{An executable example is provided at \url{https://github.com/constraintAutomaton/demo-semantic-query-containment-SPARQL} using the Comunica~\cite{taelman_iswc_resources_comunica_2018} query engine and the Specs~\cite{Spasic2023} SPARQL query containment solver.}
@@ -38,6 +38,6 @@ To the best of our knowledge, bag-set semantic SPARQL query containment remains 
 This paper bridges these gaps by giving a decision procedure for query containment under bag-set semantics for federated SPARQL queries with \texttt{SERVICE} clauses.
 We additionally cover \ac{UCFQ}, a class in which each disjunct is a \ac{CQ} evaluated over a distinct federation member.
 This class strictly extends \ac{CQ} but lies inside \ac{UCQ}.
-It is of further interest because it captures \acp{CQ} of federated queries using under automatic source selection~\cite{Cheng2021}.
+It is of further interest because it captures \acp{CQ} of federated queries under automatic source selection~\cite{Cheng2021}.
 The procedure relies on \ac{BFR}, a transformation from \ac{UCQ} to \ac{CQ} under bag semantics.
 We first present the \hyperref[sec:preliminaries]{preliminaries} and \hyperref[sec:related_works]{related work}, then formalize the \hyperref[sec:semantic_federated_q]{semantics of federated SPARQL queries}, establish the \hyperref[sec:federated_queries_query_containment]{containment conditions}, and present a \hyperref[sec:resolution]{decision procedure}, before \hyperref[sec:conclusion]{concluding}.
