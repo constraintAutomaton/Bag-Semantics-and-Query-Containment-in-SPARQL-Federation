@@ -1,10 +1,13 @@
 \section{Conclusion}\label{sec:conclusion}
 
-This paper formalizes query containment for conjunctive SPARQL federated queries under bag-set semantics.
-We distinguish two source-selection mechanisms, \ac{UDF} and \ac{ASSF}, and an orthogonal axis between \ac{SSA} and \ac{DSA} that captures when source assignment is determined.
-We introduce the \ac{BFR}, a transformation showing that \ac{ASSF} evaluation is equivalent to evaluating the original \ac{CQ} against a \ac{BKG} under bag semantics, which lets us inherit existing bag-semantic \ac{CQ} containment results into the federated setting.
+SPARQL queries are evaluated under bag-set semantics and support federation through the \texttt{SERVICE} operator, yet query containment had been studied only under set semantics and never for federated queries.
+This paper gives the first decision procedure for query containment of federated SPARQL queries under bag-set semantics.
+We additionally propose the \ac{UCFQ}---a special case of the \ac{UCQ}---which encapsulates a class of automatic source selection queries, and the \ac{BFR}, which assists the solving of this class by transforming the query into a \ac{CQ} evaluated under bag semantics.
 
-These results open the door to result caching and reuse across federated SPARQL workflows.
-This has direct applications to query optimization, incremental querying, and the reproducibility of federated SPARQL data access workflows.
+We analyze the semantics of federated evaluation, showing when a federated query remains bag-set, as for a \ac{CQ} with \texttt{SERVICE} clauses, and when it instead returns a bag.
+We then establish a necessary and sufficient condition for federated query containment, together with a decision procedure that reuses existing \ac{CQ} containment solvers.
 
-Future work could consist of investigating containment between queries evaluated under bag and bag-set semantics in the context of the \ac{BFR}, analyzing the complexity of the proposed containment condition, implementing it in a query containment solver, and extending the framework to additional SPARQL fragments.
+By bringing query containment to federated SPARQL, these results enable the optimizations it classically underpins---caching, view selection, and query rewriting---in the federated setting.
+This is especially valuable in workflows such as data analyses, where queries are repeatedly re-executed or iteratively refined, helping reduce the computational load federated queries place on endpoints and clients.
+
+Future work includes a concrete implementation of the decision procedure, for instance by orchestrating an existing query containment solver such as Specs~\cite{Spasic2023}, together with an empirical evaluation; adapting existing SPARQL query containment benchmarks for bag-set and federated queries; investigating containment across the bag and bag-set boundary introduced by the \ac{BFR}; exploiting knowledge of federation-member \acp{IRI}---such as guaranteed disjointness---to simplify containment; supporting union-over-join source-selection plans; and extending the framework to richer SPARQL fragments.

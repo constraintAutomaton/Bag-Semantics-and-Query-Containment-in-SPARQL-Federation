@@ -19,9 +19,8 @@ In the context of \ac{UCQ}, the multiplicity can additionally be increased by \t
 A \ac{KG} is set-semantic, and querying a single endpoint yields bag-set semantics.
 A federated query, however, combines solution mappings drawn from several \acp{KG} at once, so it is not obvious whether spanning multiple members can introduce duplicate results.
 We therefore examine the semantics of federated query evaluation.
-The SPARQL federated query extension~\cite{w3SPARQLFederated} defines the execution of federated queries with \texttt{SERVICE} clauses as a join between the bag of solution mappings from the preceding execution and the bag of solution mappings returned by the SPARQL service.
-\Cref{List:pseudoCodeFederatedQuery} presents the pseudo-code of this operation as taken from the specification~\cite{w3SPARQLFederated}.
-By the SPARQL specification~\cite{w3SPARQLFederated}, the \ac{GP} inside a \texttt{SERVICE} clause has no projection, so each federation member returns a set of solution mappings.
+The SPARQL federated query specification~\cite{w3SPARQLFederated} defines the execution of \texttt{SERVICE} clauses as a join between the bag of solution mappings from the preceding execution and the bag returned by the SPARQL service, with the pseudo-code reproduced in \Cref{List:pseudoCodeFederatedQuery}.
+The \ac{GP} inside a \texttt{SERVICE} clause has no projection, so each federation member returns a set of solution mappings.
 A \texttt{SERVICE} clause is nested in the query through a \texttt{JOIN}, and \Cref{prop_cq_join_no_dup} shows that such a \texttt{JOIN} cannot increase the multiplicity.
 Hence, even when some federation members hold duplicate information, the federated query produces no duplicate results, and \ac{CQ} evaluation with \texttt{SERVICE} clauses remains under bag-set semantics.
 
@@ -48,22 +47,62 @@ The \texttt{SERVICE} call is evaluated as an extension of the Group Graph Patter
 
 \subsection{\acl{UCFQ}}
 
-We define a particular class of federated queries, useful for instance when one needs to capture duplicate information held by different federation members.
-Each triple pattern of the query body is evaluated across several members and the partial results are joined, yielding a fragment strictly between the \acp{CQ} and the \acp{UCQ}.
+We define a particular class of federated queries, useful for capturing duplicate information held by different federation members.
+Each triple pattern of the query body is evaluated across several members and the partial results are joined.
 
 \begin{definition}[\acl{UCFQ}]\label{def_ucfq}
 A \ac{UCFQ} is a multiway join $\fmj(U_1, \dots, U_n)$ where each operand $U_i = \fmu(\freq_{I_1}^{\mathit{tp}_i}, \dots, \freq_{I_{k_i}}^{\mathit{tp}_i})$ is a multiway union evaluating the same triple pattern $\mathit{tp}_i$ at a subset of federation members $I_1, \dots, I_{k_i}$.
 \end{definition}
 
 A \ac{CQ} is the special case where every union ranges over a single member, and every \ac{UCFQ} is a \ac{UCQ}, so the \acp{UCFQ} lie strictly between the \acp{CQ} and the \acp{UCQ}.
-Each triple pattern of the main query is a single-member union over the main endpoint $\mathit{fm}_g$, written $\fmu(\freq_{\mathit{fm}_g}^{\mathit{tp}})$.
-\Cref{lst:ucfq_example} gives an example \ac{UCFQ} expressed in SPARQL 1.1 syntax~\cite{w3SPARQLFederated}, retrieving each person's age from the main endpoint and their job from two members.
+In particular, each triple pattern of a \ac{CQ} is the single-member union $\fmu(\freq_{\mathit{fm}}^{\mathit{tp}})$ over the member $\mathit{fm}$ at which it is evaluated.
 
-\begin{figure}
-\lstinputlisting[style=sparql]{code/ucfq_example.rq}
-\caption{A \ac{UCFQ} joining each person's age from the main endpoint with their job, unioned from the \texttt{ex:jobs} and \texttt{ex:socials} members. A person whose job is recorded by both members can appear twice, so the result can hold duplicates.}
-\label{lst:ucfq_example}
-\end{figure}
+\acp{UCFQ} arise under automatic source selection, in particular \ac{ESA} (\Cref{sec:related_works_fed}).
+\Cref{fig:ucfq-example} shows a federation whose job registry and social network redundantly store the job and age of \texttt{ex:jan}.
+The projection-free \ac{CQ} retrieving each person's job and age (\Cref{fig:ucfq-cq}) would return a set on a single endpoint, but under \ac{ESA} it is evaluated as the \ac{UCFQ} of \Cref{fig:ucfq-query}, unioning each triple pattern across both members before joining them.
+The job and age of \texttt{ex:jan} are each answered by both members, so the join multiplies the two unions and \texttt{ex:jan} is returned four times, even though every member stores a set.\footnote{An executable demonstration of the semantics of federated queries, evaluated with the Comunica~\cite{taelman_iswc_resources_comunica_2018} query engine, is available at \url{https://github.com/constraintAutomaton/demo-federated-query-semantic}.}
+
+\begin{figure*}
+  \centering
+  \begin{subfigure}[b]{0.48\textwidth}
+    \lstinputlisting[basicstyle=\ttfamily\scriptsize,breaklines=true,firstline=3]{code/bag_federation_job.ttl}
+    \caption{Job registry \texttt{ex:jobRegistry}}
+    \label{fig:job-registry}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+    \lstinputlisting[basicstyle=\ttfamily\scriptsize,breaklines=true,firstline=3]{code/bag_federation_social.ttl}
+    \caption{Social network \texttt{ex:socialNetwork}}
+    \label{fig:social-network}
+  \end{subfigure}
+
+  \medskip
+
+  \begin{subfigure}[b]{0.48\textwidth}
+    \begin{minipage}[c][4cm][c]{\linewidth}
+      \lstinputlisting[style=sparql]{code/ucfq_cq.rq}
+    \end{minipage}
+    \caption{The projection-free \ac{CQ} as written.}
+    \label{fig:ucfq-cq}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+    \begin{minipage}[c][4cm][c]{\linewidth}
+      \lstinputlisting[style=sparql]{code/ucfq_example.rq}
+    \end{minipage}
+    \caption{The same query as \ac{ESA} evaluates it: a \ac{UCFQ} unioning each triple pattern across both members.}
+    \label{fig:ucfq-query}
+  \end{subfigure}
+  \caption{A federation of two members redundantly storing the job and age of \texttt{ex:jan}. Under automatic source selection, the projection-free \ac{CQ} retrieving each person's job and age is evaluated as a \ac{UCFQ}, returning \texttt{ex:jan} four times.}
+  \label{fig:ucfq-example}
+\end{figure*}
+
+\ac{ESA} is a particular case of \ac{UCFQ} where every union branch ranges over the whole federation $\{\mathit{fm}_1, \dots, \mathit{fm}_m\}$:
+\begin{equation}
+  \fmj\bigl(\fmu(\freq_{\mathit{fm}_1}^{\mathit{tp}_1}, \dots, \freq_{\mathit{fm}_m}^{\mathit{tp}_1}), \dots, \fmu(\freq_{\mathit{fm}_1}^{\mathit{tp}_n}, \dots, \freq_{\mathit{fm}_m}^{\mathit{tp}_n})\bigr)
+  \label{eq_esa}
+\end{equation}
+
+Most federated engines produce plans of this same join-over-union shape---for instance FedX~\cite{schwarte2011fedx}, SemaGrow~\cite{charalambidis2015semagrow}, and CostFed~\cite{saleem2018costfed}---which can likewise be rewritten as \acp{UCFQ}.
+Automatic source selection can, however, yield an arbitrary shape, for instance the union-over-join plans of~\cite{aimonier2024fedup}; our approach therefore cannot encapsulate every such query.
 
 Because the \acp{UCFQ} sit inside the \acp{UCQ}, their containment inherits the undecidability of bag-set \ac{UCQ} containment~(\Cref{sec:related_works_qc}).
 To address this, the next section introduces the \ac{BFR}, a transformation showing that evaluating a \ac{UCFQ} is equivalent to evaluating a \ac{CQ} over one \ac{BKG} per union branch under bag semantics.
@@ -76,81 +115,3 @@ We propose the \ac{BFR}, a transformation that rewrites a \ac{UCFQ} as a \ac{CQ}
 Intuitively, a virtual operator aggregates the members of each branch's sub-federation into a \ac{BKG} and evaluates the branch's triple pattern over it.
 
 \subfile{proofs/bag_federation_reduction}
-
-
-\subsection{Federated Queries Using Automatic Source Selection}\label{sec_fed_query_without_service}
-Under automatic source selection, a query written as a \ac{CQ} can be evaluated as a \ac{UCQ}, and therefore return a bag rather than a set.
-This happens when duplicate data is stored across several members of the federation, which the engine retrieves from each member and combines by \texttt{UNION}.
-The assignment of triple patterns to federation members is delegated to the query engine rather than expressed in the query syntax.
-This mechanism is not defined in the SPARQL specification but has been formalized by \citeauthor{Cheng2021}~\cite{Cheng2021}.
-
-Joining several such patterns increases the multiplicity of the resulting solution mappings.
-A projection-free \ac{CQ} can therefore return duplicate solution mappings, even though every member stores a set.
-
-The canonical strategy of automatic source selection is \ac{ESA}, which sends every triple pattern to every federation member~\cite{Cheng2021}.
-More performant strategies minimize the routing of triple patterns to federation members that cannot answer them, and optimize the size of the \ac{BGP} sent to each member, without sacrificing the completeness of the results.\footnote{A query engine may choose the \ac{ESA} strategy for its simplicity or to avoid analyzing which members to contact.}
-
-\begin{figure*}
-  \begin{minipage}{0.20\textwidth}
-    \textbf{Identifier registry}\\
-    \texttt{\scriptsize ex:identifierRegistry}
-    \lstinputlisting[basicstyle=\ttfamily\scriptsize,breaklines=true,firstline=3]{code/bag_federation_id.ttl}
-  \end{minipage}\hfill
-  \begin{minipage}{0.36\textwidth}
-    \textbf{Job registry}\\
-    \texttt{\scriptsize ex:jobRegistry}
-    \lstinputlisting[basicstyle=\ttfamily\scriptsize,breaklines=true,firstline=3]{code/bag_federation_job.ttl}
-  \end{minipage}\hfill
-  \begin{minipage}{0.42\textwidth}
-    \textbf{Social network}\\
-    \texttt{\scriptsize ex:socialNetwork}
-    \lstinputlisting[basicstyle=\ttfamily\scriptsize,breaklines=true,firstline=3]{code/bag_federation_social.ttl}
-  \end{minipage}
-
-  \medskip
-
-  \begin{minipage}{0.48\textwidth}
-    \textbf{Federated query under automatic source selection}
-    \lstinputlisting[style=sparql]{code/bag_federation_esa_q.rq}
-  \end{minipage}\hfill
-  \begin{minipage}{0.48\textwidth}
-    \textbf{A similar query with \texttt{SERVICE} clauses}
-    \lstinputlisting[style=sparql]{code/bag_federation_service_q.rq}
-  \end{minipage}
-
-  \caption{A projection-free \ac{CQ} retrieving each person's job, age, e-mail, and identifier from a federation of three members.
-  The job registry and the social network redundantly store every person's age and job.
-  Under automatic source selection the query returns a bag of results, whereas with \texttt{SERVICE} clauses it returns those solutions as a set.}
-  \label{fig:bag-federation-example}
-\end{figure*}
-
-\Cref{fig:bag-federation-example} illustrates this duplication.
-A federation of three members, an identifier registry, a job registry, and a social network, redundantly stores part of its data.
-Each person's age and current job are recorded by both the job registry and the social network.
-The federated query retrieves each person's job, age, e-mail, and identifier.
-It is a \ac{CQ} \emph{without projection}, so on a single endpoint it would return a set.
-Yet under \ac{ESA} the query is in fact a \ac{UCQ} and returns a bag.
-The age and the job of \texttt{ex:jan} are each answered by two members, so the join multiplies their two unions and the solution mapping for \texttt{ex:jan} is returned four times, even though every member contains a set-semantic \ac{KG}.
-The \texttt{SERVICE} query of \Cref{fig:bag-federation-example} is the rewriting one would naturally write, yet it joins the members and returns the solutions as a set, so it does not reproduce this bag.\footnote{An executable demonstration of the semantics of federated queries, evaluated with the Comunica~\cite{taelman_iswc_resources_comunica_2018} query engine, is available at \url{https://github.com/constraintAutomaton/demo-federated-query-semantic}}
-The query that does reproduce the bag instead unions each triple pattern across the members with \texttt{SERVICE} clauses, as in \Cref{fig:bag-federation-union}.
-The query syntax and the set semantics of the underlying \acp{KG} can be misleading, so that seemingly equivalent queries exhibit different result semantics.
-
-Such a query evaluated under \ac{ESA} is a particular case of \ac{UCFQ} (\Cref{def_ucfq}), where every union branch ranges over the entire federation.
-In the FedQPL formalism~\cite{Cheng2021}, it is written as follows.
-
-\begin{equation}
-  \fmj\bigl(\fmu(\freq_{\mathit{fm}_1}^{\mathit{tp}_1}, \dots, \freq_{\mathit{fm}_m}^{\mathit{tp}_1}), \dots, \fmu(\freq_{\mathit{fm}_1}^{\mathit{tp}_n}, \dots, \freq_{\mathit{fm}_m}^{\mathit{tp}_n})\bigr)
-  \label{eq_esa}
-\end{equation}
-
-Most federated query engines produce plans of the same join-over-union shape~\cite{Cheng2021}, for instance FedX~\cite{schwarte2011fedx}, SemaGrow~\cite{charalambidis2015semagrow}, and CostFed~\cite{saleem2018costfed}.
-
-\begin{figure}
-\lstinputlisting[style=sparql]{code/bag_federation_union_q.rq}
-\caption{The query of \Cref{fig:bag-federation-example} as \ac{ESA} evaluates it, each triple pattern unioned across all three members.
-The query is a \ac{UCFQ}, and it returns the same bag as under \ac{ESA}.}
-\label{fig:bag-federation-union}
-\end{figure}
-
-Such join-over-union plans can be rewritten into a \ac{UCFQ}, and the \ac{BFR} (\Cref{sec_bag_federation_reduction}) can transform this type of query as well,
-thus resolving query containment for a class of automatic source selection queries.

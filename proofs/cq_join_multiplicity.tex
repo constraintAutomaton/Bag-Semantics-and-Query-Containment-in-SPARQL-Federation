@@ -12,7 +12,7 @@ By \Cref{def_join_multiplicity}, $\operatorname{multiplicity}(\mu \mid \texttt{J
 We rule out both in the context of a \ac{CQ}.
 
 Case (i).
-For $|m(\mu)| > 1$, two distinct pairs of solution mappings must merge to the same $\mu$, which derived from \Cref{def_merge} requires an input bag to contain solution mappings with different domains, for instance $\Omega_1 = [\{?x \mapsto a\}, \{?y \mapsto b, ?x \mapsto a\}]$ and $\Omega_2 = [ \{?y \mapsto b, ?x \mapsto a\}, \{?x \mapsto a\}]$.
+For $|m(\mu)| > 1$, two distinct pairs of solution mappings must merge to the same $\mu$, which by \Cref{def_merge} requires an input bag to contain solution mappings with different domains, for instance $\Omega_1 = [\{?x \mapsto a\}, \{?y \mapsto b, ?x \mapsto a\}]$ and $\Omega_2 = [ \{?y \mapsto b, ?x \mapsto a\}, \{?x \mapsto a\}]$.
 No \ac{CQ} bag can have this shape: a triple pattern, or a \ac{BGP}, binds a fixed set of variables, and a \texttt{JOIN} returns only the merges of compatible solution mappings, each over the union of the two input domains, and rejects the rest.
 Every bag therefore has a single fixed domain, so $|m(\mu)| \leq 1$.
 

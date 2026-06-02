@@ -9,10 +9,10 @@ Query containment under bag or bag-set semantics is a strictly stronger relation
 The literature does not describe general necessary conditions for containment under bag-set and bag semantics~\cite{ioannidis1995containment, khamis2021bag}; however, sufficient conditions have been identified.
 Furthermore, the general case of bag or bag-set semantic query containment for \ac{UCQ} has been shown to be undecidable~\cite{ioannidis1995containment, Jayram2006, Afrati2010}.
 However, some fragments of bag-set and bag semantic conjunctive queries have been proven decidable~\cite{khamis2021bag, KOPPARTY20111097, Chaudhuri1993, Afrati2010}.
-\Cref{tab_decidable_containment_bag_bag_set} presents query fragments with decidable bag and bag-set query containment.
+\Cref{tab_decidable_containment_bag_bag_set} presents query fragments with decidable bag and bag-set query containment.\footnote{Inspired by \citeauthor{Afrati2010}~\cite{Afrati2010}.}
 
 \begin{table*}
-  \caption[Decidable bag and bag-set query fragments]{Decidable bag and bag-set query fragments\protect\footnote{Inspired by \citeauthor{Afrati2010}~\cite{Afrati2010}.}}
+  \caption{Decidable bag and bag-set query fragments.}
   \label{tab_decidable_containment_bag_bag_set}
   \begin{tabular}{llll}
     \toprule
@@ -20,15 +20,15 @@ However, some fragments of bag-set and bag semantic conjunctive queries have bee
     \midrule
     General \ac{CQ}~\cite{Chaudhuri1993} & Bag and Bag-set & $\Pi^p_2$-hard & No\\
 
-    \ac{CQ} where $Q_2$ is without projections~\cite{Afrati2010} & Bag-set & NP-complete & Yes\\
-    \ac{CQ} where $Q_2$ is without projections~\cite{Konstantinidis2019} & Bag & $\Pi^p_2$ & Yes\\
+    \ac{CQ} where $Q_1$ is without projections~\cite{Afrati2010} & Bag-set & NP-complete & Yes\\
+    \ac{CQ} where $Q_1$ is without projections~\cite{Konstantinidis2019} & Bag & $\Pi^p_2$ & Yes\\
 
     \ac{CQ} where $Q_1$ and $Q_2$ are without projections~\cite{Afrati2010} & Bag-set & $O(n^2\log(n))$ & Yes\\
     \ac{CQ} where $Q_1$ and $Q_2$ are without projections~\cite{Afrati2010} & Bag & $O(n^2\log(n))$ & Yes\\
 
-    Pathstar \ac{CQ}~\cite{Afrati2010} & Bag and Bag-set & $O(n^2 \cdot \log(n))$ & Yes\\
+    Pathstar \ac{CQ}~\cite{Afrati2010} & Bag and Bag-set & $O(n^2\log(n))$ & Yes\\
     Simple general Pathstar \ac{CQ}~\cite{Afrati2010} & Bag and Bag-set & $O(n)$ & Yes\\
-    $Q_2$ is an enhanced version of $Q_1$~\cite{Afrati2010} & Bag-set & $O(n)$ & Yes\\
+    $Q_1$ is an enhanced version of $Q_2$~\cite{Afrati2010} & Bag-set & $O(n)$ & Yes\\
     \bottomrule
   \end{tabular}
 \end{table*}
@@ -38,7 +38,7 @@ In the context of SPARQL, set-semantic query containment has received considerab
 Extensions incorporating RDF schemas, OWL entailment regimes~\cite{WudageChekol2013} and property paths~\cite{Kostylev2025, chekol2016containment} have also been proposed, though these fall outside the scope of this paper.
 
 
-\subsection{Federated Queries}
+\subsection{Federated Queries}\label{sec:related_works_fed}
 
 Federated SPARQL queries have been approached from two perspectives: explicit federation through the \texttt{SERVICE} clause, and automatic source selection.
 The SPARQL 1.1 Federated Query specification~\cite{w3SPARQLFederated} introduces the \texttt{SERVICE} clause as the W3C standard mechanism for directing subexpressions to specific endpoints.

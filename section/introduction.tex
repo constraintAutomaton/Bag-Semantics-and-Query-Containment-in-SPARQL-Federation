@@ -12,7 +12,7 @@ SPARQL provides federation through the \texttt{SERVICE} operator~\cite{w3SPARQLF
 This enables virtual data integration across distributed \ac{KG} sources, allowing heterogeneous data to be queried jointly without centralization.
 This is particularly valuable when sources are governed by different policies, maintained by independent parties, or too large to consolidate.
 Whether federation members are SPARQL endpoints on an internal network or exposed openly over the Web, federated queries impose substantial computational load on both endpoints and clients.\footnote{The open-Web setting can be fragile. Public SPARQL endpoints frequently experience downtime or performance degradation under load~\cite{buil2013sparql}.}
-This cost is especially acute in workflows such as scientific reproducibility studies, where queries are routinely re-executed or iteratively refined.
+This cost is especially acute in workflows such as data analyses, where queries are routinely re-executed or iteratively refined.
 Query optimization that avoids such re-execution is therefore highly desirable, and query containment is a foundational mechanism for achieving it.
 
 Existing research on SPARQL query containment has focused on set semantics~\cite{WudageChekol2013}.
@@ -36,8 +36,8 @@ Under bag-set semantics, however, projecting away variables can introduce duplic
 To the best of our knowledge, bag-set semantic SPARQL query containment remains unexplored, and query containment for federated queries has not been studied either.\footnote{Note that QCan~\cite{salas2018canonicalisation} addresses bag-set semantics, but for query equivalence rather than containment, by transforming SPARQL queries into a canonical form and performing syntactic comparison.}
 
 This paper bridges these gaps by giving a decision procedure for query containment under bag-set semantics for federated SPARQL queries with \texttt{SERVICE} clauses.
-We additionally cover \ac{UCFQ}, a class in which each disjunct is a \ac{CQ} evaluated over a distinct federation member.
+We additionally cover \ac{UCFQ}, a class that unions each triple pattern across several federation members and joins the results.
 This class strictly extends \ac{CQ} but lies inside \ac{UCQ}.
 It is of further interest because it captures \acp{CQ} of federated queries under automatic source selection~\cite{Cheng2021}.
-The procedure relies on \ac{BFR}, a transformation from \ac{UCQ} to \ac{CQ} under bag semantics.
+To decide containment for this class, we introduce the \ac{BFR}, a transformation from \ac{UCFQ} to \ac{CQ} under bag semantics.
 We first present the \hyperref[sec:preliminaries]{preliminaries} and \hyperref[sec:related_works]{related work}, then formalize the \hyperref[sec:semantic_federated_q]{semantics of federated SPARQL queries}, establish the \hyperref[sec:federated_queries_query_containment]{containment conditions}, and present a \hyperref[sec:resolution]{decision procedure}, before \hyperref[sec:conclusion]{concluding}.

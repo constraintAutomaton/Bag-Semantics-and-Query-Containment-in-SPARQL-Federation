@@ -1,7 +1,10 @@
 PREFIX ex: <http://example.org/>
-SELECT ?s ?age WHERE {
-  ?s ex:age ?age .
-  { SERVICE ex:jobs { ?s ex:job ?job } }
+SELECT * WHERE {
+  { SERVICE ex:jobRegistry { ?s ex:job ?job } }
   UNION
-  { SERVICE ex:socials { ?s ex:job ?job } }
+  { SERVICE ex:socialNetwork { ?s ex:job ?job } }
+
+  { SERVICE ex:jobRegistry { ?s ex:age ?age } }
+  UNION
+  { SERVICE ex:socialNetwork { ?s ex:age ?age } }
 }
