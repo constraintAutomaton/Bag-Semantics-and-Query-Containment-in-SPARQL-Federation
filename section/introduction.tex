@@ -3,11 +3,11 @@
 Avoiding redundant computation is a central concern of query optimization.
 Query containment is a classical problem underpinning such optimizations, including caching, view selection, query rewriting, and equivalence checking~\cite{Afrati2019-ch1, DOAN201221, Chaudhuri1993}.
 Under set semantics, containment has been thoroughly characterized for many query fragments~\cite{Chandra1977, aho1979equivalences, aho1979efficient, Chekuri2000}.
-Bag- and bag-set semantic containment have also been studied~\cite{Chaudhuri1993, Afrati2010, khamis2021bag}; however, containment is undecidable for several fragments and some problems remain open.
+Bag and bag-set semantic containment have also been studied~\cite{Chaudhuri1993, Afrati2010, khamis2021bag}; however, containment is undecidable for several fragments and some problems remain open.
 
 
-\acp{KG} have become a widely adopted paradigm for representing and integrating heterogeneous data, supporting applications in scientific data management, enterprise knowledge representation, and the Web of Data.
-They are typically encoded as \ac{RDF}, the W3C standard for graph-structured data, and queried with SPARQL, its companion query language.
+\acp{KG} have become a widely adopted paradigm for representing and integrating heterogeneous data, supporting applications in scientific data management, knowledge representation, and the Web of Data.
+They are typically encoded as \ac{RDF} data, the W3C standard for graph-structured data, and queried with SPARQL, its companion query language.
 SPARQL provides federation through the \texttt{SERVICE} operator~\cite{w3SPARQLFederated}, which executes a sub-query at a SPARQL endpoint identified by a URL.
 This enables virtual data integration across distributed \ac{KG} sources, allowing heterogeneous data to be queried jointly without centralization.
 This is particularly valuable when sources are governed by different policies, maintained by independent parties, or too large to consolidate.

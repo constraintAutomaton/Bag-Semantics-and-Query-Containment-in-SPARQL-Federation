@@ -36,7 +36,7 @@ The \ac{UCFQ} yields the same result bag as joining each $\mathit{tp}_i$ evaluat
 \begin{proof}
 Fix a branch $U_j = \fmu(\dots)$ and a triple $t$ matching $\mathit{tp}_j$, with $m_j$ the number of members of $F_j$ that hold $t$.
 In $U_j$, the solution mapping matching $t$ is returned once by each of those $m_j$ members, so by \Cref{def_union_multiplicity} it has multiplicity $m_j$ in $U_j$.
-In the \ac{BKG} of $F_j$ there is no union, but $t$ is held by those same $m_j$ members and so has multiplicity $m_j$ (\Cref{def_bkg}); evaluating $\mathit{tp}_j$ over it gives that solution mapping the same multiplicity $m_j$.
+In the \ac{BKG} of $F_j$ there is no union, but $t$ is held by those same $m_j$ members and so has multiplicity $m_j$ (\Cref{def_bkg}).
 This holds for every branch and every matching triple, so each branch carries the same multiplicities under both evaluations.
 By \Cref{def_join_multiplicity}, the multiplicity of a joined solution mapping is determined by the multiplicities of the input bags and by which input pairs merge to it.
 Both evaluations feed the join the same per-branch multiplicities and the same solution mappings, so each joined solution mapping receives the same multiplicity in both.
@@ -45,7 +45,6 @@ The two evaluations therefore produce the same result bag.
 
 Together, \Cref{prop_no_overlap,prop_duplicate_fed_mem} establish the \ac{BFR}.
 Evaluating a \ac{UCFQ} yields the same result bag, under bag semantics, as joining each branch's triple pattern $\mathit{tp}_i$ over the \ac{BKG} of its sub-federation $F_i$.
-When every branch ranges over the same sub-federation, this target is a single \ac{BKG}, and the resulting bag \ac{CQ} containment is taken up in \Cref{sec:related_works_qc}.
-Since this rewriting targets \ac{CQ} bag-semantic containment, which is decidable (\Cref{tab_decidable_containment_bag_bag_set}), the \ac{BFR} resolves the undecidability issue raised by \ac{UCFQ} containment under bag-set semantics.
+Since this rewriting targets \ac{CQ} bag containment, which is decidable (\Cref{tab_decidable_containment_bag_bag_set}), the \ac{BFR} resolves the undecidability issue raised by \ac{UCFQ} containment under bag-set semantics.
 
 \end{document}

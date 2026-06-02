@@ -11,7 +11,6 @@ Literals (denoted $\mathcal{L}$) are concrete data values such as strings, numbe
 Blank nodes (denoted $\mathcal{B}$) are anonymous resources with no global identifier.
 \footnote{From a data management perspective, blank nodes have an intricate definition and a long history~\cite{mallea2011blank} that we do not consider in this paper.}
 A triple is formally defined as $(s, p, o)$ where $s \in \mathcal{I} \cup \mathcal{B}$, $p \in \mathcal{I}$, and $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L}$.
-An \ac{RDF} \ac{KG} is a set of such triples.
 
 SPARQL~\cite{w3SPARQLQuery} is the W3C standard language to query \ac{RDF} \ac{KG}.
 SPARQL queries are matched against an \ac{RDF} graph by substituting variables for components of triples.
@@ -27,11 +26,11 @@ A \ac{CQ} is then the special case of a \ac{UCQ} with a single disjunct, so the 
 Matching a \ac{GP} against an \ac{RDF} graph produces a \emph{bag} of \emph{solution mappings}, each a partial function from variables to \ac{RDF} terms.
 The following definitions make precise notions on solution mappings used throughout the paper.
 
-\begin{definition}[Multiplicity~\cite{w3ConceptsAbstract}]\label{def_multiplicity}
+\begin{definition}[Multiplicity~\cite{w3SPARQLQuery}]\label{def_multiplicity}
   Given a multiset or sequence $\Omega$ of solution mappings and a solution mapping $\mu$, we write $\operatorname{multiplicity}(\mu \mid \Omega)$ to denote the number of times $\mu$ appears in $\Omega$.
 \end{definition}
 
-\begin{definition}[Merge~\cite{w3ConceptsAbstract}]\label{def_merge}
+\begin{definition}[Merge~\cite{w3SPARQLQuery}]\label{def_merge}
   Two solution mappings $\mu_1$ and $\mu_2$ are \emph{compatible} if $\mu_1(v)$ and $\mu_2(v)$ are the same \ac{RDF} term~\cite{w3ConceptsAbstract} for every variable $v \in \operatorname{dom}(\mu_1) \cap \operatorname{dom}(\mu_2)$.
   The \emph{merge} of two compatible solution mappings is their union, written $\operatorname{merge}(\mu_1, \mu_2) = \mu_1 \cup \mu_2$.
 \end{definition}
@@ -56,7 +55,7 @@ The following definitions make precise notions on solution mappings used through
 \subsection{Federated Queries}
 
 A SPARQL federated query involves executing different segments of a query across multiple federation members.
-We denote the evaluation of a query over a \ac{KG} $G$ as $\eval{Q}{G}$.
+We denote the evaluation of a query $Q$ over a \ac{KG} $G$ as $\eval{Q}{G}$.
 A set of federation members is called a \emph{federation}.
 Evaluating a query over a federation $F$ involves decomposing $Q$ into subqueries $P_i$, where each subquery $P_i$ is evaluated on a knowledge graph $G_i \in \operatorname{codomain}(f_i \in F)$ held by a federation member.
 We adopt a database-agnostic view of federation members: since query containment does not depend on the content of any particular knowledge graph, we formalize the notion of federation in terms of endpoint \acp{IRI} rather than data.
@@ -72,5 +71,5 @@ To reason about federated query plans we use the FedQPL formalism~\cite{Cheng202
   The \emph{multiway union} $\fmu$ and \emph{multiway join} $\fmj$ combine the results of their arguments by bag union and by join, respectively.
 \end{definition}
 
-A SPARQL $SERVICE(I, P)$ is thus expressed in FedQPL by the request $\freq_{I}^{P}$, linking the specification syntax to the algebra we use throughout.
+A SPARQL $SERVICE(I, P)$ is thus expressed in FedQPL by the request $\freq_{I}^{P}$.
 \footnote{We slightly simplify the formalism: FedQPL has a sophisticated representation of federation members, but for query containment a member can be represented by its \ac{IRI}.}
