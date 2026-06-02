@@ -12,7 +12,7 @@ Blank nodes (denoted $\mathcal{B}$) are anonymous resources with no global ident
 \footnote{From a data management perspective, blank nodes have an intricate definition and a long history~\cite{mallea2011blank} that we do not consider in this paper.}
 A triple is formally defined as $(s, p, o)$ where $s \in \mathcal{I} \cup \mathcal{B}$, $p \in \mathcal{I}$, and $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L}$.
 
-SPARQL~\cite{w3SPARQLQuery} is the W3C standard language to query \ac{RDF} \ac{KG}.
+SPARQL~\cite{w3SPARQLQuery} is the W3C standard language to query \ac{RDF} \acp{KG}.
 SPARQL queries are matched against an \ac{RDF} graph by substituting variables for components of triples.
 A \emph{triple pattern} extends a triple by allowing variables (drawn from a set $\mathcal{V}$, disjoint from $\mathcal{I}$, $\mathcal{B}$, and $\mathcal{L}$) in any position:
 $\mathit{tp} = (s, p, o)$ where $s \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$, $p \in \mathcal{I} \cup \mathcal{V}$, and $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L} \cup \mathcal{V}$.
@@ -24,7 +24,7 @@ A \ac{UCQ} is a union of \acp{CQ}: a query whose body is a \ac{UGP} whose disjun
 A \ac{CQ} is then the special case of a \ac{UCQ} with a single disjunct, so the \acp{CQ} form a subclass of the \acp{UCQ}.
 
 Matching a \ac{GP} against an \ac{RDF} graph produces a \emph{bag} of \emph{solution mappings}, each a partial function from variables to \ac{RDF} terms.
-The following definitions make precise notions on solution mappings used throughout the paper.
+The following definitions make precise the notions of solution mappings used throughout the paper.
 
 \begin{definition}[Multiplicity~\cite{w3SPARQLQuery}]\label{def_multiplicity}
   Given a multiset or sequence $\Omega$ of solution mappings and a solution mapping $\mu$, we write $\operatorname{multiplicity}(\mu \mid \Omega)$ to denote the number of times $\mu$ appears in $\Omega$.
@@ -64,7 +64,7 @@ A \texttt{SERVICE} clause, written \texttt{SERVICE :anIRI \{?s ?p ?o\}} in SPARQ
 where $I$ is the \ac{IRI} locating the federation member and $P$ is the graph pattern to evaluate,
 performs $P$ at the endpoint identified by $I$.
 
-To reason about federated query plans we use the FedQPL formalism~\cite{Cheng2021}, a more formal and extensible algebra, with the operators defined below.
+To reason about federated query plans, we use the FedQPL formalism~\cite{Cheng2021}, a more formal and extensible algebra, with the operators defined below.
 
 \begin{definition}[FedQPL operators~\cite{Cheng2021}]\label{def_fedqpl}
   The \emph{request} $\freq_{\mathit{fm}}^{P}$ evaluates a graph pattern $P$ against a single federation member $\mathit{fm}$.
