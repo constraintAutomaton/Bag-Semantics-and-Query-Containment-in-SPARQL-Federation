@@ -1,10 +1,11 @@
+PREFIX schema: <http://schema.org/>
 PREFIX ex: <http://example.org/>
 SELECT * WHERE {
-  { SERVICE ex:jobRegistry { ?s ex:job ?job } }
+  { SERVICE ex:jobRegistry { ?s schema:jobTitle ?job } }
   UNION
-  { SERVICE ex:socialNetwork { ?s ex:job ?job } }
+  { SERVICE ex:socialNetwork { ?s schema:jobTitle ?job } }
 
-  { SERVICE ex:jobRegistry { ?s ex:age ?age } }
+  { SERVICE ex:jobRegistry { ?s schema:birthDate ?birthDate } }
   UNION
-  { SERVICE ex:socialNetwork { ?s ex:age ?age } }
+  { SERVICE ex:socialNetwork { ?s schema:birthDate ?birthDate } }
 }

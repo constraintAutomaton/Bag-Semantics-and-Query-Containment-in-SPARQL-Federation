@@ -8,15 +8,9 @@ For any \ac{CQ} with nested \texttt{SERVICE} clauses (e.g., \texttt{SERVICE :a \
 \begin{proof}
 We use the FedQPL notation~\cite{Cheng2021}, where $\freq_s^P$ denotes the evaluation of \ac{GP} $P$ at service $s$.
 Let $P_a$ and $P_b$ be the \ac{BGP} of services $a$ and $b$ respectively.
-The nested form corresponds to the following FedQPL expression, where we abuse notation by placing a FedQPL expression in the superscript of $\freq$:
-\[
-\freq_a^{\fmj(P_a, \freq_b^{P_b})}
-\]
-By assumption, service $a$ supports SPARQL~1.1 Federated Query execution and applies the \ac{GGP} evaluation algorithm of \Cref{List:pseudoCodeFederatedQuery} to its body: it evaluates $P_a$ locally, obtaining $\freq_a^{P_a}$, then forwards $P_b$ to service $b$ as an independent request, obtaining $\freq_b^{P_b}$.
-The two results are joined, giving:
-\[
-\fmj(\freq_a^{P_a}, \freq_b^{P_b})
-\]
+The nested form corresponds to the following FedQPL expression, where we abuse notation by placing a FedQPL expression in the superscript of $\freq$ giving: $\freq_a^{\fmj(P_a, \freq_b^{P_b})}$
+By assumption, service $a$ supports SPARQL~1.1 Federated Query execution and applies the \ac{GP} evaluation algorithm of the specification~\cite{w3SPARQLFederated} to its body: it evaluates $P_a$ locally, obtaining $\freq_a^{P_a}$, then forwards $P_b$ to service $b$ as an independent request, obtaining $\freq_b^{P_b}$.
+The two results are joined, giving: $\fmj(\freq_a^{P_a}, \freq_b^{P_b})$
 which is the FedQPL expression for the flattened form.
 Since $\fmj$ is commutative and associative and variables have global scope in SPARQL\footnote{\url{https://www.w3.org/TR/2010/WD-sparql11-query-20101014/\#QSynVariables}}, flattening a nested \texttt{SERVICE} clause amounts to reordering operands in the $\fmj$ expression, which does not affect the result.
 This reasoning generalizes to any nesting depth.

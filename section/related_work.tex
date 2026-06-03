@@ -9,29 +9,22 @@ Query containment under bag or bag-set semantics is a strictly stronger relation
 The literature does not describe general necessary conditions for containment under bag-set and bag semantics~\cite{ioannidis1995containment, khamis2021bag}; however, sufficient conditions have been identified.
 Furthermore, the general case of bag or bag-set semantic query containment for \ac{UCQ} has been shown to be undecidable~\cite{ioannidis1995containment, Jayram2006, Afrati2010}.
 However, some fragments of bag-set and bag semantic conjunctive queries have been proven decidable~\cite{khamis2021bag, KOPPARTY20111097, Chaudhuri1993, Afrati2010}.
-\Cref{tab_decidable_containment_bag_bag_set} presents query fragments with decidable bag and bag-set query containment.\footnote{Inspired by \citeauthor{Afrati2010}~\cite{Afrati2010}.}
+\Cref{tab_decidable_containment_bag_bag_set} summarizes the bag and bag-set \ac{CQ} containment fragments relevant to this paper and their complexity.\footnote{For the general case, containment mappings give a sufficient but not a necessary condition.}
 
-\begin{table*}
-  \caption{Decidable bag and bag-set query fragments.}
+\begin{table}
+  \caption{Complexity of bag and bag-set \ac{CQ} containment for the fragments relevant to this paper.}
   \label{tab_decidable_containment_bag_bag_set}
-  \begin{tabular}{llll}
+  \begin{tabular}{lll}
     \toprule
-    Case & Semantic & Time Complexity & Necessary Condition\\
+    Case & Semantic & Complexity\\
     \midrule
-    General \ac{CQ}~\cite{Chaudhuri1993} & Bag and Bag-set & $\Pi^p_2$-hard & \textbf{No}\\
-
-    \ac{CQ} where $Q_1$ is without projections~\cite{Afrati2010} & Bag-set & NP-complete & Yes\\
-    \ac{CQ} where $Q_1$ is without projections~\cite{Konstantinidis2019} & Bag & $\Pi^p_2$ & Yes\\
-
-    \ac{CQ} where $Q_1$ and $Q_2$ are without projections~\cite{Afrati2010} & Bag-set & $O(n^2\log(n))$ & Yes\\
-    \ac{CQ} where $Q_1$ and $Q_2$ are without projections~\cite{Afrati2010} & Bag & $O(n^2\log(n))$ & Yes\\
-
-    Pathstar \ac{CQ}~\cite{Afrati2010} & Bag and Bag-set & $O(n^2\log(n))$ & Yes\\
-    Simple general Pathstar \ac{CQ}~\cite{Afrati2010} & Bag and Bag-set & $O(n)$ & Yes\\
-    $Q_1$ is an enhanced version of $Q_2$~\cite{Afrati2010} & Bag-set & $O(n)$ & Yes\\
+    General \ac{CQ}~\cite{Chaudhuri1993} & Bag, bag-set & $\Pi^p_2$-hard\\
+    \ac{CQ}, $Q_1$ proj.-free~\cite{Afrati2010} & Bag-set & NP-complete\\
+    \ac{CQ}, $Q_1,Q_2$ proj.-free~\cite{Afrati2010} & Bag-set & $O(n^2\log n)$\\
+    \ac{CQ}, $Q_1,Q_2$ proj.-free~\cite{Afrati2010} & Bag & $O(n^2\log n)$\\
     \bottomrule
   \end{tabular}
-\end{table*}
+\end{table}
 
 Beyond relational databases, query containment has been studied in other graph query languages, including XPath~\cite{schwentick2004xpath} and Cypher~\cite{tang2025proving}.
 In the context of SPARQL, set-semantic query containment has received considerable attention~\cite{WudageChekol2013, letelier2013static, chekol2012sparql, chekol2012sparql2, jenaQC, Spasic2023}.

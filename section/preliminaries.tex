@@ -2,18 +2,9 @@
 
 \subsection{SPARQL Language}
 
-\ac{RDF}~\cite{w3ConceptsAbstract} is a data model for representing knowledge on the Web.
-Information is expressed as \emph{triples} of the form $(s, p, o)$, where $s$ is the \emph{subject} (the entity being described), $p$ is the \emph{predicate} (the property or relationship), and $o$ is the \emph{object} (the value or related entity).
-A set of such triples forms an \ac{RDF} \ac{KG}, which can be thought of as a labeled directed graph: nodes are subjects and objects, and edges are predicates~\cite{w3ConceptsAbstract}.
-
-\acp{IRI} (denoted $\mathcal{I}$) are globally unique identifiers used to name resources and properties.
-Literals (denoted $\mathcal{L}$) are concrete data values such as strings, numbers, or dates.
-Blank nodes (denoted $\mathcal{B}$) are anonymous resources with no global identifier.
-\footnote{From a data management perspective, blank nodes have an intricate definition and a long history~\cite{mallea2011blank} that we do not consider in this paper.}
-A triple is formally defined as $(s, p, o)$ where $s \in \mathcal{I} \cup \mathcal{B}$, $p \in \mathcal{I}$, and $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L}$.
-
-SPARQL~\cite{w3SPARQLQuery} is the W3C standard language to query \ac{RDF} \acp{KG}.
-SPARQL queries are matched against an \ac{RDF} graph by substituting variables for components of triples.
+SPARQL~\cite{w3SPARQLQuery} is the W3C standard language for querying \ac{RDF}~\cite{w3ConceptsAbstract} \acp{KG}.
+An \ac{RDF} \ac{KG} is a set of \emph{triples} $(s, p, o)$ with $s \in \mathcal{I} \cup \mathcal{B}$, $p \in \mathcal{I}$, and $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L}$, where $\mathcal{I}$, $\mathcal{B}$, and $\mathcal{L}$ are the sets of \acp{IRI}, blank nodes, and literals.
+SPARQL matches queries against a \ac{KG} by substituting variables for components of triples.
 A \emph{triple pattern} extends a triple by allowing variables (drawn from a set $\mathcal{V}$, disjoint from $\mathcal{I}$, $\mathcal{B}$, and $\mathcal{L}$) in any position:
 $\mathit{tp} = (s, p, o)$ where $s \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$, $p \in \mathcal{I} \cup \mathcal{V}$, and $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L} \cup \mathcal{V}$.
 
@@ -24,11 +15,8 @@ A \ac{UCQ} is a union of \acp{CQ}: a query whose body is a \ac{UGP} whose disjun
 A \ac{CQ} is then the special case of a \ac{UCQ} with a single disjunct, so the \acp{CQ} form a subclass of the \acp{UCQ}.
 
 Matching a \ac{GP} against an \ac{RDF} graph produces a \emph{bag} of \emph{solution mappings}, each a partial function from variables to \ac{RDF} terms.
-The following definitions make precise the notions of solution mappings used throughout the paper.
-
-\begin{definition}[Multiplicity~\cite{w3SPARQLQuery}]\label{def_multiplicity}
-  Given a multiset or sequence $\Omega$ of solution mappings and a solution mapping $\mu$, we write $\operatorname{multiplicity}(\mu \mid \Omega)$ to denote the number of times $\mu$ appears in $\Omega$.
-\end{definition}
+We write $\operatorname{multiplicity}(\mu \mid \Omega)$ for the number of times a solution mapping $\mu$ occurs in a bag $\Omega$.
+The following definitions make precise the remaining notions used throughout the paper.
 
 \begin{definition}[Merge~\cite{w3SPARQLQuery}]\label{def_merge}
   Two solution mappings $\mu_1$ and $\mu_2$ are \emph{compatible} if $\mu_1(v)$ and $\mu_2(v)$ are the same \ac{RDF} term~\cite{w3ConceptsAbstract} for every variable $v \in \operatorname{dom}(\mu_1) \cap \operatorname{dom}(\mu_2)$.

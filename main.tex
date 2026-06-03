@@ -38,7 +38,7 @@
     COUNT,SUM,AVG,MIN,MAX,SAMPLE,GROUP_CONCAT,a},
   keywordstyle=[2]\color{sparqlKeyword}\bfseries,
   alsoletter={?},                           % so ?name is one token
-  emph={?s,?age,?job},                      % SPARQL variables used in the paper
+  emph={?s,?birthDate,?job},                % SPARQL variables used in the paper
   emphstyle=\color{sparqlVar},
   sensitive=false,                          % SPARQL keywords are case-insensitive
   morecomment=[l]{\#},
@@ -59,13 +59,13 @@
 }
 
 \setcopyright{cc}
-\copyrightyear{2026}
-\acmYear{2026}
+\copyrightyear{2027}
+\acmYear{2027}
 \acmDOI{10.1145/0000000000}
-\acmConference[EDBT '26]{Extending Database Technology}{TBD}{TBD}
+\acmConference[EDBT 2027]{International Conference on Extending Database Technology}{April 6--9, 2027}{Lille, France}
 \acmISBN{978-1-4503-XXXX-X/26/03}
 
-\title{Bag Semantics and Query Containment in SPARQL Federation}
+\title{[Short Paper] Bag Semantics and Query Containment in SPARQL Federation}
 
 \author{Bryan-Elliott Tam}
 \orcid{0000-0003-3467-9755}
@@ -112,6 +112,10 @@
 \input{section/federated_query_evaluation}
 \input{section/resolution}
 \input{section/conclusion}
+
+\section*{Artifacts}
+The executable examples accompanying this paper are publicly available and run on the Comunica~\cite{taelman_iswc_resources_comunica_2018} query engine: bag-set query containment at \url{https://github.com/constraintAutomaton/demo-semantic-query-containment-SPARQL}, and federated query semantics at \url{https://github.com/constraintAutomaton/demo-federated-query-semantic}.
+Building on this decision procedure, a full implementation and empirical evaluation are part of our ongoing work.
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{references}

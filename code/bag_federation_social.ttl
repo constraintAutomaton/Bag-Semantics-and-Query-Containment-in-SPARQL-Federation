@@ -1,6 +1,8 @@
+@prefix schema: <http://schema.org/> .
 @prefix ex: <http://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-ex:jan ex:age 16 ;
-  ex:job "Cashier" .
-ex:josette ex:age 25 ;
-  ex:job "Painter" .
+ex:jan schema:birthDate "2008-01-01"^^xsd:date ;
+  schema:jobTitle "Cashier" .
+ex:josette schema:birthDate "1999-01-01"^^xsd:date ;
+  schema:jobTitle "Painter" .

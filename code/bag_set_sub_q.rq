@@ -1,5 +1,6 @@
-PREFIX ex: <http://example.org/>
+PREFIX schema: <http://schema.org/>
 
-SELECT ?s ?age WHERE {
-  ?s ex:age ?age .
+SELECT ?s ?birthDate WHERE  {
+  ?s schema:jobTitle ?job ;
+     schema:birthDate ?birthDate .
 }

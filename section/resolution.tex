@@ -21,12 +21,3 @@ Thus, it is not possible to simply orchestrate existing set-semantic query conta
 However, it has the same time complexity as the bag-set semantic case~\cite{Afrati2010}.
 Since the \ac{BFR} target carries no projection, deciding containment amounts to checking for a subgoals-onto containment mapping, which in this case is both necessary and sufficient~\cite{Chaudhuri1993, Afrati2010}.
 A containment mapping is \emph{subgoals-onto} if the body of the contained query is a subbag of the image of the containing query's body, i.e.\ each conjunct of the contained query is matched, with multiplicity, by a distinct conjunct of the containing query.
-
-Putting these together, federated query containment is decided in three steps.
-\begin{enumerate}
-  \item Verify the precondition $F_2 \subseteq F_1$; if it fails, $Q_1 \not\sqsubseteq Q_2$.
-  \item Decide condition $A$ with a bag-set \ac{CQ} containment check of the local parts.
-  \item Decide condition $B$ with one check per member $f \in F_1$, matched by \ac{IRI}---either $\mathit{QS}(Q_1, f) \sqsubseteq \mathit{QS}(Q_2, f)$ when $f \in F_2$, or emptiness of $\mathit{QS}(Q_1, f)$ otherwise.
-\end{enumerate}
-$Q_1 \sqsubseteq Q_2$ holds if and only if all three succeed.
-For queries under automatic source selection or in \ac{UCFQ} form, the \ac{BFR} is applied first, reducing each \ac{UCFQ} to a \ac{CQ} over a \ac{BKG} so that these checks become bag-semantic \ac{CQ} containment.

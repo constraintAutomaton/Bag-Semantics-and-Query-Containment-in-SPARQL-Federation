@@ -7,43 +7,21 @@ This choice determines whether and how duplicate results can arise, which direct
 SPARQL queries on single sources are evaluated under bag-set semantics.
 The underlying \ac{KG} operates under set semantics~\cite{w3ConceptsAbstract}, whereas SPARQL operators produce bags.
 The choice between bag and set semantics has a significant impact on the complexity and decidability of query containment~\cite{Chaudhuri1993}.
-In the relational-database setting, \citeauthor{Chaudhuri1993}~\cite{Chaudhuri1993, Afrati2010} established that for \acp{CQ} only projection can increase the multiplicity of a result.
-The same property holds for SPARQL \acp{CQ}: the only body operator is \texttt{JOIN}, and \Cref{prop_cq_join_no_dup} shows that \texttt{JOIN} cannot raise the multiplicity, so projection at the head remains the only operator that can do so.
+For relational database setting, \citeauthor{Chaudhuri1993}~\cite{Chaudhuri1993, Afrati2010} established that for \acp{CQ} only projection can increase the multiplicity of a result.
+The same property holds for SPARQL \acp{CQ}, where the only body operator, \texttt{JOIN}, cannot raise the multiplicity, as in the relational case~\cite{Chaudhuri1993, Afrati2010}; projection at the head therefore remains the only operator that can do so.
 In the context of \ac{UCQ}, the multiplicity can additionally be increased by \texttt{UNION} and by the combination of \texttt{UNION} and \texttt{JOIN}, as defined in \Cref{def_union_multiplicity,def_join_multiplicity}.
 \ac{UCQ} is not the subject of our study; however, in the next sections we introduce \ac{UCFQ}, a subclass of \ac{UCQ}, together with the semantics of federated queries.
 
-\subfile{proofs/cq_join_multiplicity}
 
 
 \subsection{Federated Queries}
-A \ac{KG} is set-semantic, and querying a single endpoint yields bag-set semantics.
+A \ac{KG} is stored under set-semantics, and querying a single endpoint operates under bag-set semantics.
 A federated query, however, combines solution mappings drawn from several \acp{KG} at once, so it is not obvious whether spanning multiple members can introduce duplicate results.
 We therefore examine the semantics of federated query evaluation.
-The SPARQL federated query specification~\cite{w3SPARQLFederated} defines the execution of \texttt{SERVICE} clauses as a join between the bag of solution mappings from the preceding execution and the bag returned by the SPARQL service, with the pseudo-code reproduced in \Cref{List:pseudoCodeFederatedQuery}.
+The SPARQL federated query specification~\cite{w3SPARQLFederated} defines the execution of federated queries with \texttt{SERVICE} clauses as a join between the bag of solution mappings from the preceding execution and the bag of solution mappings returned by the SPARQL service.
 The \ac{GP} inside a \texttt{SERVICE} clause has no projection, so each federation member returns a set of solution mappings.
-A \texttt{SERVICE} clause is nested in the query through a \texttt{JOIN}, and \Cref{prop_cq_join_no_dup} shows that such a \texttt{JOIN} cannot increase the multiplicity.
+A \texttt{SERVICE} clause is nested in the query through a \texttt{JOIN}, which cannot increase the multiplicity.
 Hence, even when some federation members hold duplicate information, the federated query produces no duplicate results, and \ac{CQ} evaluation with \texttt{SERVICE} clauses remains under bag-set semantics.
-
-\begin{figure}
-\begin{lstlisting}[basicstyle=\ttfamily\small, breaklines=true]
-Let G := the empty pattern, Z, a basic graph pattern which is the empty set.
-Let SilentOp := boolean, indicating SERVICE error behavior.
-
-[...]
-
-For each element E in the GroupGraphPattern
-  [...]
-  If E is of the form SERVICE [SILENT] IRI {P}
-    Let G := Join(G, Service(IRI, Transform(P), SilentOp))
-  End
-End
-
-The result is G.
-\end{lstlisting}
-\caption{Snippet of the algorithm from \S3.1 of ``SPARQL 1.1 Federated Query''~\cite{w3SPARQLFederated}.
-The \texttt{SERVICE} call is evaluated as an extension of the Group Graph Pattern evaluation: its result bag is joined with the solution mappings from the rest of the query.}
-\label{List:pseudoCodeFederatedQuery}
-\end{figure}
 
 \subsection{\acl{UCFQ}}
 
@@ -58,42 +36,17 @@ A \ac{CQ} is the special case where every union ranges over a single member, and
 In particular, each triple pattern of a \ac{CQ} is the single-member union $\fmu(\freq_{\mathit{fm}}^{\mathit{tp}})$ over the member $\mathit{fm}$ at which it is evaluated.
 
 \acp{UCFQ} arise under automatic source selection, in particular \ac{ESA} (\Cref{sec:related_works_fed}).
-\Cref{fig:ucfq-example} shows a federation whose job registry and social network redundantly store the job and age of \texttt{ex:jan}.
-The projection-free \ac{CQ} retrieving each person's job and age (\Cref{fig:ucfq-cq}) would return a set on a single endpoint, but under \ac{ESA} it is evaluated as the \ac{UCFQ} of \Cref{fig:ucfq-query}, unioning each triple pattern across both members before joining them.
-The job and age of \texttt{ex:jan} are each answered by both members, so the join multiplies the two unions and \texttt{ex:jan} is returned four times, even though every member stores a set.\footnote{An executable demonstration of the semantics of federated queries, evaluated with the Comunica~\cite{taelman_iswc_resources_comunica_2018} query engine, is available at \url{https://github.com/constraintAutomaton/demo-federated-query-semantic}.}
+Consider a federation of two members, a job registry and a social network, that redundantly store the job and birth date of a person.
+The projection-free \ac{CQ} retrieving each person's job and birth date (\Cref{fig:ucfq-example}, top) would return a set on a single endpoint, but under \ac{ESA} it is evaluated as the \ac{UCFQ} below it, unioning each triple pattern across both members before joining them.
+That person's job and birth date are each answered by both members, so the join multiplies the two unions and the person is returned four times, even though every member stores a set.\footnote{An executable example of the semantics of federated queries, evaluated with the Comunica~\cite{taelman_iswc_resources_comunica_2018} query engine, is available at \url{https://github.com/constraintAutomaton/demo-federated-query-semantic}.}
 
-\begin{figure*}
+\begin{figure}
   \centering
-  \begin{subfigure}[b]{0.48\textwidth}
-    \lstinputlisting[basicstyle=\ttfamily\scriptsize,breaklines=true,firstline=3]{code/bag_federation_job.ttl}
-    \caption{Job registry \texttt{ex:jobRegistry}}
-    \label{fig:job-registry}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.48\textwidth}
-    \lstinputlisting[basicstyle=\ttfamily\scriptsize,breaklines=true,firstline=3]{code/bag_federation_social.ttl}
-    \caption{Social network \texttt{ex:socialNetwork}}
-    \label{fig:social-network}
-  \end{subfigure}
-
-  \medskip
-
-  \begin{subfigure}[b]{0.48\textwidth}
-    \begin{minipage}[c][4cm][c]{\linewidth}
-      \lstinputlisting[style=sparql]{code/ucfq_cq.rq}
-    \end{minipage}
-    \caption{The projection-free \ac{CQ} as written.}
-    \label{fig:ucfq-cq}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.48\textwidth}
-    \begin{minipage}[c][4cm][c]{\linewidth}
-      \lstinputlisting[style=sparql]{code/ucfq_example.rq}
-    \end{minipage}
-    \caption{The same query as \ac{ESA} evaluates it: a \ac{UCFQ} unioning each triple pattern across both members.}
-    \label{fig:ucfq-query}
-  \end{subfigure}
-  \caption{A federation of two members redundantly storing the job and age of \texttt{ex:jan}. Under automatic source selection, the projection-free \ac{CQ} retrieving each person's job and age is evaluated as a \ac{UCFQ}, returning \texttt{ex:jan} four times.}
+  \lstinputlisting[style=sparql]{code/ucfq_cq.rq}
+  \lstinputlisting[style=sparql]{code/ucfq_example.rq}
+  \caption{Top: the projection-free \ac{CQ} as written. Bottom: the same query as \ac{ESA} evaluates it, a \ac{UCFQ}.}
   \label{fig:ucfq-example}
-\end{figure*}
+\end{figure}
 
 \ac{ESA} is a particular case of \ac{UCFQ} where every union branch ranges over the whole federation $\{\mathit{fm}_1, \dots, \mathit{fm}_m\}$:
 \begin{equation}

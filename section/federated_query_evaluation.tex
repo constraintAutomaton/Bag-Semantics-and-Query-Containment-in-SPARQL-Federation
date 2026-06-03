@@ -14,20 +14,8 @@ The proposition below shows that a nested \texttt{SERVICE} clause is semanticall
 
 \subsection{Query Containment Condition}~\label{sec:federated_queries_query_containment_condition}
 
-We define a function $\mathit{QS}\colon (\mathcal{Q}, \mathcal{F}) \to \mathcal{Q}$ that returns the query associated with the \ac{GGP} of a \texttt{SERVICE} clause.
+We define a function $\mathit{QS}\colon (\mathcal{Q}, \mathcal{F}) \to \mathcal{Q}$ that returns the query associated with the \ac{GP} of a \texttt{SERVICE} clause.
 Here $\mathcal{F}$ is the set of all federation members and $\mathcal{Q}$ is the set of all queries.
 We also define $\mathit{QO}\colon \mathcal{Q} \to \mathcal{Q}$, a function that returns the segments of a query evaluated against the local \ac{KG}.
 
 \subfile{proofs/federated_query_condition}
-
-
-
-\subsection{Automatic Source Selection Particularities}
-
-Unlike SPARQL 1.1 queries with \texttt{SERVICE} clauses, where source assignment is explicit in the query syntax, automatic source selection delegates this assignment to the query engine's algorithm.
-Performing query containment therefore requires knowing this source assignment.
-Some automatic source selection algorithms assign triple patterns to a subset of members based on analytic queries~\cite{schwarte2011fedx} or metadata about the federation members~\cite{gorlitz2011splendid}.
-\footnote{Some systems may determine their source selection algorithm during query planning.}
-In general, the assignment depends on the database being queried, so query containment cannot be determined by static analysis alone; it requires at least partial query planning to fix the assignment.
-\ac{ESA} is an exception because this strategy assigns every triple pattern to every federation member regardless of the database content, so the source assignment of each subquery in the federation is known a priori.
-Given the logical query with its source assignment, and provided it can be reduced to a \ac{CQ}---for instance via the \ac{BFR} (\Cref{sec_bag_federation_reduction})---the containment conditions of \Cref{sec:federated_queries_query_containment_condition} apply.
