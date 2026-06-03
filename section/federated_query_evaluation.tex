@@ -12,7 +12,7 @@ The proposition below shows that a nested \texttt{SERVICE} clause is semanticall
 \subfile{proofs/nested_service_flattening}
 
 
-\subsection{Query Containment Condition}
+\subsection{Query Containment Condition}~\label{sec:federated_queries_query_containment_condition}
 
 We define a function $\mathit{QS}\colon (\mathcal{Q}, \mathcal{F}) \to \mathcal{Q}$ that returns the query associated with the \ac{GGP} of a \texttt{SERVICE} clause.
 Here $\mathcal{F}$ is the set of all federation members and $\mathcal{Q}$ is the set of all queries.
@@ -30,4 +30,4 @@ Some automatic source selection algorithms assign triple patterns to a subset of
 \footnote{Some systems may determine their source selection algorithm during query planning.}
 In general, the assignment depends on the database being queried, so query containment cannot be determined by static analysis alone; it requires at least partial query planning to fix the assignment.
 \ac{ESA} is an exception because this strategy assigns every triple pattern to every federation member regardless of the database content, so the source assignment of each subquery in the federation is known a priori.
-Given the logical query with its source assignment, and provided it can be reduced to a \ac{CQ}---for instance via the \ac{BFR} (\Cref{sec_bag_federation_reduction})---the containment conditions of \Cref{sec:federated_queries_query_containment} apply.
+Given the logical query with its source assignment, and provided it can be reduced to a \ac{CQ}---for instance via the \ac{BFR} (\Cref{sec_bag_federation_reduction})---the containment conditions of \Cref{sec:federated_queries_query_containment_condition} apply.

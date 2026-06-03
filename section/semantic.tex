@@ -102,7 +102,7 @@ The job and age of \texttt{ex:jan} are each answered by both members, so the joi
 \end{equation}
 
 Most federated engines produce plans of this same join-over-union shape---for instance FedX~\cite{schwarte2011fedx}, SemaGrow~\cite{charalambidis2015semagrow}, and CostFed~\cite{saleem2018costfed}---which can likewise be rewritten as \acp{UCFQ}.
-Automatic source selection can, however, yield an arbitrary shape, for instance the union-over-join plans of~\cite{aimonier2024fedup}; our approach therefore cannot encapsulate every such query.
+Automatic source selection can, however, yield an arbitrary shape, for instance the union-over-join plans~\cite{aimonier2024fedup}; our approach therefore cannot encapsulate every such query.
 
 Because the \acp{UCFQ} sit inside the \acp{UCQ}, their containment inherits the undecidability of bag-set \ac{UCQ} containment~(\Cref{sec:related_works_qc}).
 To address this, the next section introduces the \ac{BFR}, a transformation showing that evaluating a \ac{UCFQ} is equivalent to evaluating a \ac{CQ} over one \ac{BKG} per union branch under bag semantics.
