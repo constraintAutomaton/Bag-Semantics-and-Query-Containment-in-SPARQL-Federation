@@ -39,7 +39,7 @@ The SPARQL specification mentions the use of variables as endpoint \acp{IRI} in 
 \citeauthor{BuilAranda2013}~\cite{BuilAranda2013} introduced \emph{Service-Safeness}, a syntactic rule outside the SPARQL specification that makes such queries computable by guaranteeing a finite set of federation members.
 Because Service-Safeness is not part of the specification and multiple SPARQL query engines use their own interpretation, this paper does not consider variables as endpoint \acp{IRI}.
 \citeauthor{Cheng2021}~\cite{Cheng2021} proposed FedQPL, a formalism to express federated queries under automatic source selection.
-Automatic source selection provides algorithms that alleviate the practical difficulty of determining which federation member each subquery should be sent to~\cite{hanski2025observations}.
+Automatic source selection algorithms\rt{Let's cite them here! E.g. FedX, ... I'd just include all algorithms that were mentioned and cited in the paper of Elias. We can also include Comunica in this list.} alleviate the practical difficulty of determining which federation member each subquery should be sent to~\cite{hanski2025observations}.
 Thus, users can query a federation without knowing how the data is distributed.
 Furthermore, \citeauthor{Cheng2021}~\cite{Cheng2021} introduce \ac{ESA}, a canonical source-selection algorithm that requires no prior information about the federation.
 In \ac{ESA}, each triple pattern is evaluated against every federation member and the results are combined via bag union, guaranteeing complete results regardless of how data is distributed across the federation.

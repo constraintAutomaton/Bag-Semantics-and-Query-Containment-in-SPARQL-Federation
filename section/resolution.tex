@@ -6,18 +6,18 @@ This section shows how existing query containment techniques can be orchestrated
 Condition $A$ is the bag-set containment $\mathit{QO}(Q_1) \sqsubseteq \mathit{QO}(Q_2)$ of the local parts, an ordinary single-source \ac{CQ} containment that is decidable as characterized in \Cref{tab_decidable_containment_bag_bag_set}.
 
 As established in \Cref{sec:semantic_federated_q}, a \texttt{SERVICE} clause evaluates its inner query without projection, so under bag-set semantics its evaluation coincides with set semantics~\cite{Afrati2010}.
-Thus, to evaluate condition $B$ of~\Cref{prop_federated_containment}, any SPARQL query containment solver from the current literature\footnote{See \Cref{sec:related_works_qc}.} can be orchestrated.
-In that case the time complexity is \textsc{np}-complete~\cite{Afrati2010}, like set-semantic query containment.
+Thus, to evaluate condition $B$ of~\Cref{prop_federated_containment}, any SPARQL query containment solver\footnote{See \Cref{sec:related_works_qc}.} can be orchestrated.
+In that case the time complexity is \textsc{np}-complete~\cite{Afrati2010}, like query containment under set-semantics.
 
 
-With an adjustment to the algorithm, and since \texttt{SERVICE} clauses carry no projection on either side, the complexity of a single check can be reduced to $O(n^2\log(n))$~\cite{Afrati2010}; satisfying condition $B$ then costs $O(n^2\log(n)\cdot n_{sQ1} \cdot n_{sQ2})$, where $n_{sQ1}$ and $n_{sQ2}$ are the number of \texttt{SERVICE} clauses in $Q_1$ and $Q_2$ respectively.
+With an adjustment to the algorithm, and since \texttt{SERVICE} clauses carry no projection on either side\rt{The spec allows for projections inside SERVICE}, the complexity of a single check can be reduced to $O(n^2\log(n))$~\cite{Afrati2010}; satisfying condition $B$ then costs $O(n^2\log(n)\cdot n_{sQ1} \cdot n_{sQ2})$, where $n_{sQ1}$ and $n_{sQ2}$ are the number of \texttt{SERVICE} clauses in $Q_1$ and $Q_2$ respectively.
 The adjustment consists of defining bag-set query containment in terms of variable-onto containment mappings~\cite{Chaudhuri1993}.
 A \emph{containment mapping} from the containing query to the contained query is a homomorphism on their bodies: a function from the variables of the containing query to the variables and constants of the contained query that maps every conjunct of the containing query's body to a conjunct of the contained query's body, and is the identity on the distinguished (head) variables~\cite{Chaudhuri1993}.
 It is \emph{variable-onto} if, in addition, every variable of the contained query is the image of some variable of the containing query~\cite{Chaudhuri1993}.
 
 The case is more complicated when considering the \acl{BFR}, which casts the query into a \ac{CQ} evaluated under bag semantics (\Cref{sec_bag_federation_reduction}).
-Indeed, even without projection, bag-semantic containment cannot be reduced to set-semantic query containment.
+Indeed, even without projection, containment under bag-semantics cannot be reduced to query containment under set-semantics.\rt{Be mindful of consistency, sometimes you have a dash, sometimes not. Pick one, and remain consistent.}
 Thus, it is not possible to simply orchestrate existing set-semantic query containment solvers.
-However, it has the same time complexity as the bag-set semantic case~\cite{Afrati2010}.
-Since the \ac{BFR} target carries no projection, deciding containment amounts to checking for a subgoals-onto containment mapping, which in this case is both necessary and sufficient~\cite{Chaudhuri1993, Afrati2010}.
+However, it has the same time complexity as bag-set semantics~\cite{Afrati2010}.
+Since the \ac{BFR} target carries no projection, deciding containment amounts to checking for a \emph{subgoals-onto} containment mapping, which in this case is both necessary and sufficient~\cite{Chaudhuri1993, Afrati2010}.
 A containment mapping is \emph{subgoals-onto} if the body of the contained query is a subbag of the image of the containing query's body, i.e.\ each conjunct of the contained query is matched, with multiplicity, by a distinct conjunct of the containing query.

@@ -7,7 +7,7 @@ This choice determines whether and how duplicate results can arise, which direct
 SPARQL queries on single sources are evaluated under bag-set semantics.
 The underlying \ac{KG} operates under set semantics~\cite{w3ConceptsAbstract}, whereas SPARQL operators produce bags.
 The choice between bag and set semantics has a significant impact on the complexity and decidability of query containment~\cite{Chaudhuri1993}.
-For relational database setting, \citeauthor{Chaudhuri1993}~\cite{Chaudhuri1993, Afrati2010} established that for \acp{CQ} only projection can increase the multiplicity of a result.
+For relational database settings, \citeauthor{Chaudhuri1993}~\cite{Chaudhuri1993, Afrati2010} established that for \acp{CQ} only projection can increase the multiplicity of a result.
 The same property holds for SPARQL \acp{CQ}, where the only body operator, \texttt{JOIN}, cannot raise the multiplicity, as in the relational case~\cite{Chaudhuri1993, Afrati2010}; projection at the head therefore remains the only operator that can do so.
 In the context of \ac{UCQ}, the multiplicity can additionally be increased by \texttt{UNION} and by the combination of \texttt{UNION} and \texttt{JOIN}, as defined in \Cref{def_union_multiplicity,def_join_multiplicity}.
 \ac{UCQ} is not the subject of our study; however, in the next sections we introduce \ac{UCFQ}, a subclass of \ac{UCQ}, together with the semantics of federated queries.
@@ -19,7 +19,7 @@ A \ac{KG} is stored under set-semantics, and querying a single endpoint operates
 A federated query, however, combines solution mappings drawn from several \acp{KG} at once, so it is not obvious whether spanning multiple members can introduce duplicate results.
 We therefore examine the semantics of federated query evaluation.
 The SPARQL federated query specification~\cite{w3SPARQLFederated} defines the execution of federated queries with \texttt{SERVICE} clauses as a join between the bag of solution mappings from the preceding execution and the bag of solution mappings returned by the SPARQL service.
-The \ac{GP} inside a \texttt{SERVICE} clause has no projection, so each federation member returns a set of solution mappings.
+The \ac{GP} inside a \texttt{SERVICE} clause has no projection\rt{This not not accurate. You can have a projection within a SERVICE.}, so each federation member returns a set of solution mappings.
 A \texttt{SERVICE} clause is nested in the query through a \texttt{JOIN}, which cannot increase the multiplicity.
 Hence, even when some federation members hold duplicate information, the federated query produces no duplicate results, and \ac{CQ} evaluation with \texttt{SERVICE} clauses remains under bag-set semantics.
 
@@ -41,6 +41,7 @@ The projection-free \ac{CQ} retrieving each person's job and birth date (\Cref{f
 That person's job and birth date are each answered by both members, so the join multiplies the two unions and the person is returned four times, even though every member stores a set.\footnote{An executable example of the semantics of federated queries, evaluated with the Comunica~\cite{taelman_iswc_resources_comunica_2018} query engine, is available at \url{https://github.com/constraintAutomaton/demo-federated-query-semantic}.}
 
 \begin{figure}
+    \rt{Let's use subfigures here (or just two separate figures), as it may not be clear for readers that these are 2 different queries.}
   \centering
   \lstinputlisting[style=sparql]{code/ucfq_cq.rq}
   \lstinputlisting[style=sparql]{code/ucfq_example.rq}

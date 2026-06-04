@@ -6,13 +6,13 @@ Under set semantics, containment has been thoroughly characterized for many quer
 Bag and bag-set semantic containment have also been studied~\cite{Chaudhuri1993, Afrati2010, khamis2021bag}; however, containment is undecidable for several fragments and some problems remain open.
 
 
-\acp{KG} have become a widely adopted paradigm for representing and integrating heterogeneous data, supporting applications in scientific data management, knowledge representation, and the Web of Data.
+\acp{KG} have become a widely adopted paradigm for representing and integrating heterogeneous data, supporting applications in scientific data management, knowledge representation, and the Web of Data.\rt{Can we add some well-cited references for these? To make the grounding a bit stronger.}
 They are typically encoded as \ac{RDF} data, the W3C standard for graph-structured data, and queried with SPARQL, its companion query language.
-SPARQL provides federation through the \texttt{SERVICE} operator~\cite{w3SPARQLFederated}, which executes a sub-query at a SPARQL endpoint identified by a URL.
+SPARQL enables federation through the \texttt{SERVICE} operator~\cite{w3SPARQLFederated}, which executes a sub-query at a SPARQL endpoint identified by a URL.
 This enables virtual data integration across distributed \ac{KG} sources, allowing heterogeneous data to be queried jointly without centralization.
 This is particularly valuable when sources are governed by different policies, are maintained by independent parties, or are too large to consolidate.
 Whether federation members are SPARQL endpoints on an internal network or exposed openly over the Web, federated queries impose substantial computational load on both endpoints and clients.\footnote{The open-Web setting can be fragile. Public SPARQL endpoints frequently experience downtime or performance degradation under load~\cite{buil2013sparql}.}
-This cost is especially acute data analysis in workflows such as data analyses, where queries are routinely re-executed or iteratively refined.
+This cost is especially acute in workflows such as data analyses, where queries are routinely re-executed or iteratively refined.
 Query optimization that avoids such re-execution is therefore highly desirable, and query containment is a foundational mechanism for achieving it.
 
 Existing research on SPARQL query containment has focused on set semantics~\cite{WudageChekol2013}.
@@ -36,8 +36,9 @@ Under bag-set semantics, however, projecting away variables can introduce duplic
 To the best of our knowledge, bag-set semantic SPARQL query containment remains unexplored, and query containment for federated queries has not been studied either.\footnote{Note that QCan~\cite{salas2018canonicalisation} addresses bag-set semantics, but for query equivalence rather than containment, by transforming SPARQL queries into a canonical form and performing syntactic comparison.}
 
 This paper bridges these gaps by giving a decision procedure for query containment under bag-set semantics for federated SPARQL queries with \texttt{SERVICE} clauses.
-We additionally cover \ac{UCFQ}, a class that unions each triple pattern across several federation members and joins the results.
+To achieve this, we first introduce \ac{UCFQ}, a class that unions each triple pattern across several federation members and joins the results.
 This class extends \ac{CQ} but lies inside \ac{UCQ}.
-It is of further interest because it captures the \acp{CQ} of federated queries that rely on automatic source selection, where the engine itself decides which federation member each subquery is sent to~\cite{Cheng2021}.
+This class is of interest, because it captures the \acp{CQ} of federated queries that rely on automatic source selection techniques for SPARQL\rt{Can we here add citations to some of these techniques? Like FedX, SPLENDID, ...},
+where federation engines decide which federation member each subquery is sent to~\cite{Cheng2021}.
 To decide containment for this class, we introduce the \ac{BFR}, a transformation from \ac{UCFQ} to \ac{CQ} under bag semantics.
-We first present the \hyperref[sec:preliminaries]{preliminaries} and \hyperref[sec:related_works]{related work}, then formalize the \hyperref[sec:semantic_federated_q]{semantics of federated SPARQL queries}, establish the \hyperref[sec:federated_queries_query_containment]{containment conditions}, and present a \hyperref[sec:resolution]{decision procedure}, before \hyperref[sec:conclusion]{concluding}.
+Hereafter, we first present the \hyperref[sec:preliminaries]{preliminaries} and \hyperref[sec:related_works]{related work}, then formalize the \hyperref[sec:semantic_federated_q]{semantics of federated SPARQL queries}, establish the \hyperref[sec:federated_queries_query_containment]{containment conditions}, and present a \hyperref[sec:resolution]{decision procedure}, before \hyperref[sec:conclusion]{concluding}.

@@ -2,17 +2,19 @@
 
 Federated query containment may initially appear fundamentally different from single-source query containment, since containment is data-source independent while a federated query names particular databases.
 However, this difference is not fundamental.
-We propose that federated query containment must consider the \acp{IRI} of the federation members, but not their content.
+We propose that federated query containment must consider the \acp{IRI} \rt{Important!!!: Don't use IRI in this paper, but use URL, as it more widely understood.} of the federation members, but not their content.\rt{Might be good to add a footnote or so to mention that we assume immutable data in federation members. Because if you'd do caching for example, and the endpoints change their data, you need more than just the URL, which is out of scope for this work here.}
 Referencing these \acp{IRI} could benefit the resolution of query containment, for instance by guaranteeing the absence of overlap between members, since bag semantics is generally more complex to decide than bag-set semantics.
 We leave such optimizations out of scope.
 
 Without loss of generality, we work only with flattened \texttt{SERVICE} clauses, where every \texttt{SERVICE} clause appears at the \ac{BGP} level.
-The proposition below shows that a nested \texttt{SERVICE} clause is semantically equivalent to such a flattened form, so nesting reduces to this case.\footnote{Nesting is also discouraged in practice, as delegating the remote execution of a \texttt{SERVICE} clause to a third-party engine can raise load-management concerns and leaves the query issuer unable to guarantee that the endpoint supports federated query execution.}
+The proposition below shows that a nested \texttt{SERVICE} clause is semantically equivalent to such a flattened form, so nesting reduces to this case.\footnote{Nesting is also discouraged in practice\rt{There are no official statements or papers AFAIK that discourage this, so please rephrase this, as it's not accurate.}, as delegating the remote execution of a \texttt{SERVICE} clause to a third-party engine can raise load-management concerns and leaves the query issuer unable to guarantee that the endpoint supports federated query execution.}
 
 \subfile{proofs/nested_service_flattening}
 
 
 \subsection{Query Containment Condition}~\label{sec:federated_queries_query_containment_condition}
+
+\rt{The purpose of this section is unclear; it's not explained. Why are the following functions introduced?}
 
 We define a function $\mathit{QS}\colon (\mathcal{Q}, \mathcal{F}) \to \mathcal{Q}$ that returns the query associated with the \ac{GP} of a \texttt{SERVICE} clause.
 Here $\mathcal{F}$ is the set of all federation members and $\mathcal{Q}$ is the set of all queries.
