@@ -1,9 +1,23 @@
 \begin{abstract}
+% Context
 Querying federations of distributed data sources lets applications integrate multiple datasets without first having to centralize them, but comes at the cost of higher execution times and bandwidth usage.
 In various use cases such as data analyses, queries are frequently re-executed or iteratively refined, compounding this cost.
 Materialized views and query containment form the basis for improving the performance of such query sequences.
+% Need
 Query containment for federated SPARQL queries, however, remains unexplored.
+% Task
 This paper focuses on closing this gap by formalizing query containment under bag-set semantics for federated SPARQL queries, as SPARQL offers a natural foundation for integrating RDF data via universal identifiers and global semantics.
-We additionally cover \aclp{UCFQ}, a fragment between \aclp{CQ} and \acl{UCQ} that captures queries arising when the query engine selects the federation members automatically.
-We introduce the \acl{BFR}, a transformation from \acl{UCFQ} to \acl{CQ} under bag semantics, after which containment is decided by reusing existing query containment results from the literature.
+% Object
+For this, we introduce "\aclp{UCFQ}" as a new class of queries that sits between \aclp{CQ} and \acl{UCQ},
+to capture federated query forms that are common in SPARQL.
+Furthermore, we introduce the \acl{BFR}, to transform this new class of queries to \aclp{CQ} under bag semantics,
+after which containment can be decided.
+% Findings
+We formally ground this new class with its transformation,
+and discuss how existing query containment techniques can be adapted to handle such federated queries.
+% Conclusion
+Our work fills the gap on formalizing query containment for federated SPARQL queries,
+% Perspectives
+and offers the basis for practical optimizations that depend on query containment,
+such as the caching of such federated queries.
 \end{abstract}
