@@ -46,10 +46,10 @@ A SPARQL federated query involves executing different segments of a query across
 We denote the evaluation of a query $Q$ over a \ac{KG} $G$ as $\eval{Q}{G}$.
 A set of federation members is called a \emph{federation}.
 Evaluating a query over a federation $F$ involves decomposing $Q$ into subqueries $P_i$, where each subquery $P_i$ is evaluated on a knowledge graph $G_i \in \operatorname{codomain}(f_i \in F)$ held by a federation member.
-We adopt a database-agnostic view of federation members: since query containment does not depend on the content of any particular knowledge graph, we formalize the notion of federation in terms of endpoint \acp{IRI} rather than data.
+We adopt a database-agnostic view of federation members: since query containment does not depend on the content of any particular knowledge graph, we formalize the notion of federation in terms of endpoint URLs rather than data.
 A \texttt{SERVICE} clause, written \texttt{SERVICE :anIRI \{?s ?p ?o\}} in SPARQL syntax and denoted $SERVICE(I, P)$~\cite{w3SPARQLFederated}
 \footnote{We do not consider the \texttt{SILENT} parameter in this formalization.}
-where $I$ is the \ac{IRI} locating the federation member and $P$ is the graph pattern to evaluate,
+where $I$ is the URL locating the federation member and $P$ is the graph pattern to evaluate,
 performs $P$ at the endpoint identified by $I$.
 
 To reason about federated query plans, we use the FedQPL formalism~\cite{Cheng2021}, a more formal and extensible algebra, with the operators defined below.
@@ -60,4 +60,4 @@ To reason about federated query plans, we use the FedQPL formalism~\cite{Cheng20
 \end{definition}
 
 A SPARQL $SERVICE(I, P)$ is thus expressed in FedQPL by the request $\freq_{I}^{P}$.
-\footnote{We slightly simplify the formalism: FedQPL has a sophisticated representation of federation members, but for query containment a member can be represented by its \ac{IRI}.}
+\footnote{We slightly simplify the formalism: FedQPL has a sophisticated representation of federation members, but for query containment a member can be represented by its URL.}

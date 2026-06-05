@@ -12,8 +12,8 @@ The local, non-federated part of each query behaves as in single-source containm
 Containment of individual \texttt{SERVICE} calls alone is not sufficient: even if each call of the contained query is contained in the corresponding call of the containing query, the queries are not contained if the combining operation differs---a join in one and a union in the other yield incomparable result bags.
 For queries combining subqueries by \texttt{UNION} over federation members (\acp{UCFQ}), the \ac{BFR} (\Cref{sec_bag_federation_reduction}) must first be applied: each \ac{UCFQ} is rewritten as a \ac{CQ} over a \ac{BKG}, and containment then reduces to \ac{CQ} bag-semantic containment over that \ac{BKG}, a decidable problem addressed by the results in \Cref{tab_decidable_containment_bag_bag_set}.
 
-Finally, if $Q_1$ contacts a federation member $f \notin F_2$ such that $Q_1$'s \texttt{SERVICE} call at $f$ returns the empty bag on every possible \ac{KG}, then $Q_1$'s full result is the empty set, which is trivially a subbag of $Q_2$'s result (the $\emptyset$ disjunct in condition~$B$).
-Conversely, if $Q_2$ were to contact a federation member $f \notin F_1$, that extra \texttt{SERVICE} call is joined into $Q_2$'s result; since $f$'s data is chosen independently, it may have no compatible binding for some solution mappings, dropping them from $Q_2$ (in the extreme, emptying it) on databases where $Q_1$ still returns them, breaking containment. The precondition $F_2 \subseteq F_1$ therefore excludes this case.
+Finally, if $Q_1$ contacts a federation member $f \notin F_2$ such that $Q_1$'s \texttt{SERVICE} call at $f$ returns the empty bag on every possible \ac{KG}, then $Q_1$'s full result is the empty bag, which is trivially a subbag of $Q_2$'s result (the $\emptyset$ disjunct in condition~$B$).
+Conversely, if $Q_2$ were to contact a federation member $f \notin F_1$, that extra \texttt{SERVICE} call would be joined into $Q_2$'s result; since $f$'s data is chosen independently, it may have no compatible binding for some solution mappings, dropping them from $Q_2$ (in the extreme, emptying it) on databases where $Q_1$ still returns them, breaking containment. The precondition $F_2 \subseteq F_1$ therefore excludes this case.
 
 \begin{proposition}\label{prop_federated_containment}
 Let $Q_1$ be a query over a federation $F_1$ and $Q_2$ a query over a federation $F_2 \subseteq F_1$.
@@ -35,7 +35,7 @@ B = \forall f \in F_1, \forall G \in \mathcal{G} \colon \\
 \begin{proof}
 $(\Leftarrow)$ Assume $F_2 \subseteq F_1$ and that $A$ and $B$ hold.
 By $A$, the local part $\mathit{QO}(Q_1)$ is contained in $\mathit{QO}(Q_2)$ on every \ac{KG}.
-By $B$, each \texttt{SERVICE} call $\mathit{QS}(Q_1, f)$ in $Q_1$ either has a matching call $\mathit{QS}(Q_2, f)$ at the same federation member such that $\mathit{QS}(Q_1, f) \sqsubseteq \mathit{QS}(Q_2, f)$, or returns the empty bag, making $Q_1$'s full result the empty set and containment trivial.
+By $B$, each \texttt{SERVICE} call $\mathit{QS}(Q_1, f)$ in $Q_1$ either has a matching call $\mathit{QS}(Q_2, f)$ at the same federation member such that $\mathit{QS}(Q_1, f) \sqsubseteq \mathit{QS}(Q_2, f)$, or returns the empty bag, making $Q_1$'s full result the empty bag and containment trivial.
 Since \texttt{JOIN} is monotone~\cite{w3SPARQLQuery}, if each part of the contained query is a subbag of the corresponding part of the containing query, the join result of the contained query is also a subbag of that of the containing query.
 Hence $Q_1 \sqsubseteq Q_2$.
 

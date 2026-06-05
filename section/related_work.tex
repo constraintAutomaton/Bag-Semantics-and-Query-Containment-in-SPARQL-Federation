@@ -9,7 +9,7 @@ Query containment under bag or bag-set semantics is a strictly stronger relation
 The literature does not describe general necessary conditions for containment under bag-set and bag semantics~\cite{ioannidis1995containment, khamis2021bag}; however, sufficient conditions have been identified.
 Furthermore, the general case of bag or bag-set semantic query containment for \ac{UCQ} has been shown to be undecidable~\cite{ioannidis1995containment, Jayram2006, Afrati2010}.
 However, some fragments of bag-set and bag semantic conjunctive queries have been proven decidable~\cite{khamis2021bag, KOPPARTY20111097, Chaudhuri1993, Afrati2010}.
-\Cref{tab_decidable_containment_bag_bag_set} summarizes the bag and bag-set \ac{CQ} containment fragments relevant to this paper and their complexity.\footnote{For the general case, containment mappings give a sufficient but not a necessary condition.}
+\Cref{tab_decidable_containment_bag_bag_set} summarizes the bag and bag-set \ac{CQ} containment fragments relevant to this paper and their complexity.\footnote{The general case gives a sufficient but not a necessary condition.}
 
 \begin{table}
   \caption{Complexity of bag and bag-set \ac{CQ} containment for the fragments relevant to this paper.}
@@ -35,11 +35,11 @@ Extensions incorporating RDF schemas, OWL entailment regimes~\cite{WudageChekol2
 
 Federated SPARQL queries have been approached from two perspectives: explicit federation through the \texttt{SERVICE} clause, and automatic source selection.
 The SPARQL 1.1 Federated Query specification~\cite{w3SPARQLFederated} introduces the \texttt{SERVICE} clause as the W3C standard mechanism for directing subexpressions to specific endpoints.
-The SPARQL specification mentions the use of variables as endpoint \acp{IRI} in \texttt{SERVICE} clauses but does not give an official interpretation of their behavior.\footnote{\url{https://www.w3.org/TR/sparql11-federated-query/\#variableService}}
+The SPARQL specification mentions the use of variables as endpoint URLs in \texttt{SERVICE} clauses but does not give an official interpretation of their behavior.\footnote{\url{https://www.w3.org/TR/sparql11-federated-query/\#variableService}}
 \citeauthor{BuilAranda2013}~\cite{BuilAranda2013} introduced \emph{Service-Safeness}, a syntactic rule outside the SPARQL specification that makes such queries computable by guaranteeing a finite set of federation members.
-Because Service-Safeness is not part of the specification and multiple SPARQL query engines use their own interpretation, this paper does not consider variables as endpoint \acp{IRI}.
+Because Service-Safeness is not part of the specification and multiple SPARQL query engines use their own interpretation, this paper does not consider variables as endpoint URLs.
 \citeauthor{Cheng2021}~\cite{Cheng2021} proposed FedQPL, a formalism to express federated queries under automatic source selection.
-Automatic source selection algorithms\rt{Let's cite them here! E.g. FedX, ... I'd just include all algorithms that were mentioned and cited in the paper of Elias. We can also include Comunica in this list.} alleviate the practical difficulty of determining which federation member each subquery should be sent to~\cite{hanski2025observations}.
+Automatic source selection algorithms~\cite{schwarte2011fedx, gorlitz2011splendid, acosta2011anapsid, charalambidis2015semagrow, saleem2018costfed, taelman_iswc_resources_comunica_2018} alleviate the practical difficulty of determining which federation member each subquery should be sent to~\cite{hanski2025observations}.
 Thus, users can query a federation without knowing how the data is distributed.
 Furthermore, \citeauthor{Cheng2021}~\cite{Cheng2021} introduce \ac{ESA}, a canonical source-selection algorithm that requires no prior information about the federation.
 In \ac{ESA}, each triple pattern is evaluated against every federation member and the results are combined via bag union, guaranteeing complete results regardless of how data is distributed across the federation.
