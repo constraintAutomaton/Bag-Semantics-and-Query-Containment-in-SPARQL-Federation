@@ -1,8 +1,0 @@
-- Fix the bag reduction proof
-- Remove all abbreviations that are not conjunctive queries, and knowledge graph.
-- The narrative is as follows, we do query containment of federated queries with service clauses for conjunctive queries
-  - We pose SERVICE based UCQ
-  - We show the bag reduction to bring it back to CQ
-- We show the condition of query containment
-- We show how with automatic source selection using the bag reduction we can solve the same
-- We talk about computation and time complexity
