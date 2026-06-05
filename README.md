@@ -1,5 +1,7 @@
 # Bag Semantics and Query Containment in SPARQL Federation
 
+📄 **[Download the PDF](../../releases/latest/download/main.pdf)**
+
 **Authors:** Bryan-Elliott Tam, Pieter Colpaert, Ruben Taelman  
 **Affiliation:** Ghent University, Belgium
 
