@@ -15,11 +15,11 @@ Whether federation members are SPARQL endpoints on an internal network or expose
 This cost is especially acute in workflows such as data analyses, where queries are routinely re-executed or iteratively refined.
 Query optimization that avoids such re-execution is therefore highly desirable, and query containment is a foundational mechanism for achieving it.
 
-Existing research on SPARQL query containment has focused on set semantics~\cite{WudageChekol2013}.
+Existing research on SPARQL query containment has focused on set semantics~\cite{WudageChekol2013, letelier2013static, chekol2012sparql, chekol2012sparql2, Stadler2018, jenaQC, Spasic2023}.
 Yet the SPARQL query language operates under bag-set semantics~\cite{Perez2006, Angles2016}: the underlying database follows set semantics~\cite{w3ConceptsAbstract}, while query operators produce bags\footnote{A bag, or multiset, is similar to a set but allows duplicate elements.}~\cite{w3SPARQLQuery}.
 Set-semantic containment does not imply bag-set semantic containment, so existing containment results do not apply to real-world SPARQL query optimization.
 For example,\footnote{Inspired by \citeauthor{Chaudhuri1993}~\cite{Chaudhuri1993}.} \Cref{fig:bag-set-example} presents a containing query (a query whose results always include those of a contained query, regardless of the database) and a contained query.
-The containing query retrieves the ages of all people in the dataset, whereas the contained query refines it to those who have a job.
+The containing query retrieves the birthday of all people in the dataset, whereas the contained query refines it to those who have a job.
 Under set semantics, the two queries are contained.
 Under bag-set semantics, however, projecting away variables can introduce duplicates, which occurs in the example whenever an individual holds multiple jobs.\footnote{An executable example is provided at \url{https://github.com/constraintAutomaton/demo-semantic-query-containment-SPARQL} using the Comunica~\cite{taelman_iswc_resources_comunica_2018} query engine and the Specs~\cite{Spasic2023} SPARQL query containment solver.}
 
@@ -38,6 +38,5 @@ To the best of our knowledge, bag-set semantic SPARQL query containment remains 
 This paper bridges these gaps by giving a decision procedure for \ac{CQ} and \ac{UCFQ} containment under bag-set semantics in federated SPARQL, excluding nested queries.
 To achieve this, we first introduce \ac{UCFQ}, a class that unions each triple pattern across several federation members and joins the results.
 This class extends \ac{CQ} but lies inside \ac{UCQ}.
-This class is of interest, because it captures the \acp{CQ} of federated queries that rely on automatic source selection techniques for SPARQL,
-where federation engines decide which federation member each subquery is sent to~\cite{Cheng2021}.
+This class is significant because it captures an important class of federated \acp{CQ} arising from automatic source selection strategies for SPARQL, where the federation engine assigns each subquery to a specific member~\cite{Cheng2021}.
 To decide containment for this class, we introduce the \ac{BFR}, a transformation from \ac{UCFQ} to \ac{CQ} under bag semantics.

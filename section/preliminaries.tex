@@ -4,19 +4,18 @@
 
 SPARQL~\cite{w3SPARQLQuery} is the W3C standard language for querying \ac{RDF}~\cite{w3ConceptsAbstract} \acp{KG}.
 An \ac{RDF} \ac{KG} is a set of \emph{triples} $(s, p, o)$ with $s \in \mathcal{I} \cup \mathcal{B}$, $p \in \mathcal{I}$, and $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L}$, where $\mathcal{I}$, $\mathcal{B}$, and $\mathcal{L}$ are the sets of \acp{IRI}, blank nodes, and literals.
-SPARQL matches queries against a \ac{KG} by substituting variables for components of triples.
 A \emph{triple pattern} extends a triple by allowing variables (drawn from a set $\mathcal{V}$, disjoint from $\mathcal{I}$, $\mathcal{B}$, and $\mathcal{L}$) in any position:
 $\mathit{tp} = (s, p, o)$ where $s \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$, $p \in \mathcal{I} \cup \mathcal{V}$, and $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L} \cup \mathcal{V}$.
 
 A \ac{BGP}~\cite{w3SPARQLQueryFormal} is a set of triple patterns evaluated conjunctively, binding variables across all the patterns it contains.
-A \ac{GP}~\cite{w3SPARQLQueryFormal} generalizes a \ac{BGP} with additional operators; here the only such operator is union, which combines \acp{GP} into a \ac{UGP}~\cite{w3SPARQLQueryFormal}, so every \ac{BGP} is a \ac{GP}.
+A \ac{GP}~\cite{w3SPARQLQueryFormal} generalizes a \ac{BGP} with additional operators; here the only such operator is union, which combines \acp{GP} into a \ac{UGP}~\cite{w3SPARQLQueryFormal}, so every \ac{BGP} and \ac{UGP} is a \ac{GP}.
 A \ac{CQ} is a query whose body is a single \ac{BGP}, optionally followed by a projection.
-A \ac{UCQ} is a union of \acp{CQ}: a query whose body is a \ac{UGP} whose disjuncts are \acp{BGP}.
+A \ac{UCQ} is a query whose body is a \ac{UGP} whose disjuncts are \acp{BGP}.
 A \ac{CQ} is then the special case of a \ac{UCQ} with a single disjunct, so the \acp{CQ} form a subclass of the \acp{UCQ}.
 
 Matching a \ac{GP} against an \ac{RDF} graph produces a \emph{bag} of \emph{solution mappings}, each a partial function from variables to \ac{RDF} terms.
 We write $\operatorname{multiplicity}(\mu \mid \Omega)$ for the number of times a solution mapping $\mu$ occurs in a bag $\Omega$.
-The following definitions make precise the remaining notions used throughout the paper.
+We define the following notions used throughout the paper.
 
 \begin{definition}[Merge~\cite{w3SPARQLQuery}]\label{def_merge}
   Two solution mappings $\mu_1$ and $\mu_2$ are \emph{compatible} if $\mu_1(v)$ and $\mu_2(v)$ are the same \ac{RDF} term~\cite{w3ConceptsAbstract} for every variable $v \in \operatorname{dom}(\mu_1) \cap \operatorname{dom}(\mu_2)$.
@@ -37,7 +36,7 @@ The following definitions make precise the remaining notions used throughout the
   \operatorname{multiplicity}(\mu \mid \texttt{JOIN}(\Omega_1, \Omega_2)) = \\
   \sum_{(\mu_1, \mu_2) \in m(\mu)} \operatorname{multiplicity}(\mu_1 \mid \Omega_1) \cdot \operatorname{multiplicity}(\mu_2 \mid \Omega_2),
   \end{multline*}
-  where $m(\mu) = \{(\mu_1, \mu_2) | \operatorname{merge}(\mu_1 \in \Omega_1, \mu_2 \in \Omega_2) = \mu\}$.
+  where $m(\mu) = \{(\mu_1, \mu_2) \mid \mu_1 \in \Omega_1,\ \mu_2 \in \Omega_2,\ \operatorname{merge}(\mu_1, \mu_2) = \mu\}$.
 \end{definition}
 
 \subsection{Federated Queries}
@@ -45,12 +44,10 @@ The following definitions make precise the remaining notions used throughout the
 A SPARQL federated query involves executing different segments of a query across multiple federation members.
 We denote the evaluation of a query $Q$ over a \ac{KG} $G$ as $\eval{Q}{G}$.
 A set of federation members is called a \emph{federation}.
-Evaluating a query over a federation $F$ involves decomposing $Q$ into subqueries $P_i$, where each subquery $P_i$ is evaluated on a knowledge graph $G_i \in \operatorname{codomain}(f_i \in F)$ held by a federation member.
-We adopt a database-agnostic view of federation members: since query containment does not depend on the content of any particular knowledge graph, we formalize the notion of federation in terms of endpoint URLs rather than data.
-A \texttt{SERVICE} clause, written \texttt{SERVICE :anIRI \{?s ?p ?o\}} in SPARQL syntax and denoted $SERVICE(I, P)$~\cite{w3SPARQLFederated}
+Evaluating a query over a federation $F$ involves decomposing $Q$ into subqueries $P_i$, where each subquery $P_i$ is evaluated at a federation member in $F$ containing a \ac{KG} $G_i$.
+We adopt a database-agnostic view of federation members: since query containment does not depend on the content of any particular \ac{KG}, we formalize the notion of federation in terms of endpoint URLs.
+A \texttt{SERVICE} clause, written \texttt{SERVICE :anIRI \{?s ?p ?o\}} in SPARQL syntax and denoted $SERVICE(I, P)$~\cite{w3SPARQLFederated}, where $I$ is the URL locating the federation member and $P$ is the graph pattern to evaluate, performs $P$ at the endpoint identified by $I$.
 \footnote{We do not consider the \texttt{SILENT} parameter in this formalization.}
-where $I$ is the URL locating the federation member and $P$ is the graph pattern to evaluate,
-performs $P$ at the endpoint identified by $I$.
 
 To reason about federated query plans, we use the FedQPL formalism~\cite{Cheng2021}, a more formal and extensible algebra, with the operators defined below.
 

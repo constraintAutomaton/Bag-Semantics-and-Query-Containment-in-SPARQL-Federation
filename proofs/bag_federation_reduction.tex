@@ -3,8 +3,8 @@
 \begin{document}
 
 \begin{definition}\label{def_bkg}
-The \ac{BKG} of a federation $F$ is the bag union $\biguplus_{G \in \operatorname{codomain}(F)} G$ of all its members' \acp{KG}.
-A triple $t$ thus has multiplicity $|\{\, G \in \operatorname{codomain}(F) : t \in G \,\}|$, i.e., the number of members whose \ac{KG} contains it.
+The \ac{BKG} of a federation $F$ is the bag union $\biguplus_{\mathit{fm}_i \in F} G_i$, where $G_i$ is the \ac{KG} held by member $\mathit{fm}_i$.
+A triple $t$ thus has multiplicity $|\{\, \mathit{fm}_i \in F : t \in G_i \,\}|$, i.e., the number of members whose \ac{KG} contains it.
 \end{definition}
 
 Evaluating a triple pattern $\mathit{tp}$ over the \ac{BKG} yields each solution mapping $\mu$ with the multiplicity of its matching triple $\mu(\mathit{tp})$.
@@ -45,6 +45,6 @@ The two evaluations therefore produce the same result bag.
 
 Together, \Cref{prop_no_overlap,prop_duplicate_fed_mem} establish the \ac{BFR}.
 Evaluating a \ac{UCFQ} yields the same result bag, under bag semantics, as joining each branch's triple pattern $\mathit{tp}_i$ over the \ac{BKG} of its sub-federation $F_i$.
-Since this rewriting targets \ac{CQ} bag containment, which has decidable fragments (\Cref{tab_decidable_containment_bag_bag_set})---in particular the projection-free case that the \ac{BFR} target falls into---the \ac{BFR} resolves the undecidability issue raised by \ac{UCFQ} containment under bag-set semantics.
+Since the \ac{BFR} transforms a \ac{UCFQ} into a projection-free \ac{CQ} under bag semantics---a decidable fragment (\Cref{tab_decidable_containment_bag_bag_set})---the \ac{BFR} resolves the undecidability of \ac{UCFQ} containment under bag-set semantics.
 
 \end{document}

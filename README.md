@@ -2,7 +2,7 @@
 
 📄 **[Download the PDF](../../releases/latest/download/main.pdf)**
 
-**Authors:** Bryan-Elliott Tam, Pieter Colpaert, Ruben Taelman  
+**Authors:** Bryan-Elliott Tam, Ruben Taelman  
 **Affiliation:** Ghent University, Belgium
 
 ## Abstract

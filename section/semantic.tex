@@ -37,28 +37,29 @@ In particular, each triple pattern of a \ac{CQ} is the single-member union $\fmu
 
 \acp{UCFQ} arise under automatic source selection, in particular \ac{ESA} (\Cref{sec:related_works_fed}).
 Consider a federation of two members, a job registry and a social network, that redundantly store the job and birth date of a person.
-The projection-free \ac{CQ} retrieving each person's job and birth date (\Cref{fig:ucfq-example}, top) would return a set on a single endpoint, but under \ac{ESA} it is evaluated as the \ac{UCFQ} below it, unioning each triple pattern across both members before joining them.
-That person's job and birth date are each answered by both members, so the join multiplies the two unions and the person is returned four times, even though every member stores a set.\footnote{An executable example of the semantics of federated queries, evaluated with the Comunica~\cite{taelman_iswc_resources_comunica_2018} query engine, is available at \url{https://github.com/constraintAutomaton/demo-federated-query-semantic}.}
+The projection-free \ac{CQ} retrieving each person's job and birth date (\Cref{fig:ucfq-example}, top) would return a set on a single endpoint, but under \ac{ESA} it is evaluated as the \ac{UCFQ} (\Cref{fig:ucfq-example}, bottom), unioning each triple pattern across both members before joining the results.
+Since both members hold the same solution for a person, the join returns that person with multiplicity four, even though every member stores a set --- a duplication that does not arise with explicit \texttt{SERVICE} clauses in a \ac{CQ}.%
+\footnote{An executable example of the semantics of federated queries, evaluated with the Comunica~\cite{taelman_iswc_resources_comunica_2018} query engine, is available at \url{https://github.com/constraintAutomaton/demo-federated-query-semantic}.}
 
 \begin{figure}
   \textbf{The \ac{CQ} as written}
   \lstinputlisting[style=sparql]{code/ucfq_cq.rq}
-  \textbf{The same query under \ac{ESA}, a \ac{UCFQ}}
+  \textbf{The executed query under \ac{ESA}}
   \lstinputlisting[style=sparql]{code/ucfq_example.rq}
   \caption{A \ac{CQ} evaluated as a \ac{UCFQ} under \ac{ESA}.}
   \label{fig:ucfq-example}
 \end{figure}
 
-\ac{ESA} is a particular case of \ac{UCFQ} where every union branch ranges over the whole federation $\{\mathit{fm}_1, \dots, \mathit{fm}_m\}$:
+\ac{ESA} is the particular case of \ac{UCFQ} in which every union branch ranges over the entire federation $\{\mathit{fm}_1, \dots, \mathit{fm}_m\}$, formalized as follows:
 \begin{equation}
   \fmj\bigl(\fmu(\freq_{\mathit{fm}_1}^{\mathit{tp}_1}, \dots, \freq_{\mathit{fm}_m}^{\mathit{tp}_1}), \dots, \fmu(\freq_{\mathit{fm}_1}^{\mathit{tp}_n}, \dots, \freq_{\mathit{fm}_m}^{\mathit{tp}_n})\bigr)
   \label{eq_esa}
 \end{equation}
 
 Most federated engines produce plans of this same join-over-union shape---for instance FedX~\cite{schwarte2011fedx}, SemaGrow~\cite{charalambidis2015semagrow}, and CostFed~\cite{saleem2018costfed}---which can likewise be rewritten as \acp{UCFQ}.
-Automatic source selection can, however, yield an arbitrary shape, for instance the union-over-join plans~\cite{aimonier2024fedup}; our approach therefore cannot encapsulate every such query.
+Automatic source selection can, however, produce \ac{CQ} plans of arbitrary shape --- for instance, union-over-join plans~\cite{aimonier2024fedup} --- and \ac{UCFQ} therefore does not capture every \ac{CQ} under automatic source selection.
 
-Because the \acp{UCFQ} sit inside the \acp{UCQ}, their containment inherits the undecidability of bag-set \ac{UCQ} containment~(\Cref{sec:related_works_qc}).
+Because the \acp{UCFQ} sit inside the \acp{UCQ}, their containment inherits the undecidability of bag-set \ac{UCQ} containment (\Cref{sec:related_works_qc}).
 To address this, the next section introduces the \ac{BFR}, a transformation showing that evaluating a \ac{UCFQ} is equivalent to evaluating a \ac{CQ} over one \ac{BKG} per union branch under bag semantics.
 
 

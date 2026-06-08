@@ -6,7 +6,7 @@ Query containment is the problem of deciding, for every possible database, wheth
 Query containment has been used in multiple query optimization tasks, including view selection, caching, and query rewriting~\cite{Afrati2019-ch2, Shirkova2011, Halevy2001}.
 
 Query containment under bag or bag-set semantics is a strictly stronger relationship than its set-semantic counterpart~\cite{Chaudhuri1993}.
-The literature does not describe general necessary conditions for containment under bag-set and bag semantics~\cite{ioannidis1995containment, khamis2021bag}; however, sufficient conditions have been identified.
+No general necessary conditions for containment under bag-set and bag semantics are known~\cite{ioannidis1995containment, khamis2021bag}; however, sufficient conditions have been identified.
 Furthermore, the general case of bag or bag-set semantic query containment for \ac{UCQ} has been shown to be undecidable~\cite{ioannidis1995containment, Jayram2006, Afrati2010}.
 However, some fragments of bag-set and bag semantic conjunctive queries have been proven decidable~\cite{khamis2021bag, KOPPARTY20111097, Chaudhuri1993, Afrati2010}.
 \Cref{tab_decidable_containment_bag_bag_set} summarizes the bag and bag-set \ac{CQ} containment fragments relevant to this paper and their complexity.\footnote{The general case gives a sufficient but not a necessary condition.}
@@ -27,8 +27,8 @@ However, some fragments of bag-set and bag semantic conjunctive queries have bee
 \end{table}
 
 Beyond relational databases, query containment has been studied in other graph query languages, including XPath~\cite{schwentick2004xpath} and Cypher~\cite{tang2025proving}.
-In the context of SPARQL, set-semantic query containment has received considerable attention~\cite{WudageChekol2013, letelier2013static, chekol2012sparql, chekol2012sparql2, jenaQC, Spasic2023}.
-Extensions incorporating RDF schemas, OWL entailment regimes~\cite{WudageChekol2013} and property paths~\cite{Kostylev2025, chekol2016containment} have also been proposed, though these fall outside the scope of this paper.
+In the context of SPARQL, set-semantic query containment has received considerable attention~\cite{WudageChekol2013, letelier2013static, chekol2012sparql, chekol2012sparql2, Stadler2018, jenaQC, Spasic2023}.
+Extensions incorporating RDF schemas, OWL entailment regimes~\cite{WudageChekol2013}, and property paths~\cite{Kostylev2025, chekol2016containment} have also been proposed, though these fall outside the scope of this paper.
 
 
 \subsection{Federated Queries}\label{sec:related_works_fed}
@@ -41,7 +41,7 @@ Because Service-Safeness is not part of the specification and multiple SPARQL qu
 \citeauthor{Cheng2021}~\cite{Cheng2021} proposed FedQPL, a formalism to express federated queries under automatic source selection.
 Automatic source selection algorithms~\cite{schwarte2011fedx, gorlitz2011splendid, acosta2011anapsid, charalambidis2015semagrow, saleem2018costfed, taelman_iswc_resources_comunica_2018} alleviate the practical difficulty of determining which federation member each subquery should be sent to~\cite{hanski2025observations}.
 Thus, users can query a federation without knowing how the data is distributed.
-Furthermore, \citeauthor{Cheng2021}~\cite{Cheng2021} introduce \ac{ESA}, a canonical source-selection algorithm that requires no prior information about the federation.
+Furthermore, \citeauthor{Cheng2021}~\cite{Cheng2021} introduced \ac{ESA}, a canonical source-selection algorithm that requires no prior information about the federation.
 In \ac{ESA}, each triple pattern is evaluated against every federation member and the results are combined via bag union, guaranteeing complete results regardless of how data is distributed across the federation.
 
 To the best of our knowledge, no contribution has addressed query containment for federated SPARQL queries; this is the gap our paper addresses.

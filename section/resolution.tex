@@ -3,14 +3,15 @@
 In the previous section we defined the conditions for federated query containment, but did not address how to decide them.
 This section shows how existing query containment techniques can be orchestrated or adapted to do so.
 
+Checking $F_2 \subseteq F_1$ is a trivial set-membership check.
 Condition $A$ is the bag-set containment $\mathit{QO}(Q_1) \sqsubseteq \mathit{QO}(Q_2)$ of the local parts, an ordinary single-source \ac{CQ} containment that is decidable as characterized in \Cref{tab_decidable_containment_bag_bag_set}.
 
 As established in \Cref{sec:semantic_federated_q}, a \texttt{SERVICE} clause evaluates its inner query without projection, so under bag-set semantics its evaluation coincides with set semantics~\cite{Afrati2010}.
 Thus, to evaluate condition $B$ of~\Cref{prop_federated_containment}, any SPARQL query containment solver\footnote{See \Cref{sec:related_works_qc}.} can be orchestrated.
-In that case the time complexity is \textsc{np}-complete~\cite{Afrati2010}, like query containment under set semantics.
+In that case the time complexity is NP-complete~\cite{Afrati2010}, like query containment under set semantics.
 
 
-With an adjustment to the algorithm, and since \texttt{SERVICE} clauses carry no projection on either side, the complexity of a single check can be reduced to $O(n^2\log(n))$~\cite{Afrati2010}; satisfying condition $B$ then costs $O(n^2\log(n)\cdot n_{sQ1} \cdot n_{sQ2})$, where $n_{sQ1}$ and $n_{sQ2}$ are the numbers of \texttt{SERVICE} clauses in $Q_1$ and $Q_2$, respectively.
+With an adjustment to the algorithm, and since \texttt{SERVICE} clauses carry no projection on either side (\Cref{tab_decidable_containment_bag_bag_set}, last two rows), the complexity of a single check can be reduced to $O(n^2\log(n))$~\cite{Afrati2010}; satisfying condition $B$ then costs $O(n^2\log(n)\cdot n_{sQ1} \cdot n_{sQ2})$, where $n_{sQ1}$ and $n_{sQ2}$ are the numbers of \texttt{SERVICE} clauses in $Q_1$ and $Q_2$, respectively.
 The adjustment consists of defining bag-set query containment in terms of variable-onto containment mappings~\cite{Chaudhuri1993}.
 A \emph{containment mapping} from the containing query to the contained query is a homomorphism on their bodies: a function from the variables of the containing query to the variables and constants of the contained query that maps every conjunct of the containing query's body to a conjunct of the contained query's body, and is the identity on the distinguished (head) variables~\cite{Chaudhuri1993}.
 It is \emph{variable-onto} if, in addition, every variable of the contained query is the image of some variable of the containing query~\cite{Chaudhuri1993}.
