@@ -29,7 +29,7 @@ We define a particular class of federated queries, useful for capturing duplicat
 Each triple pattern of the query body is evaluated across several members and the partial results are joined.
 
 \begin{definition}[\acl{UCFQ}]\label{def_ucfq}
-A \ac{UCFQ} is a multiway join $\fmj(U_1, \dots, U_n)$ where each operand $U_i = \fmu(\freq_{I_1}^{\mathit{tp}_i}, \dots, \freq_{I_{k_i}}^{\mathit{tp}_i})$ is a multiway union evaluating the same triple pattern $\mathit{tp}_i$ at a subset of federation members $I_1, \dots, I_{k_i}$.
+A \ac{UCFQ} is a multiway join $\fmj(U_1, \dots, U_n)$ where each operand $U_i = \fmu(\freq_{I_1}^{\mathit{tp}_i}, \dots, \freq_{I_{k_i}}^{\mathit{tp}_i})$ is a multiway union evaluating the same triple pattern $\mathit{tp}_i$ at a subset of federation members $I_1, \dots, I_{k_i}$, optionally followed by a projection.
 \end{definition}
 
 A \ac{CQ} is the special case where every union ranges over a single member, and every \ac{UCFQ} is a \ac{UCQ}, so the \acp{UCFQ} lie strictly between the \acp{CQ} and the \acp{UCQ}.
@@ -59,8 +59,8 @@ Since both members hold the same solution for a person, the join returns that pe
 Most federated engines produce plans of this same join-over-union shape---for instance FedX~\cite{schwarte2011fedx}, SemaGrow~\cite{charalambidis2015semagrow}, and CostFed~\cite{saleem2018costfed}---which can likewise be rewritten as \acp{UCFQ}.
 Automatic source selection can, however, produce \ac{CQ} plans of arbitrary shape --- for instance, union-over-join plans~\cite{aimonier2024fedup} --- and \ac{UCFQ} therefore does not capture every \ac{CQ} under automatic source selection.
 
-Because the \acp{UCFQ} sit inside the \acp{UCQ}, their containment inherits the undecidability of bag-set \ac{UCQ} containment (\Cref{sec:related_works_qc}).
-To address this, the next section introduces the \ac{BFR}, a transformation showing that evaluating a \ac{UCFQ} is equivalent to evaluating a \ac{CQ} over one \ac{BKG} per union branch under bag semantics.
+Containment of \acp{UCQ} under bag-set semantics is undecidable (\Cref{sec:related_works_qc}), but this does not settle the status of the \acp{UCFQ}, which form a strict subclass.
+The next section introduces the \ac{BFR}, a transformation showing that evaluating a \ac{UCFQ} is equivalent to evaluating a \ac{CQ} over one \ac{BKG} per union branch under bag semantics.
 
 
 

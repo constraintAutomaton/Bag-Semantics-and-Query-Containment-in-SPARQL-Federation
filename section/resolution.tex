@@ -1,24 +1,171 @@
 \section{Deciding Federated Query Containment}\label{sec:resolution}
 
-In the previous section we defined the conditions for federated query containment, but did not address how to decide them.
-This section shows how existing query containment techniques can be orchestrated or adapted to do so.
+In the previous section we reduced federated query containment to containment of located \acp{CQ}.
+From this reduction it would be possible to create a dedicated solver, however we leave that to future works.
+In this section we are interested in reusing existing solvers to solve the containment problem.
 
-Checking $F_2 \subseteq F_1$ is a trivial set-membership check.
-Condition $A$ is the bag-set containment $\mathit{QO}(Q_1) \sqsubseteq \mathit{QO}(Q_2)$ of the local parts, an ordinary single-source \ac{CQ} containment that is decidable as characterized in \Cref{tab_decidable_containment_bag_bag_set}.
+The located form of a query is expressible in SPARQL, as a location is a graph name in the quad representation of an \ac{RDF} dataset (\Cref{sec:federated_queries_query_containment}).
+Replacing every \texttt{SERVICE} clause by a \texttt{GRAPH} clause over the same \ac{IRI}, and evaluating the local part in the graph named $f_{\mathit{loc}}$, yields a single-source query equivalent to $L(Q)$.
+A solver supporting the \texttt{GRAPH} construct can therefore be the base of a SPARQL federated query containment solver.
 
-As established in \Cref{sec:semantic_federated_q}, a \texttt{SERVICE} clause evaluates its inner query without projection, so under bag-set semantics its evaluation coincides with set semantics~\cite{Afrati2010}.
-Thus, to evaluate condition $B$ of~\Cref{prop_federated_containment}, any SPARQL query containment solver\footnote{See \Cref{sec:related_works_qc}.} can be orchestrated.
-In that case the time complexity is NP-complete~\cite{Afrati2010}, like query containment under set semantics.
-
-
-With an adjustment to the algorithm, and since \texttt{SERVICE} clauses carry no projection on either side (\Cref{tab_decidable_containment_bag_bag_set}, last two rows), the complexity of a single check can be reduced to $O(n^2\log(n))$~\cite{Afrati2010}; satisfying condition $B$ then costs $O(n^2\log(n)\cdot n_{sQ1} \cdot n_{sQ2})$, where $n_{sQ1}$ and $n_{sQ2}$ are the numbers of \texttt{SERVICE} clauses in $Q_1$ and $Q_2$, respectively.
-The adjustment consists of defining bag-set query containment in terms of variable-onto containment mappings~\cite{Chaudhuri1993}.
-A \emph{containment mapping} from the containing query to the contained query is a homomorphism on their bodies: a function from the variables of the containing query to the variables and constants of the contained query that maps every conjunct of the containing query's body to a conjunct of the contained query's body, and is the identity on the distinguished (head) variables~\cite{Chaudhuri1993}.
+Current SPARQL query containment solvers decide containment under set semantics, whereas SPARQL evaluates under bag-set semantics (\Cref{sec:semantic_federated_q}), for which variable-onto containment mappings give a sufficient condition~\cite{Chaudhuri1993}.
+A \emph{containment mapping} from the containing query to the contained query is a homomorphism between their bodies that maps every distinguished variable to itself~\cite{Chaudhuri1993}.
+A homomorphism is a function from the variables of the containing query to the variables and constants of the contained query that maps every conjunct of the containing query's body (\ac{GP}) to a conjunct of the contained query's body.
 It is \emph{variable-onto} if, in addition, every variable of the contained query is the image of some variable of the containing query~\cite{Chaudhuri1993}.
+A variable-onto containment mapping is sufficient for bag-set containment~\cite[Proposition~2, Case~3]{Afrati2010} but not necessary in the general case~\cite[Example~3]{Afrati2010}, which is $\Pi^p_2$-hard and whose decidability remains open (\Cref{sec:related_works_qc}).
+The condition becomes necessary on two fragments of \Cref{tab_decidable_containment_bag_bag_set}, both determined by the projection of the two queries.
+A projection-free query returns a set on every set-valued database~\cite[Proposition~3]{Afrati2010}.
+When the contained query is projection-free, every variable of its body is distinguished, so a containment mapping maps all of them to themselves and is therefore variable-onto.
+Bag-set containment then coincides with set containment, which an existing solver decides, and the problem is NP-complete~\cite[Theorem~1]{Afrati2010}.
+When both queries are projection-free, the same argument leaves the identity as the only containment mapping, and containment is decided in $O(n^2\log(n))$~\cite[Remark~1]{Afrati2010}.
 
-The case is more complicated when considering the \acl{BFR}, which casts the query into a \ac{CQ} evaluated under bag semantics (\Cref{sec_bag_federation_reduction}).
-Indeed, even without projection, containment under bag semantics cannot be reduced to query containment under set semantics.
-Thus, it is not possible to simply orchestrate existing set-semantic query containment solvers.
-However, it has the same time complexity as bag-set semantics~\cite{Afrati2010}.
-Since the \ac{BFR} target carries no projection, deciding containment amounts to checking for a \emph{subgoals-onto} containment mapping, which in this case is both necessary and sufficient~\cite{Chaudhuri1993, Afrati2010}.
-A containment mapping is \emph{subgoals-onto} if the body of the contained query is a subbag of the image of the containing query's body, i.e.\ each conjunct of the contained query is matched, with multiplicity, by a distinct conjunct of the containing query.
+A third fragment requires the contained query to hold no self-joins, that is no two conjuncts with the same relation name~\cite[Theorem~3]{Afrati2010}.
+Whether a SPARQL query holds self-joins depends on the relational encoding of \ac{RDF}, and we take the encoding holding a whole dataset in a single relation $\mathit{rdf}(s, p, o, g)$~\cite{angles2008expressive, cyganiak2005relational}.
+\ac{RDF} and SPARQL carry no notion of table, so a single relation is the natural choice, and every query holding more than one triple pattern is then a self-join.
+We leave open the question of whether an interpretation of \ac{RDF} and SPARQL over multiple relations, such as one relation per predicate, is sound.
+
+\subsection{Conjunctive Queries}\label{sec:algorithm}
+
+We decide containment of federated \acp{CQ} in stages of increasing cost, so that a pair is rejected as early as possible.
+The first stage reads the federation members of the two queries, where every member the containing query contacts must also be contacted by the contained query (\Cref{cor_fed_subset}), and every member the contained query contacts alone must bind no fresh variable (\Cref{cor_fed_extra_member}).
+The second stage counts their variables, the containing query holding at least as many as the contained one~\cite[Theorem~12]{Afrati2010}.
+The three are necessary conditions checked in polynomial time, so a pair failing any of them is not contained, while a pair passing them all is not yet known to be.
+
+The projection then determines how such a pair is decided.
+When both queries are projection-free, \Cref{alg_variable_onto} decides containment on its own.
+When only the contained query is, containment holds exactly when the two queries are set contained.
+When only the containing query is, its variables are exactly those of its head and therefore fewer than those of the contained query, so the variable count above rejects the pair.
+When both queries project, set containment remains necessary, as bag-set containment implies it~\cite[Proposition~2, Case~1]{Afrati2010}, and a variable-onto containment mapping remains sufficient, so a pair that is set contained without such a mapping is left undecided.
+Set containment is decided on the located queries rewritten with \texttt{GRAPH} clauses, and delegated to a query containment solver from the literature (\Cref{sec:related_works_qc}).
+
+\Cref{alg_variable_onto} searches for a variable-onto containment mapping by placing the located triple patterns of $L(Q_2)$ on those of $L(Q_1)$, one at a time.
+The procedure \textsc{Search} carries the set $S$ of patterns of $L(Q_2)$ that remain to be placed, the set $P$ of patterns of $L(Q_1)$ on which they are placed, and the mapping $\sigma$ built so far, which assigns a term of $L(Q_1)$ to every variable of $L(Q_2)$ already encountered.
+Once $S$ is empty the mapping is complete, its domain is exactly the variables of $L(Q_2)$, and it is variable-onto when its image contains every variable of $L(Q_1)$.
+The procedure \textsc{Place} attempts to place a pattern $A$ of $L(Q_2)$ on a pattern $B$ of $L(Q_1)$ by comparing their terms $A_i$ and $B_i$ at each position $i$: a constant must equal the term facing it, a variable already assigned must keep its term, and any other variable is assigned the term facing it.
+It returns the extended mapping, or $\bot$ when the two patterns cannot be placed.
+The names of the variables the head does not project are therefore never compared, as the mapping derives their correspondence from the constants alone.
+A location is a constant, so a pattern is only ever placed on one evaluated at the same federation member, which partitions the search by federation member.
+The search does not stop at the first mapping it finds, as a mapping may fail to be variable-onto while another one is.
+
+Finding a variable-onto containment mapping is NP-complete~\cite{Chaudhuri1993}, so the search backtracks whenever the initial mapping leaves a variable of $L(Q_2)$ unassigned.
+It does not when both queries are projection-free, as $\sigma$ then starts as the identity on every variable, so \textsc{Place} accepts a pattern of $L(Q_1)$ only when it is the very pattern it places and each pattern holds a single candidate.
+The search then amounts to testing whether the body of $L(Q_2)$ is included in that of $L(Q_1)$ and whether every variable of $L(Q_1)$ occurs in $L(Q_2)$, which the two nested loops perform in $O(n^2)$, within the bound of \Cref{tab_decidable_containment_bag_bag_set} whose algorithm reaches the same test by sorting the conjuncts of both queries~\cite[Theorem~2]{Afrati2010}.
+
+\begin{algorithm}
+  \caption{Search for a variable-onto containment mapping}
+  \label{alg_variable_onto}
+  \begin{algorithmic}[1]
+    \Require located \acp{CQ} $L(Q_1)$ and $L(Q_2)$ with the same head
+    \Ensure whether a variable-onto containment mapping from $L(Q_2)$ to $L(Q_1)$ exists
+    \Function{Place}{$A, B, \sigma$}
+      \ForAll{positions $i$ of $A$}
+        \If{$A_i \in \mathcal{V}$}
+          \If{$A_i \in \operatorname{dom}(\sigma)$ \textbf{and} $\sigma(A_i) \neq B_i$}
+            \State \Return $\bot$
+          \EndIf
+          \State $\sigma \gets \sigma \cup \{A_i \mapsto B_i\}$
+        \ElsIf{$A_i \neq B_i$}
+          \State \Return $\bot$
+        \EndIf
+      \EndFor
+      \State \Return $\sigma$
+    \EndFunction
+    \Function{Search}{$S, P, \sigma$}
+      \If{$S = \emptyset$}
+        \State \Return $\operatorname{vars}(P) \subseteq \operatorname{image}(\sigma)$
+      \EndIf
+      \State remove a located triple pattern $A$ from $S$
+      \ForAll{$B \in P$ whose location is that of $A$}
+        \State $\sigma' \gets \Call{Place}{A, B, \sigma}$
+        \If{$\sigma' \neq \bot$ \textbf{and} \Call{Search}{$S, P, \sigma'$}}
+          \State \Return \textbf{true}
+        \EndIf
+      \EndFor
+      \State \Return \textbf{false}
+    \EndFunction
+    \Function{VariableOnto}{$L(Q_1), L(Q_2)$}
+      \State \Return \Call{Search}{$L(Q_2)$, $L(Q_1)$, $\{x \mapsto x \mid x \in \operatorname{head}(L(Q_2))\}$}
+    \EndFunction
+  \end{algorithmic}
+\end{algorithm}
+
+On the queries of \Cref{fig:extra-member-cases}~(a), the search places the single pattern of $Q_2$ on the local pattern of $Q_1$ and assigns \texttt{?s} and \texttt{?birthDate} to themselves.
+No variable is assigned \texttt{?job}, so the mapping is not variable-onto, no other placement is possible, and the search returns false.
+
+\Cref{alg_federated_containment} collects the stages into a single procedure.
+The three necessary conditions come first, followed by the branch on the projection of the two queries.
+\textsc{SetContained} decides set containment of the two located queries written with \texttt{GRAPH} clauses, and is where a solver from the literature is called.
+The case where only the containing query is projection-free carries no branch, as the variable count already rejects such a pair.
+The procedure answers \textsc{unknown} only when both queries project, the pair is set contained, and no variable-onto containment mapping exists.
+
+\begin{algorithm}
+  \caption{Deciding containment of federated \acp{CQ}}
+  \label{alg_federated_containment}
+  \begin{algorithmic}[1]
+    \Require flattened federated \acp{CQ} $Q_1$ and $Q_2$ over the federations $F_1$ and $F_2$, with the same head
+    \Ensure whether $Q_1 \sqsubseteq Q_2$, or \textsc{unknown}
+    \If{$F_2 \not\subseteq F_1$}
+      \State \Return \textbf{false}
+    \EndIf
+    \ForAll{$f \in F_1 \setminus F_2$}
+      \If{$\operatorname{fresh}(Q_1, f) \neq \emptyset$}
+        \State \Return \textbf{false}
+      \EndIf
+    \EndFor
+    \If{$|\operatorname{vars}(Q_2)| < |\operatorname{vars}(Q_1)|$}
+      \State \Return \textbf{false}
+    \EndIf
+    \If{$Q_1$ and $Q_2$ are projection-free}
+      \State \Return \Call{VariableOnto}{$L(Q_1), L(Q_2)$}
+    \EndIf
+    \If{$Q_1$ is projection-free}
+      \State \Return \Call{SetContained}{$L(Q_1), L(Q_2)$}
+    \EndIf
+    \If{\textbf{not} \Call{SetContained}{$L(Q_1), L(Q_2)$}}
+      \State \Return \textbf{false}
+    \EndIf
+    \If{\Call{VariableOnto}{$L(Q_1), L(Q_2)$}}
+      \State \Return \textbf{true}
+    \EndIf
+    \State \Return \textsc{unknown}
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection{Unions of Conjunctive Federated Queries}\label{sec:algorithm_ucfq}
+
+Deciding containment of \acp{UCFQ} is a different problem, as the \ac{BFR} casts such a query into a \ac{CQ} evaluated under bag semantics (\Cref{sec_bag_federation_reduction}).
+Bag containment does not reduce to set containment, even without projection, so a set-semantic solver cannot be orchestrated as in \Cref{sec:algorithm}.
+When both queries are projection-free, containment holds exactly when a \emph{subgoals-onto} containment mapping exists, and is decided in $O(n^2\log(n))$~\cite[Theorem~2]{Afrati2010}.\footnote{The \ac{BKG} of a sub-federation holding a single member is a set (\Cref{def_bkg}), so a \ac{UCFQ} whose sub-federations all hold a single member is evaluated under bag-set semantics.}
+A containment mapping is \emph{subgoals-onto} if the body of the contained query is a subbag of the image of the containing query's body, that is each conjunct of the contained query is matched, with multiplicity, by a distinct conjunct of the containing query.
+
+\Cref{alg_subgoals_onto} searches for such a mapping, and differs from \Cref{alg_variable_onto} only in what it accumulates and tests.
+It carries the set $I$ of the patterns of $L(Q_1)$ it has placed a pattern on, and requires, once every pattern of $L(Q_2)$ is placed, that $I$ hold every pattern of $L(Q_1)$.
+The image of the body of $L(Q_2)$ is a bag, as two patterns may be placed on the same one, whereas a \ac{BGP} is a set, so a conjunct of $L(Q_1)$ has only to be placed on once and the set $I$ carries the test.
+
+\begin{algorithm}
+  \caption{Search for a subgoals-onto containment mapping}
+  \label{alg_subgoals_onto}
+  \begin{algorithmic}[1]
+    \Require located \acp{CQ} $L(Q_1)$ and $L(Q_2)$ with the same head
+    \Ensure whether a subgoals-onto containment mapping from $L(Q_2)$ to $L(Q_1)$ exists
+    \Function{SearchOnto}{$S, P, \sigma, I$}
+      \If{$S = \emptyset$}
+        \State \Return $P \subseteq I$
+      \EndIf
+      \State remove a located triple pattern $A$ from $S$
+      \ForAll{$B \in P$ whose location is that of $A$}
+        \State $\sigma' \gets \Call{Place}{A, B, \sigma}$
+        \If{$\sigma' \neq \bot$ \textbf{and} \Call{SearchOnto}{$S, P, \sigma', I \cup \{B\}$}}
+          \State \Return \textbf{true}
+        \EndIf
+      \EndFor
+      \State \Return \textbf{false}
+    \EndFunction
+    \Function{SubgoalsOnto}{$L(Q_1), L(Q_2)$}
+      \State \Return \Call{SearchOnto}{$L(Q_2)$, $L(Q_1)$, $\{x \mapsto x \mid x \in \operatorname{head}(L(Q_2))\}$, $\emptyset$}
+    \EndFunction
+  \end{algorithmic}
+\end{algorithm}
+When either query projects, the pair belongs to the general bag case of \Cref{tab_decidable_containment_bag_bag_set}, which is $\Pi^p_2$-hard and whose decidability remains open.
+A subgoals-onto containment mapping remains sufficient there~\cite[Proposition~2, Case~5]{Afrati2010}, so \Cref{alg_subgoals_onto} decides such a pair when it succeeds and leaves it undecided otherwise.
+Deciding containment of a pair of \acp{UCFQ} therefore amounts to applying the \ac{BFR} to both queries and running \Cref{alg_subgoals_onto} on the two \acp{CQ} it returns, an answer that is exact when the two are projection-free and sufficient otherwise.

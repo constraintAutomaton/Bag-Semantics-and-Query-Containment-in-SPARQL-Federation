@@ -12,10 +12,27 @@ The proposition below shows that a nested \texttt{SERVICE} clause is semanticall
 \subfile{proofs/nested_service_flattening}
 
 
-Federated query containment decomposes into a condition on the local part and a condition on each individual \texttt{SERVICE} call; the following two functions extract these components.
+Deciding containment for a federated query requires a form in which a query and the federation it addresses can be examined as a whole.
+We obtain such a form by centralizing the federation into a single graph whose triples carry the member holding them, and by extending each triple pattern with a fourth component---its \emph{location}---naming the member that evaluates it.\footnote{We extend triples for readability. \ac{RDF} datasets are commonly represented as quads whose fourth component names a graph~\cite{w3ConceptsAbstract}; there the location is a fifth component and the development below is unchanged.}
 
-We define a function $\mathit{QS}\colon (\mathcal{Q}, \mathcal{F}) \to \mathcal{Q}$ that returns the query associated with the \ac{GP} of a \texttt{SERVICE} clause.
-Here $\mathcal{F}$ is the set of all federation members and $\mathcal{Q}$ is the set of all queries.
-We also define $\mathit{QO}\colon \mathcal{Q} \to \mathcal{Q}$, a function that returns the segments of a query evaluated against the local \ac{KG}.
+\begin{definition}[Located federated database]\label{def_located_db}
+  Let $F$ be a federation and $G_f$ the \ac{KG} held by member $f \in F$.
+  The \emph{located database} of $F$ is
+  \[
+    G^{*} = \bigcup_{f \in F} \{(s,p,o,f) \mid (s,p,o) \in G_f\}.
+  \]
+\end{definition}
+
+A triple held by member $f$ is thus a located triple whose location is $f$, and a triple pattern evaluated at $f$ a located triple pattern whose location is $f$; the query is rewritten accordingly.
+
+\begin{definition}[Located form of a query]\label{def_located_form}
+  Let $Q$ be a flattened federated \ac{CQ} over a federation $F$.
+  The \emph{located form} $L(Q)$ of $Q$ is the \ac{CQ} with the same head as $Q$ whose body contains, for every triple pattern $(s,p,o)$ of $Q$, the located triple pattern $(s,p,o,f)$, where $f$ is the member evaluating it: the member of the \texttt{SERVICE} clause enclosing the pattern, or $f_{\mathit{loc}}$ if the pattern belongs to the local \ac{BGP}.
+\end{definition}
+
+Centralization changes neither compatibility (\Cref{def_merge}) nor the multiplicity of a join (\Cref{def_join_multiplicity}), so $Q$ and $L(Q)$ return the same result bag.
+A flattened federated \ac{CQ} is therefore an ordinary \ac{CQ} over $G^{*}$ whose subgoals are located triple patterns, and the federation members are accounted for where subgoals are matched rather than in a condition stated separately for each member.
+A location is always an \ac{IRI}, never a variable, since we do not consider variables as endpoint URLs (\Cref{sec:related_works_fed}).
+Containment thus depends on the URLs of the federation members, but not on their content, as announced above.
 
 \subfile{proofs/federated_query_condition}

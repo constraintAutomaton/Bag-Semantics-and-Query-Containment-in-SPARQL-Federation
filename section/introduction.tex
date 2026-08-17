@@ -35,8 +35,10 @@ Under bag-set semantics, however, projecting away variables can introduce duplic
 
 To the best of our knowledge, bag-set semantic SPARQL query containment remains unexplored, and query containment for federated queries has not been studied either.\footnote{Note that QCan~\cite{salas2018canonicalisation} addresses bag-set semantics, but for query equivalence rather than containment, by transforming SPARQL queries into a canonical form and performing syntactic comparison.}
 
-This paper bridges these gaps by giving a decision procedure for \ac{CQ} and \ac{UCFQ} containment under bag-set semantics in federated SPARQL, excluding nested queries.
+This paper bridges these gaps by giving procedures for \ac{CQ} and \ac{UCFQ} containment in federated SPARQL under the semantics SPARQL evaluates, excluding nested queries.
 To achieve this, we first introduce \ac{UCFQ}, a class that unions each triple pattern across several federation members and joins the results.
 This class extends \ac{CQ} but lies inside \ac{UCQ}.
 This class is significant because it captures an important class of federated \acp{CQ} arising from automatic source selection strategies for SPARQL, where the federation engine assigns each subquery to a specific member~\cite{Cheng2021}.
 To decide containment for this class, we introduce the \ac{BFR}, a transformation from \ac{UCFQ} to \ac{CQ} under bag semantics.
+For federated \acp{CQ}, we reduce containment to containment of \acp{CQ} over located databases, which extend a triple with the federation member holding it, so that the results of the literature apply unchanged.
+The procedures decide containment on the fragments where those results are exact, and report no answer on the others, as the general problem is open.

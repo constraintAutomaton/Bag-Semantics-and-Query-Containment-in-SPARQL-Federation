@@ -1,0 +1,7 @@
+PREFIX schema: <http://schema.org/>
+PREFIX ex: <http://example.org/>
+
+SELECT ?s ?birthDate ?job WHERE {
+  ?s schema:birthDate ?birthDate .
+  SERVICE ex:jobRegistry { ?s schema:jobTitle ?job }
+}

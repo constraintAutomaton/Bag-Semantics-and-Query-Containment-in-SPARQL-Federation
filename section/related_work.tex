@@ -7,8 +7,8 @@ Query containment has been used in multiple query optimization tasks, including 
 
 Query containment under bag or bag-set semantics is a strictly stronger relationship than its set-semantic counterpart~\cite{Chaudhuri1993}.
 No general necessary conditions for containment under bag-set and bag semantics are known~\cite{ioannidis1995containment, khamis2021bag}; however, sufficient conditions have been identified.
-Furthermore, the general case of bag or bag-set semantic query containment for \ac{UCQ} has been shown to be undecidable~\cite{ioannidis1995containment, Jayram2006, Afrati2010}.
-However, some fragments of bag-set and bag semantic conjunctive queries have been proven decidable~\cite{khamis2021bag, KOPPARTY20111097, Chaudhuri1993, Afrati2010}.
+The general case of bag or bag-set semantic query containment for \ac{UCQ} has been shown to be undecidable~\cite{ioannidis1995containment, Jayram2006, Afrati2010}.
+For \acp{CQ} the problem is $\Pi^p_2$-hard and its decidability remains open~\cite{Chaudhuri1993, khamis2021bag}, while some fragments have been proven decidable~\cite{khamis2021bag, KOPPARTY20111097, Chaudhuri1993, Afrati2010}.
 \Cref{tab_decidable_containment_bag_bag_set} summarizes the bag and bag-set \ac{CQ} containment fragments relevant to this paper and their complexity.\footnote{The general case gives a sufficient but not a necessary condition.}
 
 \begin{table}
@@ -20,8 +20,10 @@ However, some fragments of bag-set and bag semantic conjunctive queries have bee
     \midrule
     General \ac{CQ}~\cite{Chaudhuri1993} & Bag, bag-set & $\Pi^p_2$-hard\\
     \ac{CQ}, $Q_1$ proj.-free~\cite{Afrati2010} & Bag-set & NP-complete\\
+    \ac{CQ}, $Q_1$ proj.-free~\cite{Afrati2010} & Bag & Open\\
     \ac{CQ}, $Q_1,Q_2$ proj.-free~\cite{Afrati2010} & Bag-set & $O(n^2\log n)$\\
     \ac{CQ}, $Q_1,Q_2$ proj.-free~\cite{Afrati2010} & Bag & $O(n^2\log n)$\\
+    \ac{CQ}, $Q_1$ without self-joins~\cite{Afrati2010} & Bag, bag-set & $O(n\log n)$\\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -33,6 +35,7 @@ Extensions incorporating RDF schemas, OWL entailment regimes~\cite{WudageChekol2
 
 \subsection{Federated Queries}\label{sec:related_works_fed}
 
+%% We need to clarify why we take bag semantic FEDQPL
 Federated SPARQL queries have been approached from two perspectives: explicit federation through the \texttt{SERVICE} clause, and automatic source selection.
 The SPARQL 1.1 Federated Query specification~\cite{w3SPARQLFederated} introduces the \texttt{SERVICE} clause as the W3C standard mechanism for directing subexpressions to specific endpoints.
 The SPARQL specification mentions the use of variables as endpoint URLs in \texttt{SERVICE} clauses but does not give an official interpretation of their behavior.\footnote{\url{https://www.w3.org/TR/sparql11-federated-query/\#variableService}}

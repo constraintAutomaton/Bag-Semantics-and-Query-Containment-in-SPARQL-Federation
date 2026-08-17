@@ -1,0 +1,5 @@
+PREFIX schema: <http://schema.org/>
+
+SELECT ?s ?birthDate WHERE {
+  ?s schema:birthDate ?birthDate .
+}

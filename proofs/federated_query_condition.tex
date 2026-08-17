@@ -3,63 +3,128 @@
 
 \paragraph{Intuition.}
 Classical containment asks whether $Q_1$'s results are a subbag of $Q_2$'s on every database.
-Federated containment must additionally track \emph{where} each subquery is sent, because different federation members hold independent data.
-If $Q_1$ sends a pattern to federation member $\mathit{:a}$ and $Q_2$ sends the same pattern to a different federation member $\mathit{:b}$, no containment claim can be made without knowing the relationship between their contents---a relationship this paper does not assume.
-Containment can therefore only be established when $Q_2$ queries the same federation member as $Q_1$ with a containing subquery (condition~$B$).
+Federated containment must additionally track \emph{where} each triple pattern is evaluated, because different federation members hold independent data.
+If $Q_1$ evaluates a pattern at federation member $\mathit{:a}$ and $Q_2$ evaluates the same pattern at a different member $\mathit{:b}$, no containment claim can be made without knowing the relationship between their contents---a relationship this paper does not assume.
+Locations record this distinction inside the query: two triple patterns that differ only in their location are distinct subgoals.
+The databases over which a federated query is evaluated are then exactly the located databases of \Cref{def_located_db}, so containment of federated queries becomes containment of their located forms.
 
-The local, non-federated part of each query behaves as in single-source containment: if $Q_1$'s local part returns results that are not a subbag of $Q_2$'s local results on some \ac{KG}, no \texttt{SERVICE} call can compensate, since federation members hold independent data (condition~$A$).
+Because federation members hold independent data, a shortfall at one location cannot be compensated at another: if the triple patterns $Q_1$ evaluates at some member return results that are not a subbag of those $Q_2$ evaluates at the same member, no other part of $Q_2$ can make up the difference.
+Conversely, if $Q_2$ were to contact a federation member $f \notin F_1$, that extra \texttt{SERVICE} call would be joined into $Q_2$'s result; since $f$'s data is independent, it may have no compatible binding for some solution mappings, dropping them from $Q_2$ (in the extreme, emptying it) on databases where $Q_1$ still returns them, breaking containment.
+Containment therefore requires $F_2 \subseteq F_1$.
+The converse is not required: $Q_1$ may address a member that $Q_2$ does not, as joining the results of that member can only discard solution mappings from $Q_1$---unless the member binds a variable that the head projects away, in which case it duplicates them instead.
 
 Containment of individual \texttt{SERVICE} calls alone is not sufficient: even if each call of the contained query is contained in the corresponding call of the containing query, the queries are not contained if the combining operation differs---a join in one and a union in the other yield incomparable result bags.
 For queries combining subqueries by \texttt{UNION} over federation members (\acp{UCFQ}), the \ac{BFR} (\Cref{sec_bag_federation_reduction}) must first be applied: each \ac{UCFQ} is rewritten as a \ac{CQ} over a \ac{BKG}, and containment then reduces to \ac{CQ} bag-semantic containment over that \ac{BKG}, a decidable problem addressed by the results in \Cref{tab_decidable_containment_bag_bag_set}.
 
-Finally, on any database $G$ where some federation member $f' \in F_1$ returns the empty bag for a $Q_1$ \texttt{SERVICE} call, $Q_1$'s result is the empty bag, which is trivially a subbag of $Q_2$'s result.
-Similarly, if $\eval{\mathit{QO}(Q_1)}{G} = \emptyset$, the join with any \texttt{SERVICE} call result is also the empty bag, so $Q_1$'s result is the empty bag and containment holds trivially.
-Conversely, if $Q_2$ were to contact a federation member $f \notin F_1$, that extra \texttt{SERVICE} call would be joined into $Q_2$'s result; since $f$'s data is independent, it may have no compatible binding for some solution mappings, dropping them from $Q_2$ (in the extreme, emptying it) on databases where $Q_1$ still returns them, breaking containment.
-Containment therefore requires $F_2 \subseteq F_1$.
-
 \begin{proposition}\label{prop_federated_containment}
-Let $Q_1$ be a query over a federation $F_1$ and $Q_2$ a query over a federation $F_2$.
-Then:
+Let $Q_1$ and $Q_2$ be flattened federated \acp{CQ} over the federations $F_1$ and $F_2$, and let $L(Q)$ denote the located form of a query $Q$.
+Then
 \[
-Q_1 \sqsubseteq Q_2 \iff \bigl((F_2 \subseteq F_1) \land A \land B\bigr)
+Q_1 \sqsubseteq Q_2 \iff L(Q_1) \sqsubseteq L(Q_2),
 \]
-where $\sqsubseteq$ on result bags denotes bag containment; $F_i$ is the federation of query $i$; and $A$ and $B$ are defined as follows:
-\[
-A = \forall G \in \mathcal{G} \colon \eval{\mathit{QO}(Q_1)}{G} \sqsubseteq \eval{\mathit{QO}(Q_2)}{G}
-\]
-\begin{align*}
-B = \forall f \in F_1,\, \forall G \in \mathcal{G} \colon \quad
-    &\bigl( f \in F_2 \land \eval{\mathit{QS}(Q_1, f)}{G} \sqsubseteq \eval{\mathit{QS}(Q_2, f)}{G} \bigr) \\
-    &\lor\ \bigl( \exists f' \in F_1 \colon \eval{\mathit{QS}(Q_1, f')}{G} = \emptyset \bigr) \\
-    &\lor\ \bigl( \eval{\mathit{QO}(Q_1)}{G} = \emptyset \bigr)
-\end{align*}
+where $\sqsubseteq$ on result bags denotes bag containment, and the right-hand side is containment of \acp{CQ} over located databases.
 \end{proposition}
 
 \begin{proof}
-$(\Leftarrow)$ Assume $(F_2 \subseteq F_1) \land A \land B$.
-By $A$, the local part $\mathit{QO}(Q_1)$ is contained in $\mathit{QO}(Q_2)$ on every \ac{KG}.
-By $B$, for any database $G$: either every \texttt{SERVICE} call $\mathit{QS}(Q_1, f)$ has a matching call at the same member in $F_2$ such that $\mathit{QS}(Q_1, f) \sqsubseteq \mathit{QS}(Q_2, f)$, or some \texttt{SERVICE} call $\mathit{QS}(Q_1, f')$ returns the empty bag on $G$, or $\eval{\mathit{QO}(Q_1)}{G} = \emptyset$; in the latter two cases $Q_1$'s result is the empty bag and $Q_1 \sqsubseteq Q_2$ holds.
-In the first case, since \texttt{JOIN} is monotone~\cite{w3SPARQLQuery}, if each part of the contained query is a subbag of the corresponding part of the containing query, the join result of the contained query is also a subbag of that of the containing query.
-Hence $Q_1 \sqsubseteq Q_2$.
+Every federation determines a located database (\Cref{def_located_db}), and conversely every located database over $F_1 \cup F_2$ arises from a federation, obtained by grouping its located triples by their location.
 
-$(\Rightarrow)$ By contrapositive: assume $F_2 \not\subseteq F_1$, or $A$ fails, or $B$ fails.
+Moreover $\eval{Q}{D} = \eval{L(Q)}{D^{*}}$ for every flattened federated \ac{CQ} $Q$ and every federation $D$ with located database $D^{*}$.
+By \Cref{def_located_form}, a subgoal of $L(Q)$ whose location is $f$ matches in $D^{*}$ exactly the located triples whose location is $f$, hence exactly the triples that the corresponding triple pattern of $Q$ matches in the \ac{KG} $G_f$ of that member.
+Locations affect neither compatibility (\Cref{def_merge}) nor the multiplicity of a join (\Cref{def_join_multiplicity}), and $Q$ and $L(Q)$ have the same head, so both evaluations produce the same solution mappings with the same multiplicities.
 
-\emph{Case 1: $A$ fails.}
-If $A$ does not hold, then on some \ac{KG} $\mathit{QO}(Q_1)$ produces solution mappings that $\mathit{QO}(Q_2)$ does not produce.
-For $Q_1 \sqsubseteq Q_2$ to hold despite $A$ failing, $Q_2$'s federation members would need to complement $\mathit{QO}(Q_2)$ to cover the missing solution mappings across every possible database configuration.
-Since federation members hold independent data, this cannot be guaranteed.
-Hence $Q_1 \not\sqsubseteq Q_2$.
-
-\emph{Case 2: $B$ fails.}
-If $B$ does not hold, then there exist $f \in F_1$ and $G \in \mathcal{G}$ such that either $f \notin F_2$ or $\eval{\mathit{QS}(Q_1, f)}{G} \not\sqsubseteq \eval{\mathit{QS}(Q_2, f)}{G}$, and for all $f' \in F_1$, $\eval{\mathit{QS}(Q_1, f')}{G} \neq \emptyset$, and $\eval{\mathit{QO}(Q_1)}{G} \neq \emptyset$.
-For $Q_1 \sqsubseteq Q_2$ to hold despite $B$ failing, $\mathit{QO}(Q_2)$ or another federation member of $Q_2$ would need to cover the missing solution mappings across every possible database configuration.
-Since federation members hold independent data, this cannot be guaranteed.
-Hence $Q_1 \not\sqsubseteq Q_2$.
-
-\emph{Case 3: $F_2 \not\subseteq F_1$.}
-$Q_2$ joins a \texttt{SERVICE} call at some $f \in F_2 \setminus F_1$ not queried by $Q_1$;
-since this can restrict $Q_2$'s results and $f$'s data is independent, there exists a database where $Q_1$ returns results that $Q_2$ does not.
-Hence $Q_1 \not\sqsubseteq Q_2$.
+Suppose $Q_1 \sqsubseteq Q_2$ but $L(Q_1) \not\sqsubseteq L(Q_2)$.
+Then there is an assignment of a \ac{KG} to each member of $F_1 \cup F_2$ such that, on its located database, the result bag of $L(Q_1)$ is not a subbag of that of $L(Q_2)$, whereas on that assignment the result bag of $Q_1$ is a subbag of that of $Q_2$.
+The located forms would therefore return different result bags from the queries themselves, contradicting the above.
+The same argument shows that the containment of the located forms implies the containment of the queries.
 \end{proof}
+
+It is worth noting interesting properties arising from the containment conditions.
+
+\begin{corollary}\label{cor_fed_subset}
+  Let $Q_1$ and $Q_2$ be flattened federated \acp{CQ} over the federations $F_1$ and $F_2$.
+  If $Q_1 \sqsubseteq Q_2$, then $F_2 \subseteq F_1$.
+\end{corollary}
+
+\begin{proof}
+  Let $f \in F_2 \setminus F_1$, and assign the empty \ac{KG} to $f$ and to every other federation member a \ac{KG} on which $Q_1$ returns a non-empty bag, which exists as a \ac{CQ} is satisfiable.
+  The part of $Q_2$ evaluated at $f$ then returns no solution mapping, and the join with the remaining parts returns none either, so $Q_2$ returns the empty bag.
+  As $f \notin F_1$, the assignment leaves $Q_1$ unaffected and it returns a non-empty bag, hence $Q_1 \not\sqsubseteq Q_2$.
+\end{proof}
+
+For a federation member $f$, we write $Q|_f$ for the part of $Q$ evaluated at $f$, and
+\[
+  \operatorname{fresh}(Q, f) = \operatorname{vars}(Q|_f) \setminus \Bigl( \operatorname{vars}(\operatorname{head}(Q)) \cup \bigcup_{g \neq f} \operatorname{vars}(Q|_g) \Bigr)
+\]
+for the \emph{fresh} variables of $f$ in $Q$, those it binds alone and the head discards.
+
+\begin{corollary}\label{cor_fed_extra_member}
+  Let $Q_1$ and $Q_2$ be flattened federated \acp{CQ} over the federations $F_1$ and $F_2$, whose members are endpoints.
+  If $Q_1 \sqsubseteq Q_2$, then $\operatorname{fresh}(Q_1, f) = \emptyset$ for every $f \in F_1 \setminus F_2$.
+\end{corollary}
+
+\begin{proof}
+  Let $v \in \operatorname{fresh}(Q_1, f)$ for some $f \in F_1 \setminus F_2$, and take an assignment of \acp{KG} on which $Q_1$ returns a non-empty bag.
+  As $f \notin F_2$, no part of $Q_2$ is evaluated at $f$ and the result of $Q_2$ does not depend on the \ac{KG} of $f$.
+  Extending that \ac{KG} with copies of the triples matching $Q_1|_f$ that differ only in the value bound to $v$ multiplies the multiplicity of every solution mapping of $Q_1$ by the number of copies, since $v$ occurs in no other part and the head discards it, while leaving $Q_2$ unchanged.
+  Taking more copies than the multiplicity of $Q_2$ breaks the containment, as illustrated in \Cref{fig:extra-member-cases}~(a).
+\end{proof}
+
+\Cref{fig:extra-member-cases}~(b) shows the same pair with \texttt{?job} in the head, where the extra member binds no fresh variable and duplicates no solution mapping, so the condition of \Cref{cor_fed_extra_member} holds.
+That pair is still not contained, as the two queries read \texttt{?job} at different federation members, which shows the condition to be necessary and not sufficient.
+
+Both properties depend only on the \acp{IRI} of the federation members and on the variables of the two queries, so they can be checked before deciding containment.
+They also characterize refinement, a common way of constructing federated queries: adding a \texttt{SERVICE} clause to a query yields a contained query exactly when that clause binds no fresh variable, and duplicates its solution mappings otherwise.
+
+\begin{figure*}
+  \begin{minipage}[t]{0.48\linewidth}
+    \textbf{(a) $Q_1$, with \texttt{?job} projected away}
+    \lstinputlisting[style=sparql]{code/extra_member_proj_sub_q.rq}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.48\linewidth}
+    \textbf{(a) $Q_2$}
+    \lstinputlisting[style=sparql]{code/extra_member_proj_super_q.rq}
+  \end{minipage}
+
+  \begin{minipage}[t]{0.48\linewidth}
+    \textbf{(b) $Q_1$, with \texttt{?job} in the head}
+    \lstinputlisting[style=sparql]{code/extra_member_head_sub_q.rq}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.48\linewidth}
+    \textbf{(b) $Q_2$}
+    \lstinputlisting[style=sparql]{code/extra_member_head_super_q.rq}
+  \end{minipage}
+
+  \begin{minipage}[t]{0.48\linewidth}
+    \textbf{\ac{KG} queried locally ($f_{\mathit{loc}}$)}
+    \lstinputlisting[style=sparql]{code/extra_member_local.ttl}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.48\linewidth}
+    \textbf{\ac{KG} held by \texttt{ex:jobRegistry}}
+    \lstinputlisting[style=sparql]{code/extra_member_job_registry.ttl}
+  \end{minipage}
+  \caption{Two query pairs sharing the body of $Q_1$, where $Q_1$ addresses \texttt{ex:jobRegistry} and $Q_2$ does not, evaluated over the two \acp{KG} shown.
+  In (a) both queries return \texttt{ex:jan} and \texttt{ex:jos} with their birth dates, but $Q_1$ returns \texttt{ex:jan} twice, since the registry holds two jobs for them and projecting \texttt{?job} away transform the two solution mappings into duplicates.
+  In (b) $Q_2$ returns \texttt{ex:jan} as a \texttt{Cashier}, the only job the local \ac{KG} holds, whereas $Q_1$ also returns \texttt{ex:jan} as a \texttt{Barista} and \texttt{ex:jos} as an \texttt{Engineer}.}
+  \label{fig:extra-member-cases}
+\end{figure*}
+
+\begin{remark}\label{rem_variable_location}
+  The located form accommodates locations that are variables, as a located triple pattern whose fourth component is a variable is still the subgoal of an ordinary \ac{CQ}.
+  \Cref{cor_fed_subset,cor_fed_extra_member} do not carry over, as both rely on a location being a constant that identifies a single federation member, and containment then quantifies over which federation members exist rather than over their content alone.
+  We leave such queries out of scope, as the SPARQL specification gives no official interpretation to \texttt{SERVICE} clauses with variable endpoint URLs (\Cref{sec:related_works_fed}).
+\end{remark}
+
+\begin{remark}\label{rem_ucfq_located}
+  A sub-federation can itself be treated as a federation member, virtual rather than an endpoint, whose graph is the \ac{BKG} of that sub-federation (\Cref{def_bkg}).
+  The \ac{BFR} therefore yields a flattened federated \ac{CQ} over a federation containing virtual members.
+  \Cref{prop_federated_containment} applies to such a query, so containment of \acp{UCFQ} is decided by first applying the \ac{BFR} and then taking the located form.
+  The order matters, as the located form of a \ac{UCFQ} still contains \texttt{UNION} and is therefore not a \ac{CQ}.
+\end{remark}
+
+\begin{remark}\label{rem_located_db_bag}
+  Whether a located database is a set or a bag depends on the members of the federation.
+  If every member is an endpoint, each $G_f$ is a set and so is the located database; containment is then under bag-set semantics, and the head projection is the only operator that can raise a multiplicity (\Cref{sec:semantic_federated_q}).
+  If some member is virtual, its graph is a \ac{BKG} and therefore a bag, as is the located database; containment is then under bag semantics, and multiplicities can arise from the data itself.
+\end{remark}
 
 \end{document}

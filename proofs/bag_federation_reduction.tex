@@ -10,24 +10,6 @@ A triple $t$ thus has multiplicity $|\{\, \mathit{fm}_i \in F : t \in G_i \,\}|$
 Evaluating a triple pattern $\mathit{tp}$ over the \ac{BKG} yields each solution mapping $\mu$ with the multiplicity of its matching triple $\mu(\mathit{tp})$.
 
 
-\begin{proposition}\label{prop_no_overlap}
-Consider a \ac{UCFQ} over a federation $F$ with union branches $U_1, \dots, U_n$, and let $F_i \subseteq F$ be the sub-federation of members appearing in $U_i$.
-If, within each $F_i$, the triples matching $\mathit{tp}_i$ reside in a single member, then the \ac{UCFQ} yields the same result bag as joining each $\mathit{tp}_i$ evaluated over the \ac{BKG} of $F_i$.
-\end{proposition}
-
-\begin{proof}
-Within each $F_i$, the triples matching $\mathit{tp}_i$ reside in a single member $\mathit{fm}_i$, so the branch $U_i = \fmu(\dots)$ collapses to the single request $\freq_{\mathit{fm}_i}^{\mathit{tp}_i}$ and introduces no \texttt{UNION} duplication.
-The \ac{UCFQ} therefore reduces to a join of one request per branch:
-\[
-\fmj(\freq_{\mathit{fm}_1}^{\mathit{tp}_1}, \dots, \freq_{\mathit{fm}_n}^{\mathit{tp}_n}).
-\]
-Because the matching triple lies in only one member of $F_i$, it has multiplicity one in the \ac{BKG} of $F_i$, so evaluating $\mathit{tp}_i$ over that \ac{BKG} returns the same bag as the request.
-Joining over all branches, the two evaluations coincide.
-Since each branch is tied to its own \ac{BKG}, a triple duplicated across different sub-federations inflates no branch's multiplicity and the result bag is unaffected.
-\end{proof}
-
-We now consider the general case, where a triple matching $\mathit{tp}_i$ may reside in several members of $F_i$.
-
 \begin{proposition}\label{prop_duplicate_fed_mem}
 Consider a \ac{UCFQ} over a federation $F$ with union branches $U_1, \dots, U_n$, and let $F_i \subseteq F$ be the sub-federation of members appearing in $U_i$.
 The \ac{UCFQ} yields the same result bag as joining each $\mathit{tp}_i$ evaluated over the \ac{BKG} of $F_i$.
@@ -43,8 +25,20 @@ Both evaluations feed the join the same per-branch multiplicities and the same s
 The two evaluations therefore produce the same result bag.
 \end{proof}
 
-Together, \Cref{prop_no_overlap,prop_duplicate_fed_mem} establish the \ac{BFR}.
+\begin{corollary}\label{cor_no_overlap}
+If, within each $F_i$, the triples matching $\mathit{tp}_i$ reside in a single member, then no branch of the \ac{UCFQ} duplicates a solution mapping and the join is taken over sets.
+\end{corollary}
+
+\begin{proof}
+Taking $m_j = 1$ in the proof of \Cref{prop_duplicate_fed_mem}, every matching triple carries multiplicity one in the \ac{BKG} of its sub-federation, and the branch returns each solution mapping once.
+\end{proof}
+
+\Cref{prop_duplicate_fed_mem} establishes the \ac{BFR}.
 Evaluating a \ac{UCFQ} yields the same result bag, under bag semantics, as joining each branch's triple pattern $\mathit{tp}_i$ over the \ac{BKG} of its sub-federation $F_i$.
-Since the \ac{BFR} transforms a \ac{UCFQ} into a projection-free \ac{CQ} under bag semantics---a decidable fragment (\Cref{tab_decidable_containment_bag_bag_set})---the \ac{BFR} resolves the undecidability of \ac{UCFQ} containment under bag-set semantics.
+Each sub-federation can itself be treated as a federation member holding that \ac{BKG} (\Cref{rem_ucfq_located}), so the branches are joined over a single database.
+
+The \ac{BFR} therefore transforms a \ac{UCFQ} into a \ac{CQ} evaluated under bag semantics, carrying the head of the \ac{UCFQ}.
+When that head projects every variable of the body, the target is projection-free and its containment is decidable in $O(n^2\log(n))$ (\Cref{tab_decidable_containment_bag_bag_set}), whereas containment of \acp{UCQ} under bag-set semantics is not decidable (\Cref{sec:related_works_qc}).
+When the head projects a strict subset, the target is a \ac{CQ} under bag semantics in the general case, which is $\Pi^p_2$-hard and whose decidability remains open.
 
 \end{document}

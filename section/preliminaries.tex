@@ -10,6 +10,7 @@ $\mathit{tp} = (s, p, o)$ where $s \in \mathcal{I} \cup \mathcal{B} \cup \mathca
 A \ac{BGP}~\cite{w3SPARQLQueryFormal} is a set of triple patterns evaluated conjunctively, binding variables across all the patterns it contains.
 A \ac{GP}~\cite{w3SPARQLQueryFormal} generalizes a \ac{BGP} with additional operators; here the only such operator is union, which combines \acp{GP} into a \ac{UGP}~\cite{w3SPARQLQueryFormal}, so every \ac{BGP} and \ac{UGP} is a \ac{GP}.
 A \ac{CQ} is a query whose body is a single \ac{BGP}, optionally followed by a projection.
+A query's \emph{distinguished} variables are those retained by its head, that is those bound by the solution mappings it returns, and the query is \emph{projection-free} when every variable of its body is distinguished.
 A \ac{UCQ} is a query whose body is a \ac{UGP} whose disjuncts are \acp{BGP}.
 A \ac{CQ} is then the special case of a \ac{UCQ} with a single disjunct, so the \acp{CQ} form a subclass of the \acp{UCQ}.
 
@@ -45,6 +46,7 @@ A SPARQL federated query involves executing different segments of a query across
 We denote the evaluation of a query $Q$ over a \ac{KG} $G$ as $\eval{Q}{G}$.
 A set of federation members is called a \emph{federation}.
 Evaluating a query over a federation $F$ involves decomposing $Q$ into subqueries $P_i$, where each subquery $P_i$ is evaluated at a federation member in $F$ containing a \ac{KG} $G_i$.
+The \ac{KG} queried locally is itself a member of $F$, written $f_{\mathit{loc}}$, so that every subquery is evaluated at a member.
 We adopt a database-agnostic view of federation members: since query containment does not depend on the content of any particular \ac{KG}, we formalize the notion of federation in terms of endpoint URLs.
 A \texttt{SERVICE} clause, written \texttt{SERVICE :anIRI \{?s ?p ?o\}} in SPARQL syntax and denoted $SERVICE(I, P)$~\cite{w3SPARQLFederated}, where $I$ is the URL locating the federation member and $P$ is the graph pattern to evaluate, performs $P$ at the endpoint identified by $I$.
 \footnote{We do not consider the \texttt{SILENT} parameter in this formalization.}

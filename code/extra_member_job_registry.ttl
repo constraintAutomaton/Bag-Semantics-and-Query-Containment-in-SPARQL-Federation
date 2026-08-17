@@ -1,0 +1,5 @@
+@prefix schema: <http://schema.org/> .
+@prefix ex: <http://example.org/> .
+
+ex:jan schema:jobTitle "Cashier", "Barista" .
+ex:jos schema:jobTitle "Engineer" .
