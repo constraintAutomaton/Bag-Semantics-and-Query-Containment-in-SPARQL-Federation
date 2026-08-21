@@ -13,6 +13,42 @@ Conversely, if $Q_2$ were to contact a federation member $f \notin F_1$, that ex
 Containment therefore requires $F_2 \subseteq F_1$.
 The converse is not required: $Q_1$ may address a member that $Q_2$ does not, as joining the results of that member can only discard solution mappings from $Q_1$---unless the member binds a variable that the head projects away, in which case it duplicates them instead.
 
+For a federation member $f$, we write $Q|_f$ for the part of $Q$ evaluated at $f$, and
+\[
+  \operatorname{fresh}(Q, f) = \operatorname{vars}(Q|_f) \setminus \Bigl( \operatorname{vars}(\operatorname{head}(Q)) \cup \bigcup_{g \neq f} \operatorname{vars}(Q|_g) \Bigr)
+\]
+for the \emph{fresh} variables of $f$ in $Q$, those it binds alone and the head discards.
+
+\begin{proposition}\label{prop_fed_subset}
+  Let $Q_1$ and $Q_2$ be flattened federated \acp{CQ} over the federations $F_1$ and $F_2$.
+  If $Q_1 \sqsubseteq Q_2$, then $F_2 \subseteq F_1$.
+\end{proposition}
+
+\begin{proof}
+  Let $f \in F_2 \setminus F_1$, and assign the empty \ac{KG} to $f$ and to every other federation member a \ac{KG} on which $Q_1$ returns a non-empty bag, which exists as a \ac{CQ} is satisfiable.
+  The part of $Q_2$ evaluated at $f$ then returns no solution mapping, and the join with the remaining parts returns none either, so $Q_2$ returns the empty bag.
+  As $f \notin F_1$, the assignment leaves $Q_1$ unaffected and it returns a non-empty bag, hence $Q_1 \not\sqsubseteq Q_2$.
+\end{proof}
+
+\begin{proposition}\label{prop_fed_extra_member}
+  Let $Q_1$ and $Q_2$ be flattened federated \acp{CQ} over the federations $F_1$ and $F_2$, whose members are endpoints.
+  If $Q_1 \sqsubseteq Q_2$, then $\operatorname{fresh}(Q_1, f) = \emptyset$ for every $f \in F_1 \setminus F_2$.
+\end{proposition}
+
+\begin{proof}
+  Let $v \in \operatorname{fresh}(Q_1, f)$ for some $f \in F_1 \setminus F_2$, and take an assignment of \acp{KG} on which $Q_1$ returns a non-empty bag.
+  As $f \notin F_2$, no part of $Q_2$ is evaluated at $f$ and the result of $Q_2$ does not depend on the \ac{KG} of $f$.
+  Extending that \ac{KG} with copies of the triples matching $Q_1|_f$ that differ only in the value bound to $v$ multiplies the multiplicity of every solution mapping of $Q_1$ by the number of copies, since $v$ occurs in no other part and the head discards it, while leaving $Q_2$ unchanged.
+  Taking more copies than the multiplicity of $Q_2$ breaks the containment, as illustrated in \Cref{fig:extra-member-cases}~(a).
+\end{proof}
+
+\Cref{fig:extra-member-cases}~(b) shows the same pair with \texttt{?job} in the head, where the extra member binds no fresh variable and duplicates no solution mapping, so the condition of \Cref{prop_fed_extra_member} holds.
+That pair is still not contained, as the two queries read \texttt{?job} at different federation members, which shows the condition to be necessary and not sufficient.
+
+Both are simple necessary conditions for containment, decided in time polynomial in the size of the two queries, as they depend only on the \acp{IRI} of the federation members and on the variables of the two queries.
+They also bear on refinement, a common way of constructing decentralized queries~\cite{eschauzier2026solidsessionbench}.
+Adding a \texttt{SERVICE} clause that binds a fresh variable rules out containment, so a refinement of that kind can never be optimized by a method relying on query containment, whereas one whose added clause binds no fresh variable leaves containment open.
+
 Containment of individual \texttt{SERVICE} calls alone is not sufficient: even if each call of the contained query is contained in the corresponding call of the containing query, the queries are not contained if the combining operation differs---a join in one and a union in the other yield incomparable result bags.
 For queries combining subqueries by \texttt{UNION} over federation members (\acp{UCFQ}), the \ac{BFR} (\Cref{sec_bag_federation_reduction}) must first be applied: each \ac{UCFQ} is rewritten as a \ac{CQ} over a \ac{BKG}, and containment then reduces to \ac{CQ} bag-semantic containment over that \ac{BKG}, a decidable problem addressed by the results in \Cref{tab_decidable_containment_bag_bag_set}.
 
@@ -37,43 +73,6 @@ Then there is an assignment of a \ac{KG} to each member of $F_1 \cup F_2$ such t
 The located forms would therefore return different result bags from the queries themselves, contradicting the above.
 The same argument shows that the containment of the located forms implies the containment of the queries.
 \end{proof}
-
-It is worth noting interesting properties arising from the containment conditions.
-
-\begin{corollary}\label{cor_fed_subset}
-  Let $Q_1$ and $Q_2$ be flattened federated \acp{CQ} over the federations $F_1$ and $F_2$.
-  If $Q_1 \sqsubseteq Q_2$, then $F_2 \subseteq F_1$.
-\end{corollary}
-
-\begin{proof}
-  Let $f \in F_2 \setminus F_1$, and assign the empty \ac{KG} to $f$ and to every other federation member a \ac{KG} on which $Q_1$ returns a non-empty bag, which exists as a \ac{CQ} is satisfiable.
-  The part of $Q_2$ evaluated at $f$ then returns no solution mapping, and the join with the remaining parts returns none either, so $Q_2$ returns the empty bag.
-  As $f \notin F_1$, the assignment leaves $Q_1$ unaffected and it returns a non-empty bag, hence $Q_1 \not\sqsubseteq Q_2$.
-\end{proof}
-
-For a federation member $f$, we write $Q|_f$ for the part of $Q$ evaluated at $f$, and
-\[
-  \operatorname{fresh}(Q, f) = \operatorname{vars}(Q|_f) \setminus \Bigl( \operatorname{vars}(\operatorname{head}(Q)) \cup \bigcup_{g \neq f} \operatorname{vars}(Q|_g) \Bigr)
-\]
-for the \emph{fresh} variables of $f$ in $Q$, those it binds alone and the head discards.
-
-\begin{corollary}\label{cor_fed_extra_member}
-  Let $Q_1$ and $Q_2$ be flattened federated \acp{CQ} over the federations $F_1$ and $F_2$, whose members are endpoints.
-  If $Q_1 \sqsubseteq Q_2$, then $\operatorname{fresh}(Q_1, f) = \emptyset$ for every $f \in F_1 \setminus F_2$.
-\end{corollary}
-
-\begin{proof}
-  Let $v \in \operatorname{fresh}(Q_1, f)$ for some $f \in F_1 \setminus F_2$, and take an assignment of \acp{KG} on which $Q_1$ returns a non-empty bag.
-  As $f \notin F_2$, no part of $Q_2$ is evaluated at $f$ and the result of $Q_2$ does not depend on the \ac{KG} of $f$.
-  Extending that \ac{KG} with copies of the triples matching $Q_1|_f$ that differ only in the value bound to $v$ multiplies the multiplicity of every solution mapping of $Q_1$ by the number of copies, since $v$ occurs in no other part and the head discards it, while leaving $Q_2$ unchanged.
-  Taking more copies than the multiplicity of $Q_2$ breaks the containment, as illustrated in \Cref{fig:extra-member-cases}~(a).
-\end{proof}
-
-\Cref{fig:extra-member-cases}~(b) shows the same pair with \texttt{?job} in the head, where the extra member binds no fresh variable and duplicates no solution mapping, so the condition of \Cref{cor_fed_extra_member} holds.
-That pair is still not contained, as the two queries read \texttt{?job} at different federation members, which shows the condition to be necessary and not sufficient.
-
-Both properties depend only on the \acp{IRI} of the federation members and on the variables of the two queries, so they can be checked before deciding containment.
-They also characterize refinement, a common way of constructing federated queries: adding a \texttt{SERVICE} clause to a query yields a contained query exactly when that clause binds no fresh variable, and duplicates its solution mappings otherwise.
 
 \begin{figure*}
   \begin{minipage}[t]{0.48\linewidth}
@@ -110,7 +109,7 @@ They also characterize refinement, a common way of constructing federated querie
 
 \begin{remark}\label{rem_variable_location}
   The located form accommodates locations that are variables, as a located triple pattern whose fourth component is a variable is still the subgoal of an ordinary \ac{CQ}.
-  \Cref{cor_fed_subset,cor_fed_extra_member} do not carry over, as both rely on a location being a constant that identifies a single federation member, and containment then quantifies over which federation members exist rather than over their content alone.
+  \Cref{prop_fed_subset,prop_fed_extra_member} do not carry over, as both rely on a location being a constant that identifies a single federation member, and containment then quantifies over which federation members exist rather than over their content alone.
   We leave such queries out of scope, as the SPARQL specification gives no official interpretation to \texttt{SERVICE} clauses with variable endpoint URLs (\Cref{sec:related_works_fed}).
 \end{remark}
 

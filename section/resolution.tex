@@ -27,9 +27,9 @@ We leave open the question of whether an interpretation of \ac{RDF} and SPARQL o
 \subsection{Conjunctive Queries}\label{sec:algorithm}
 
 We decide containment of federated \acp{CQ} in stages of increasing cost, so that a pair is rejected as early as possible.
-The first stage reads the federation members of the two queries, where every member the containing query contacts must also be contacted by the contained query (\Cref{cor_fed_subset}), and every member the contained query contacts alone must bind no fresh variable (\Cref{cor_fed_extra_member}).
+The first stage reads the federation members of the two queries, where every member the containing query contacts must also be contacted by the contained query (\Cref{prop_fed_subset}), and every member the contained query contacts alone must bind no fresh variable (\Cref{prop_fed_extra_member}).
 The second stage counts their variables, the containing query holding at least as many as the contained one~\cite[Theorem~12]{Afrati2010}.
-The three are necessary conditions checked in polynomial time, so a pair failing any of them is not contained, while a pair passing them all is not yet known to be.
+A pair failing any of the three is not contained, while a pair passing them all is not yet known to be.
 
 The projection then determines how such a pair is decided.
 When both queries are projection-free, \Cref{alg_variable_onto} decides containment on its own.
@@ -167,5 +167,7 @@ The image of the body of $L(Q_2)$ is a bag, as two patterns may be placed on the
   \end{algorithmic}
 \end{algorithm}
 When either query projects, the pair belongs to the general bag case of \Cref{tab_decidable_containment_bag_bag_set}, which is $\Pi^p_2$-hard and whose decidability remains open.
-A subgoals-onto containment mapping remains sufficient there~\cite[Proposition~2, Case~5]{Afrati2010}, so \Cref{alg_subgoals_onto} decides such a pair when it succeeds and leaves it undecided otherwise.
-Deciding containment of a pair of \acp{UCFQ} therefore amounts to applying the \ac{BFR} to both queries and running \Cref{alg_subgoals_onto} on the two \acp{CQ} it returns, an answer that is exact when the two are projection-free and sufficient otherwise.
+A subgoals-onto containment mapping remains sufficient there~\cite[Proposition~2, Case~5]{Afrati2010}, so \Cref{alg_subgoals_onto} settles such a pair when it succeeds.
+When it fails, set containment still rejects the pair, as a set-valued database is a bag-valued database whose multiplicities are all one, so bag containment implies set containment and a pair that is not set contained is not bag contained either.
+Deciding containment of a pair of \acp{UCFQ} therefore amounts to applying the \ac{BFR} to both queries, running \Cref{alg_subgoals_onto} on the two \acp{CQ} it returns, and deciding set containment of the pairs it leaves.
+The answer is exact when both queries are projection-free, and otherwise reports containment when the mapping exists, no containment when set containment fails, and no answer on the pairs that remain.
