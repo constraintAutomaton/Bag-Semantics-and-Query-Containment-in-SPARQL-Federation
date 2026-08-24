@@ -77,38 +77,40 @@ Intuitively, a virtual operator aggregates the members of each branch's sub-fede
 
 \subsection{A Bag-Semantic Reading of FedQPL}\label{sec_fedqpl}
 
-\Cref{sec:single_endpoint,sec:ucfq} established that SPARQL evaluates under bag-set semantics: the underlying \acp{KG} are sets, while the operators combining their results return bags, so that unioning a triple pattern across federation members duplicates solution mappings (\Cref{def_union_multiplicity}).
-We expressed the queries this produces in the notation of FedQPL (\Cref{def_ucfq}), which carries no such semantics: \citeauthor{Cheng2021} evaluate every operator over sets of solution mappings, and $\fmu$ denotes set union~\cite[Def.~6]{Cheng2021}.
-We read $\fmu$ and $\fmj$ as their bag counterparts (\Cref{def_fedqpl}), which aligns them with the SPARQL operators they lift and places FedQPL under the bag-set semantics of \Cref{sec:single_endpoint}.
-Other readings are possible, and we return to them below.
-\citeauthor{Cheng2021} give a bag semantics as future work~\cite{Cheng2021}, and to the best of our knowledge no such extension has been published; we set out here what one has to settle.
+We expressed the queries of the previous sections in the notation of FedQPL (\Cref{def_fedqpl}), an algebra that \citeauthor{Cheng2021}~\cite{Cheng2021} define under set semantics.
+Every operator is evaluated over sets of solution mappings, and $\fmu$ denotes set union~\cite[Def.~6]{Cheng2021}.
+SPARQL, however, evaluates under bag-set semantics (\Cref{sec:single_endpoint}), as the underlying \acp{KG} are sets while the operators applied to them return bags.
+We therefore read $\fmu$ and $\fmj$ as their bag counterparts, which aligns them with the SPARQL operators they lift.
+This is not the reading of \citeauthor{Cheng2021}, who leave a bag semantics of FedQPL as future work~\cite{Cheng2021}, and we are aware of no publication that develops one.
+We justify our choice in the remainder of this section.
 
 The federation semantics of FedQPL evaluates a \ac{GP} over the set union $G_{\mathit{union}}$ of the \acp{KG} of the federation members~\cite[Def.~3]{Cheng2021}, following the stated intention that ``the result of a SPARQL query over such a federation should be the same as if the query was executed over the union of all the RDF data available in all the federation members''.
-Correctness of a source assignment is defined against that graph~\cite[Def.~7]{Cheng2021}.
-Under set semantics the exhaustive source assignment is correct~\cite[Prop.~1]{Cheng2021}; under bag-set semantics it is not.
+Correctness of a source assignment is defined against that graph~\cite[Def.~7]{Cheng2021}, and under set semantics \ac{ESA} is correct~\cite[Prop.~1]{Cheng2021}.
+Under a bag-set reading it is not.
 
 \begin{proposition}\label{prop_fedqpl_esa_incorrect}
-  Read under bag-set semantics, the exhaustive source assignment~\cite[Def.~9]{Cheng2021} is not correct in the sense of~\cite[Def.~7]{Cheng2021}.
+  Read under bag-set semantics, the \ac{ESA}~\cite[Def.~9]{Cheng2021} is not correct in the sense of~\cite[Def.~7]{Cheng2021}.
 \end{proposition}
 
 \begin{proof}
   $G_{\mathit{union}}$ is a set, so a \ac{BGP} returns each of its solution mappings once over it (\Cref{sec:single_endpoint}).
   The \ac{ESA} expression of \Cref{eq_esa}, on the other hand, returns $\mu$ with multiplicity $\prod_{i} |\{\mathit{fm} \in F : \mu(\mathit{tp}_i) \in G_{\mathit{fm}}\}|$ by \Cref{def_union_multiplicity,def_join_multiplicity}.
-  The federation of \Cref{fig:ucfq-example} makes this product four, whereas $\eval{B}{G_{\mathit{union}}}$ returns that solution mapping once.
+  That multiplicity exceeds one as soon as two members hold a triple matched by the same $\mathit{tp}_i$, so the two bags differ.
 \end{proof}
 
-There are two ways to preserve~\cite[Def.~3]{Cheng2021} as stated.
-The first assumes that no triple is duplicated across the federation members, so that the set union of their \acp{KG} coincides with the bag union.
+Two readings preserve~\cite[Def.~3]{Cheng2021} as stated.
+The first assumes that no triple is duplicated across the federation members, so that the set union of their \acp{KG} coincides with their bag union.
 Such an assumption is hard to verify in the open-Web setting and cannot always be enforced.
 The second introduces a federation-level union operator that deduplicates the contributions of distinct members.
-That operator is not a set union, but a different and more complex type of union.
-A request may itself return a bag, since the request language of a SPARQL endpoint is the full graph pattern language, and those multiplicities must survive.
-The operator must therefore deduplicate across members while leaving the multiplicities of each member's own response untouched, which requires the algebra to track the member every solution mapping comes from --- an operator SPARQL does not have, and whose addition changes the algebra rather than extending it.
-We adopt neither.
+That operator is not a set union, but a different and more complex kind of union.
+A request may itself return a bag, since SPARQL is a bag language, so the multiplicities of a single member's response must survive.
+The operator must therefore deduplicate across members while leaving each member's own multiplicities untouched, which requires tracking the member every solution mapping comes from.
+We adopt neither reading.
 
-We propose instead to use a \ac{BKG} (\Cref{def_bkg}) in place of the set union.
+We propose instead to replace the set union $G_{\mathit{union}}$ by the \ac{BKG} of the federation (\Cref{def_bkg}).
 The federation is then a bag rather than a set, so the reading moves from bag-set to bag semantics, which is the transition the \ac{BFR} performs (\Cref{sec_bag_federation_reduction}).
-\Cref{prop_duplicate_fed_mem}, taken with $F_i = F$ for every branch, restores the correctness of the exhaustive source assignment, and the intention of \citeauthor{Cheng2021} survives with the set union of the \acp{KG} replaced by their bag union.
+Applied to \Cref{eq_esa}, \Cref{prop_duplicate_fed_mem} states that the \ac{ESA} expression yields the same bag as evaluating the query body over the \ac{BKG} of the federation, which restores the correctness of \ac{ESA}.
 This reading keeps the \texttt{UNION} of SPARQL and adds no operator to the algebra.
-It also leaves the duplication of a triple across federation members observable in the result bag, so that a query can determine how many members hold a given triple --- information that serves domain purposes as well as the checking of integrity constraints over a federation.
+It also leaves the duplication of a triple across federation members observable in the result bag, so that a query can determine how many members hold a given triple.
+That information may serve domain purposes as well as integrity constraints over a federation.
 We adopt it for the remainder of the paper.
