@@ -6,26 +6,31 @@ Query containment is the problem of deciding, for every possible database, wheth
 Query containment has been used in multiple query optimization tasks, including view selection, caching, and query rewriting~\cite{Afrati2019-ch2, Shirkova2011, Halevy2001}.
 
 Query containment under bag or bag-set semantics is a strictly stronger relationship than its set-semantic counterpart~\cite{Chaudhuri1993}.
-No general necessary conditions for containment under bag-set and bag semantics are known~\cite{ioannidis1995containment, khamis2021bag}; however, sufficient conditions have been identified.
 The general case of bag or bag-set semantic query containment for \ac{UCQ} has been shown to be undecidable~\cite{ioannidis1995containment, Jayram2006, Afrati2010}.
-For \acp{CQ} the problem is $\Pi^p_2$-hard and its decidability remains open~\cite{Chaudhuri1993, khamis2021bag}, while some fragments have been proven decidable~\cite{khamis2021bag, KOPPARTY20111097, Chaudhuri1993, Afrati2010}.
-\Cref{tab_decidable_containment_bag_bag_set} summarizes the bag and bag-set \ac{CQ} containment fragments relevant to this paper and their complexity.\footnote{The general case gives a sufficient but not a necessary condition.}
+For \acp{CQ}, no general necessary and sufficient condition for containment under bag-set and bag semantics is known~\cite{ioannidis1995containment, khamis2021bag}; however, sufficient conditions have been identified, such as the existence of an onto containment mapping under bag semantics, or of a variable-onto one under bag-set semantics, both NP-complete to decide~\cite{Chaudhuri1993}.
+Containment of \acp{CQ} is $\Pi^p_2$-hard and its decidability remains open~\cite{Chaudhuri1993, khamis2021bag}, while some fragments have been proven decidable~\cite{khamis2021bag, KOPPARTY20111097, Chaudhuri1993, Afrati2010}.
+\Cref{tab_decidable_containment_bag_bag_set} summarizes the known results on bag and bag-set \ac{CQ} containment relevant to this paper.
 
 \begin{table}
-  \caption{Complexity of bag and bag-set \ac{CQ} containment for the fragments discussed in this paper.}
+  \caption{Known results on bag and bag-set \ac{CQ} containment for the fragments discussed in this paper.}
   \label{tab_decidable_containment_bag_bag_set}
   \begin{tabular}{lll}
     \toprule
     Case & Semantic & Complexity\\
     \midrule
-    General \ac{CQ}~\cite{Chaudhuri1993} & Bag, bag-set & $\Pi^p_2$-hard\\
+    General \ac{CQ}~\cite{Chaudhuri1993} & Bag, bag-set & $\Pi^p_2$-hard$^{*}$\\
+    Onto mapping$^{\dagger}$~\cite{Chaudhuri1993} & Bag & NP-complete\\
+    Var.-onto mapping$^{\dagger}$~\cite{Chaudhuri1993} & Bag-set & NP-complete\\
     \ac{CQ}, $Q_1$ proj.-free~\cite{Afrati2010} & Bag-set & NP-complete\\
     \ac{CQ}, $Q_1$ proj.-free~\cite{Afrati2010} & Bag & Open\\
     \ac{CQ}, $Q_1,Q_2$ proj.-free~\cite{Afrati2010} & Bag-set & $O(n^2\log n)$\\
     \ac{CQ}, $Q_1,Q_2$ proj.-free~\cite{Afrati2010} & Bag & $O(n^2\log n)$\\
-    \ac{CQ}, $Q_1$ without self-joins~\cite{Afrati2010} & Bag, bag-set & $O(n\log n)$\\
+    \ac{CQ}, $Q_1$ w/o self-joins~\cite{ioannidis1995containment, Afrati2010} & Bag, bag-set & $O(n\log n)$\\
     \bottomrule
   \end{tabular}
+  \par\smallskip\footnotesize
+  $^{*}$Lower bound only; decidability is open.
+  $^{\dagger}$Sufficient but not necessary condition for containment.
 \end{table}
 
 Beyond relational databases, query containment has been studied in other graph query languages, including XPath~\cite{schwentick2004xpath} and Cypher~\cite{tang2025proving}.
