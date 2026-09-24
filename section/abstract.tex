@@ -8,13 +8,14 @@ Query containment for federated SPARQL queries, however, remains unexplored.
 % Task
 This paper focuses on closing this gap by formalizing query containment under bag-set semantics for federated SPARQL queries, as SPARQL offers a natural foundation for integrating RDF data via universal identifiers and global semantics.
 % Object
-For this, we introduce ``\aclp{UCFQ}'' as a new class of queries that sits between \aclp{CQ} and \acl{UCQ},
-to capture federated query forms that are common in SPARQL.
-Furthermore, we introduce the \acl{BFR}, to transform this new class of queries to \aclp{CQ} under bag semantics,
-after which containment can be decided.
+For this, we introduce ``\aclp{UCFQ}'' as a new class of queries that sits between \aclp{CQ} and \aclp{UCQ},
+to capture federated query forms that are common in SPARQL federations.
+Furthermore, we introduce the \acl{BFR}, to transform this new class of queries to \aclp{CQ} under bag semantics.
 % Findings
 We formally ground this new class with its transformation,
-and establish how existing query containment techniques extend to decide containment for such federated queries.
+and establish how existing query containment techniques extend to decide containment for such federated queries
+on the fragments where these techniques are exact.
+We further evaluate an implementation of this procedure and show that, unlike a set-semantics solver adapted to federated queries, it produces no incorrect containment result.
 % Conclusion
 Our work fills the gap in formalizing query containment for federated SPARQL queries,
 % Perspectives
