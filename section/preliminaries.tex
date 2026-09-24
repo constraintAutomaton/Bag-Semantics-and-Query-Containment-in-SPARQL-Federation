@@ -52,7 +52,7 @@ A \texttt{SERVICE} clause, written \texttt{SERVICE :anIRI \{?s ?p ?o\}} in SPARQ
 \footnote{We do not consider the \texttt{SILENT} parameter in this formalization.}
 
 To reason about federated query plans, we use the FedQPL formalism~\cite{Cheng2021}, a more formal and extensible algebra, with the operators defined below.
-FedQPL is defined under set semantics, where $\fmu$ denotes set union~\cite[Def.~6]{Cheng2021}; we reinterpret $\fmu$ and $\fmj$ as their bag counterparts, and justify that reinterpretation in \Cref{sec_fedqpl}.
+FedQPL is defined under set semantics, where $\fmu$ denotes set union~\cite[Def.~6]{Cheng2021}; we reinterpret $\fmu$ and $\fmj$ as their bag counterparts, and justify our reinterpretation in \Cref{sec_fedqpl}.
 
 \begin{definition}[FedQPL operators, adapted from~\cite{Cheng2021}]\label{def_fedqpl}
   The \emph{request} $\freq_{\mathit{fm}}^{P}$ evaluates a graph pattern $P$ against a single federation member $\mathit{fm}$.

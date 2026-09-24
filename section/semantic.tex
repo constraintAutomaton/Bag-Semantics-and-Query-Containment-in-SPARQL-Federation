@@ -29,12 +29,12 @@ We define a particular class of federated queries, useful for capturing duplicat
 Each triple pattern of the query body is evaluated across several members and the partial results are joined.
 
 \begin{definition}[\acl{UCFQ}]\label{def_ucfq}
-A \ac{UCFQ} is a multiway join $\fmj(U_1, \dots, U_n)$ where each operand $U_i = \fmu(\freq_{I_1}^{\mathit{tp}_i}, \dots, \freq_{I_{k_i}}^{\mathit{tp}_i})$ is a multiway union evaluating the same triple pattern $\mathit{tp}_i$, up to a renaming of the variables local to $U_i$, at a subset of federation members $I_1, \dots, I_{k_i}$, optionally followed by a projection.
+A \ac{UCFQ} is a multiway join $\fmj(U_1, \dots, U_n)$ where each operand $U_i = \fmu(\freq_{I_1}^{\mathit{tp}_i}, \dots, \freq_{I_{k_i}}^{\mathit{tp}_i})$ is a multiway union evaluating the same triple pattern $\mathit{tp}_i$ at a subset of federation members $I_1, \dots, I_{k_i}$, optionally followed by a projection.
+The branches of $U_i$ may name the variables local to $U_i$ differently.
 \end{definition}
 
-A variable is \emph{local} to $U_i$ when the head discards it and no other operand of the join binds it.
-Renaming the local variables of a branch, distinct variables to distinct variables, maps its solution mappings one to one and preserves their multiplicity, and no other operator of the query binds them, so the result bag is unchanged.
-Branches naming them differently therefore evaluate the same triple pattern, which matters as a query engine binding a variable at a single branch may name it freely.
+A variable is \emph{local} to $U_i$ when the head does not select it and no other operand of the join binds it.
+As nothing outside its branch refers to such a variable, the branch may name it freely without changing the result bag.
 
 A \ac{CQ} is the special case where every union ranges over a single member, and every \ac{UCFQ} is a \ac{UCQ}, so the \acp{UCFQ} lie strictly between the \acp{CQ} and the \acp{UCQ}.
 In particular, each triple pattern of a \ac{CQ} is the single-member union $\fmu(\freq_{\mathit{fm}}^{\mathit{tp}})$ over the member $\mathit{fm}$ at which it is evaluated.
@@ -102,6 +102,7 @@ Two readings preserve~\cite[Def.~3]{Cheng2021} as stated.
 The first assumes that no triple is duplicated across the federation members, so that the set union of their \acp{KG} coincides with their bag union.
 Such an assumption is hard to verify in the open-Web setting and cannot always be enforced.
 The second introduces a federation-level union operator that deduplicates the contributions of distinct members.
+% We need to simplify it and also consider that we are talking earlier about ESA and not all the posibilities so we must put that into perpective.
 That operator is not a set union, but a different and more complex kind of union.
 A request may itself return a bag, since SPARQL is a bag language, so the multiplicities of a single member's response must survive.
 The operator must therefore deduplicate across members while leaving each member's own multiplicities untouched, which requires tracking the member every solution mapping comes from.
@@ -111,6 +112,4 @@ We propose instead to replace the set union $G_{\mathit{union}}$ by the \ac{BKG}
 The federation is then a bag rather than a set, so the reading moves from bag-set to bag semantics, which is the transition the \ac{BFR} performs (\Cref{sec_bag_federation_reduction}).
 Applied to \Cref{eq_esa}, \Cref{prop_duplicate_fed_mem} states that the \ac{ESA} expression yields the same bag as evaluating the query body over the \ac{BKG} of the federation, which restores the correctness of \ac{ESA}.
 This reading keeps the \texttt{UNION} of SPARQL and adds no operator to the algebra.
-It also leaves the duplication of a triple across federation members observable in the result bag, so that a query can determine how many members hold a given triple.
-That information may serve domain purposes as well as integrity constraints over a federation.
 We adopt it for the remainder of the paper.
