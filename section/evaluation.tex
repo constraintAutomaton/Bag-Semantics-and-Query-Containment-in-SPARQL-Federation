@@ -1,0 +1,23 @@
+\section{Evaluation}
+We implemented the decision procedure of \Cref{sec:resolution} in a solver we call \solverName{}, written in \href{https://www.typescriptlang.org/}{TypeScript} and running on the \href{https://bun.sh/}{Bun} \href{https://developer.mozilla.org/en-US/docs/Web/JavaScript}{JavaScript} runtime.\footnote{The implementation is open source and available at \url{https://github.com/SPARQL-federated-query-containment/solver}.}
+\textsc{SetContained} delegates set containment to SpeCS~\cite{Spasic2023}, which we run in a \href{https://www.docker.com/}{Docker} container.
+At the time of this study, the latest published version of SpeCS could not be used as is, for two reasons.
+First, it invoked its \href{https://smt-lib.org/}{SMT} solver, \href{https://www.microsoft.com/en-us/research/project/z3-3/}{Z3}, from a hardcoded path.
+Second, it reported a Z3 timeout or memory exhaustion as non-containment, although no counter-example had been found.
+We fixed both issues and made the time and memory limits of Z3 parameters of SpeCS.\footref{fn_specs}
+
+To the best of our knowledge, no benchmark or implementation exists for bag-set query containment of federated SPARQL queries.
+We therefore built a benchmark from established ones, and compare \solverName{} with SpeCS, a state-of-the-art set-semantics solver, on the correctness of its answers, on whether its execution time is on par with existing SPARQL query containment solvers, and on whether deciding containment is cheap compared with executing the queries of the federated query benchmark LargeRDFBench~\cite{saleem2018largerdfbench}.
+
+\paragraph{Benchmark}
+We built the benchmark from LargeRDFBench and SPARQL-QC~\cite{WudageChekol2013},\footnote{SPARQL-QC queries are turned into \acp{UCFQ} by assigning each triple pattern to a subset of federation members.} keeping the 63 queries that are federated \acp{CQ} or \acp{UCFQ}, 17 from LargeRDFBench and 46 from SPARQL-QC.\footnote{The benchmark is available at \url{https://github.com/SPARQL-federated-query-containment/benchmark}.}
+A pair is obtained by copying a query and applying one of fifteen mutations to the contained query, the containing query, or both, each mutation fixing the expected answer by construction.
+For example, replacing an unselected variable by an \ac{IRI} in the contained query yields a contained pair, while replacing an \ac{IRI} by another in either query yields a non-contained one.
+Four suites apply these mutations to seed queries selected for the feature they stress, namely the shortest body (\emph{operators}), the widest star pattern (\emph{star}), the most clauses on one predicate (\emph{branching}), and triple patterns evaluated at several members at once (\emph{ucfq}), for a total of 194 pairs.
+Each suite has a scaling twin of synthetic queries adding 289 pairs, in which the body length, star width, and branching grow to 10, 100, and 1000 triple patterns, and the federation width to 2, 5, 10, and 100 members.
+We validated the expected answers of the 194 pairs empirically, by evaluating both queries with Comunica~\cite{taelman_iswc_resources_comunica_2018} over eleven databases derived from the queries and comparing their result bags.
+Such a validation can only establish non-containment.
+A single database on which the result bag of the contained query is not a subbag of that of the containing query is a counter-example, whereas no finite number of databases proves containment.
+A counter-example was found for each of the 92 non-contained pairs, and none for the 102 contained ones, whose expected answer therefore rests on the mutation that produced them.
+
+\paragraph{Results}
