@@ -36,14 +36,14 @@ Under bag-set semantics, however, projecting away variables can introduce duplic
 To the best of our knowledge, bag-set semantic SPARQL query containment remains unexplored, and query containment for federated queries has not been studied either.\footnote{Note that QCan~\cite{salas2018canonicalisation} addresses bag-set semantics, but for query equivalence rather than containment, by transforming SPARQL queries into a canonical form and performing syntactic comparison.}
 
 This paper bridges these gaps by giving procedures for \ac{CQ} and \ac{UCFQ} containment in federated SPARQL under the semantics SPARQL evaluates, excluding nested queries.
-To achieve this, we first introduce a new bag semantics perspective on FedQPL~\cite{Cheng2021}, the logical query language for federated queries, as its current set semantics is not in line with real SPARQL query execution.
-We then introduce \ac{UCFQ}, a class that unions each triple pattern across several federation members and joins the results.
+To achieve this, we first introduce \ac{UCFQ}, a class that unions each triple pattern across several federation members and joins the results.
 This class extends \ac{CQ} but lies inside \ac{UCQ}.
 It is significant because it captures an important class of federated \acp{CQ} arising from automatic source selection strategies for SPARQL, where the federation engine assigns each triple pattern to the members that may answer it~\cite{Cheng2021}.
-To decide containment for this class, we introduce the \ac{BFR}, a transformation from \ac{UCFQ} to \ac{CQ} under bag semantics.
+To decide containment for this class, we define the \ac{BFR}, a transformation from \ac{UCFQ} to \ac{CQ} under bag semantics.
+We also introduce a bag-semantic reading of FedQPL~\cite{Cheng2021}, the logical query language for federated queries, as its set semantics is not in line with SPARQL query execution.
 For federated \acp{CQ}, we reduce containment to containment of \acp{CQ} over located databases, which extend a triple with the federation member holding it, so that the results of the literature apply unchanged.
 The procedures decide containment on the fragments where those results are exact, and report no answer on the others, as the general problem is open.
-We then present an implementation of these procedures and a benchmark of federated query pairs,
+Next, we present an implementation of these procedures and a benchmark of federated query pairs,
 on which we compare it with SpeCS~\cite{Spasic2023}, a set-semantics SPARQL query containment solver.
 As its latest published version was not in a working state at the time of this study, we repaired it and extended its interface to control its timeout and memory limits.\footnote{Available at \url{https://github.com/constraintAutomaton/SpeCS/tree/fix/z3-path-from-env} and submitted upstream at \url{https://github.com/mirkospasic/SpeCS/pull/4}.}
 Finally, we conclude the paper and outline future work.
