@@ -63,7 +63,7 @@ Since both members hold the same solution for a person, the join returns that pe
 Most federated engines produce plans of this same join-over-union shape---for instance FedX~\cite{schwarte2011fedx}, SemaGrow~\cite{charalambidis2015semagrow}, and CostFed~\cite{saleem2018costfed}---which can likewise be rewritten as \acp{UCFQ}.
 Automatic source selection can, however, produce \ac{CQ} plans of arbitrary shape --- for instance, union-over-join plans~\cite{aimonier2024fedup} --- and \ac{UCFQ} therefore does not capture every \ac{CQ} under automatic source selection.
 
-Containment of \acp{UCQ} under bag-set semantics is undecidable (\Cref{sec:related_works_qc}), but this does not settle the status of the \acp{UCFQ}, which form a strict subclass.
+Containment of \acp{UCQ} under bag-set semantics is an open problem (\Cref{sec:related_works_qc}), and the \acp{UCFQ} form a strict subclass whose status it therefore leaves open as well.
 The next section introduces the \ac{BFR}, a transformation showing that evaluating a \ac{UCFQ} is equivalent to evaluating a \ac{CQ} over one \ac{BKG} per union branch under bag semantics.
 
 
@@ -78,13 +78,14 @@ Intuitively, a virtual operator aggregates the members of each branch's sub-fede
 \subsection{A Bag-Semantic Reading of FedQPL}\label{sec_fedqpl}
 
 We expressed the queries of the previous sections in the notation of FedQPL (\Cref{def_fedqpl}), an algebra that \citeauthor{Cheng2021}~\cite{Cheng2021} define under set semantics.
-Every operator is evaluated over sets of solution mappings, and $\fmu$ denotes set union~\cite[Def.~6]{Cheng2021}.
+Its operators take and return sets of solution mappings, with $\fmu$ as set union~\cite[Def.~6]{Cheng2021}.
 SPARQL, however, evaluates under bag-set semantics (\Cref{sec:single_endpoint}), as the underlying \acp{KG} are sets while the operators applied to them return bags.
 We therefore read $\fmu$ and $\fmj$ as their bag counterparts, which aligns them with the SPARQL operators they lift.
-This is not the reading of \citeauthor{Cheng2021}, who leave a bag semantics of FedQPL as future work~\cite{Cheng2021}, and we are aware of no publication that develops one.
+\citeauthor{Cheng2021} do not adopt this reading and mention a bag semantics of FedQPL only as a direction for future research~\cite{Cheng2021}, which, to our knowledge, has not been pursued since.
+This gap has practical consequences, as it leaves the answers of federated queries under automatic source selection ambiguous, so that engines may return different answers to the same benchmark query~\cite{tam2026strengthening}.
 We justify our choice in the remainder of this section.
 
-The federation semantics of FedQPL evaluates a \ac{GP} over the set union $G_{\mathit{union}}$ of the \acp{KG} of the federation members~\cite[Def.~3]{Cheng2021}, following the stated intention that ``the result of a SPARQL query over such a federation should be the same as if the query was executed over the union of all the RDF data available in all the federation members''.
+FedQPL answers a \ac{GP} over a federation by evaluating it over $G_{\mathit{union}}$, the graph merging the \acp{KG} of all federation members into one set~\cite[Def.~3]{Cheng2021}, following the stated intention that ``the result of a SPARQL query over such a federation should be the same as if the query was executed over the union of all the RDF data available in all the federation members''.
 Correctness of a source assignment is defined against that graph~\cite[Def.~7]{Cheng2021}, and under set semantics \ac{ESA} is correct~\cite[Prop.~1]{Cheng2021}.
 Under a bag-set reading it is not.
 
