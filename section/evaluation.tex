@@ -1,8 +1,8 @@
 \section{Evaluation}
-\input{figure/table_overview_containment}
+\input{analysis/artifacts/overview/table_all}
 \input{figure/figure_growth}
 \input{figure/figure_all_suites}
-\input{figure/table_largerdfbench}
+\input{analysis/artifacts/overview/table_largerdfbench}
 We implemented the decision procedure of \Cref{sec:resolution} in a solver we call \solverName{}, written in \href{https://www.typescriptlang.org/}{TypeScript} and running on the \href{https://bun.sh/}{Bun} \href{https://developer.mozilla.org/en-US/docs/Web/JavaScript}{JavaScript} runtime.\footnote{The implementation is open source and available at \url{https://github.com/SPARQL-federated-query-containment/solver}.}
 \textsc{SetContained} delegates set containment to SpeCS~\cite{Spasic2023}, which we run in a \href{https://www.docker.com/}{Docker} container.
 At the time of this study, the latest published version of SpeCS could not be used as is, for two reasons.

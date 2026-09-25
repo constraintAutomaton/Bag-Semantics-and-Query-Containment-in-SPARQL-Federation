@@ -5,11 +5,15 @@ PROOFS = cq_join_multiplicity bag_federation_reduction \
 PROOF_PDF = $(addsuffix .pdf,$(PROOFS))
 WATCH_PROOFS = $(addprefix watch-,$(PROOFS))
 
-main.pdf: $(SOURCE)
+main.pdf: $(SOURCE) analysis-artifacts
 	latexmk -pdf -shell-escape main.tex
 
-watch:
+watch: analysis-artifacts
 	latexmk -pdf -pvc -shell-escape main.tex
+
+# the tables and figures of the evaluation, built by the analysis submodule
+analysis-artifacts:
+	$(MAKE) -C analysis artifacts
 
 proofs: $(PROOF_PDF)
 
@@ -33,4 +37,4 @@ clean:
 	      svg-inkscape/* $(PROOF_PDF) proofs/*.aux proofs/*.fls \
 	      proofs/*.fdb_latexmk proofs/*.log proofs/*.out
 
-.PHONY: all clean watch proofs $(WATCH_PROOFS)
+.PHONY: all clean watch proofs analysis-artifacts $(WATCH_PROOFS)

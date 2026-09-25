@@ -1,0 +1,3 @@
+[submodule "analysis"]
+	path = analysis
+	url = git@github.com:SPARQL-federated-query-containment/result-analysis.git
