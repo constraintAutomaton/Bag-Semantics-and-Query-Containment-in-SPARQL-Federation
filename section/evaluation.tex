@@ -35,13 +35,12 @@ Each pair is run 20 times after 3 warm-up runs, and each run is limited to 8\,GB
 SpeCS returns 54 incorrect answers.
 \solverName{} is also significantly faster, with a median time of 623\,ms against 3128\,ms for SpeCS ($p = 2.98 \times 10^{-22}$).
 \solverName{} fails on fewer pairs, with 14 timeouts and 24 memory exhaustions against 24 and 33 for SpeCS.
-\Cref{fig:all_suites_bfc_specs} shows that the times of \solverName{} spread further across pairs, from a 5th percentile of 330\,ms against 2787\,ms for SpeCS to a 95th percentile of 35\,s against 55\,s.
-Its head ratio, the median over the 5th percentile, is 1.9 against 1.1 for SpeCS, and its tail ratio, the 95th percentile over the median, is 56.6 against 17.5, so its tail is long relative to its median but its 95th percentile remains below that of SpeCS.
-Its slowest pair takes 753\,s against 270\,s for SpeCS.
-Across repeated runs of a same pair, \solverName{} has a mean standard deviation of 375\,ms against 243\,ms for SpeCS, yet SpeCS has the larger standard deviation on the pairs both answer correctly ($p = 2.48 \times 10^{-40}$).
+\Cref{fig:all_suites_bfc_specs} shows that the times of \solverName{} spread further across pairs.
+Its head ratio, the median over the 5th percentile, is 1.9 against 1.1 for SpeCS, and its tail ratio, the 95th percentile over the median, is 56.6 against 17.5.
+Across repeated runs of a same pair, SpeCS varies more than \solverName{} on the pairs both answer correctly ($p = 2.48 \times 10^{-40}$).
 \Cref{fig:growth_bfc_specs} shows how both solvers scale.
 \solverName{} answers at least as many pairs as SpeCS at every size, and its median grows more slowly on the branching and ucfq suites.
-On the operators and star suites its median stays close to that of SpeCS, while its times spread further down, as pairs rejected by the necessary conditions of \Cref{sec:resolution} are decided without calling SpeCS.
+On the operators and star suites its median stays close to that of SpeCS, while its times spread further down, as \solverName{} settles many pairs with its necessary conditions, which are polynomial, or with a containment mapping (\Cref{sec:resolution}), without resorting to an SMT solver.
 
 To put these times in perspective, \Cref{fig:largerdfbench_bfc} compares the mean time of \solverName{} with the mean execution times reported for LargeRDFBench~\cite{saleem2018largerdfbench}, per query category and source selection.
 The mean time of \solverName{} is 25.9 times lower than the execution time under automatic source selection, and 1.9 times lower with \texttt{SERVICE} clauses.
