@@ -34,7 +34,7 @@ for the \emph{fresh} variables of $f$ in $Q$, those it binds alone and the head 
 \end{proof}
 
 \begin{proposition}\label{prop_fed_extra_member}
-  Let $Q_1$ and $Q_2$ be flattened federated \acp{CQ} over the federations $F_1$ and $F_2$, whose members are endpoints.
+  Let $Q_1$ and $Q_2$ be flattened federated \acp{CQ} over the federations $F_1$ and $F_2$.
   If $Q_1 \sqsubseteq Q_2$, then $\operatorname{fresh}(Q_1, f) = \emptyset$ for every $f \in F_1 \setminus F_2$.
 \end{proposition}
 
@@ -45,15 +45,18 @@ for the \emph{fresh} variables of $f$ in $Q$, those it binds alone and the head 
   Taking more copies than the multiplicity of $Q_2$ breaks the containment, as illustrated in \Cref{fig:extra-member-cases}~(a).
 \end{proof}
 
-\Cref{fig:extra-member-cases}~(b) shows the same pair with \texttt{?job} in the head, where the extra member binds no fresh variable and duplicates no solution mapping, so the condition of \Cref{prop_fed_extra_member} holds.
-That pair is still not contained, as the two queries read \texttt{?job} at different federation members, which shows the condition to be necessary and not sufficient.
+The condition of \Cref{prop_fed_extra_member} is necessary but not sufficient for containment.
+Adding \texttt{?job} to the head of the pair of \Cref{fig:extra-member-cases}~(a) yields the pair of \Cref{fig:extra-member-cases}~(b), in which the extra member binds no fresh variable and duplicates no solution mapping, so the condition holds.
+That pair is still not contained, as the two queries read \texttt{?job} at different federation members.
 
 Both are simple necessary conditions for containment, decided in time polynomial in the size of the two queries, as they depend only on the \acp{IRI} of the federation members and on the variables of the two queries.
 They also bear on refinement, a common way of constructing decentralized queries~\cite{eschauzier2026solidsessionbench}.
-Adding a \texttt{SERVICE} clause that binds a fresh variable rules out containment, so a refinement of that kind can never be optimized by a method relying on query containment, whereas one whose added clause binds no fresh variable leaves containment open.
+For instance, refining a query with a \texttt{SERVICE} clause that binds a fresh variable at a member the original query does not contact makes the refined query not contained in the original one (\Cref{prop_fed_extra_member}), so its answers cannot be derived from those of the original query, whereas if the added clause binds no fresh variable, containment may still hold.
 
-Containment of individual \texttt{SERVICE} calls alone is not sufficient: even if each call of the contained query is contained in the corresponding call of the containing query, the queries are not contained if the combining operation differs---a join in one and a union in the other yield incomparable result bags.
-For queries combining subqueries by \texttt{UNION} over federation members (\acp{UCFQ}), the \ac{BFR} (\Cref{sec_bag_federation_reduction}) must first be applied: each \ac{UCFQ} is rewritten as a \ac{CQ} over a \ac{BKG}, and containment then reduces to \ac{CQ} bag-semantic containment over that \ac{BKG}, a decidable problem addressed by the results in \Cref{tab_decidable_containment_bag_bag_set}.
+Containment of individual \texttt{SERVICE} calls alone is not sufficient.
+Even if each call of the contained query is contained in the corresponding call of the containing query, the queries need not be contained if the combining operation differs, as a join in one and a union in the other may yield incomparable result bags.
+For queries combining subqueries by \texttt{UNION} over federation members (\acp{UCFQ}), the \ac{BFR} (\Cref{sec_bag_federation_reduction}) must first be applied: each \ac{UCFQ} is rewritten as a \ac{CQ} over a \ac{BKG}, and containment then reduces to \ac{CQ} bag-semantic containment over that \ac{BKG}.
+\Cref{tab_decidable_containment_bag_bag_set} gives the fragments on which it is decided, and the sufficient conditions that can prove it outside them.
 
 \begin{proposition}\label{prop_federated_containment}
 Let $Q_1$ and $Q_2$ be flattened federated \acp{CQ} over the federations $F_1$ and $F_2$, and let $L(Q)$ denote the located form of a query $Q$.
@@ -65,16 +68,19 @@ where $\sqsubseteq$ on result bags denotes bag containment, and the right-hand s
 \end{proposition}
 
 \begin{proof}
-Every federation determines a located database (\Cref{def_located_db}), and conversely every located database over $F_1 \cup F_2$ arises from a federation, obtained by grouping its located triples by their location.
+Every federation over $F_1 \cup F_2$ has a unique located database (\Cref{def_located_db}), just as every query has a unique located form (\Cref{def_located_form}), and every located database is that of exactly one federation, obtained by grouping its located triples by their location.
 
 Moreover $\eval{Q}{D} = \eval{L(Q)}{D^{*}}$ for every flattened federated \ac{CQ} $Q$ and every federation $D$ with located database $D^{*}$.
 By \Cref{def_located_form}, a subgoal of $L(Q)$ whose location is $f$ matches in $D^{*}$ exactly the located triples whose location is $f$, hence exactly the triples that the corresponding triple pattern of $Q$ matches in the \ac{KG} $G_f$ of that member.
 Locations affect neither compatibility (\Cref{def_merge}) nor the multiplicity of a join (\Cref{def_join_multiplicity}), and $Q$ and $L(Q)$ have the same head, so both evaluations produce the same solution mappings with the same multiplicities.
 
-Suppose $Q_1 \sqsubseteq Q_2$ but $L(Q_1) \not\sqsubseteq L(Q_2)$.
-Then there is an assignment of a \ac{KG} to each member of $F_1 \cup F_2$ such that, on its located database, the result bag of $L(Q_1)$ is not a subbag of that of $L(Q_2)$, whereas on that assignment the result bag of $Q_1$ is a subbag of that of $Q_2$.
-The located forms would therefore return different result bags from the queries themselves, contradicting the above.
-The same argument shows that the containment of the located forms implies the containment of the queries.
+Both directions of the containment equivalence then follow directly from these two facts.
+
+($\Rightarrow$) Let $D^{*}$ be a located database, and $D$ the federation whose located database it is.
+Then $\eval{L(Q_1)}{D^{*}} = \eval{Q_1}{D}$, which is a subbag of $\eval{Q_2}{D} = \eval{L(Q_2)}{D^{*}}$.
+
+($\Leftarrow$) Let $D$ be a federation with located database $D^{*}$.
+Then $\eval{Q_1}{D} = \eval{L(Q_1)}{D^{*}}$, which is a subbag of $\eval{L(Q_2)}{D^{*}} = \eval{Q_2}{D}$.
 \end{proof}
 
 \begin{figure*}
@@ -117,16 +123,18 @@ The same argument shows that the containment of the located forms implies the co
 \end{remark}
 
 \begin{remark}\label{rem_ucfq_located}
-  A sub-federation can itself be treated as a federation member, virtual rather than an endpoint, whose graph is the \ac{BKG} of that sub-federation (\Cref{def_bkg}).
+  A sub-federation can itself be treated as a virtual federation member that holds the \ac{BKG} of that sub-federation (\Cref{def_bkg}).
   The \ac{BFR} therefore yields a flattened federated \ac{CQ} over a federation containing virtual members.
-  \Cref{prop_federated_containment} applies to such a query, so containment of \acp{UCFQ} is decided by first applying the \ac{BFR} and then taking the located form.
+  \Cref{prop_federated_containment} applies to such a query, so containment of \acp{UCFQ} reduces to \ac{CQ} containment by first applying the \ac{BFR} and then taking the located form.
   The order matters, as the located form of a \ac{UCFQ} still contains \texttt{UNION} and is therefore not a \ac{CQ}.
 \end{remark}
 
 \begin{remark}\label{rem_located_db_bag}
-  Whether a located database is a set or a bag depends on the members of the federation.
-  If every member is an endpoint, each $G_f$ is a set and so is the located database; containment is then under bag-set semantics, and the head projection is the only operator that can raise a multiplicity (\Cref{sec:semantic_federated_q}).
-  If some member is virtual, its graph is a \ac{BKG} and therefore a bag, as is the located database; containment is then under bag semantics, and multiplicities can arise from the data itself.
+  The virtual members introduced by the \ac{BFR} (\Cref{rem_ucfq_located}) change whether a located database is a set or a bag, and therefore the semantics under which the located forms are compared.
+  If the federation has no virtual member, the \ac{KG} $G_f$ of each federation member is a set, and so is the located database.
+  Containment is then under bag-set semantics, and the head projection is the only operator that can raise a multiplicity (\Cref{sec:semantic_federated_q}).
+  If some federation member is virtual, it holds a \ac{BKG}, which is a bag, and so is the located database.
+  Containment is then under bag semantics, and multiplicities can also arise from the data itself.
 \end{remark}
 
 \end{document}

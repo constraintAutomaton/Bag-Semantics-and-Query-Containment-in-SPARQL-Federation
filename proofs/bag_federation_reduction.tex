@@ -35,10 +35,11 @@ Taking $m_j = 1$ in the proof of \Cref{prop_duplicate_fed_mem}, every matching t
 
 \Cref{prop_duplicate_fed_mem} establishes the \ac{BFR}.
 Evaluating a \ac{UCFQ} yields the same result bag, under bag semantics, as joining each branch's triple pattern $\mathit{tp}_i$ over the \ac{BKG} of its sub-federation $F_i$.
-Each sub-federation can itself be treated as a federation member holding that \ac{BKG} (\Cref{rem_ucfq_located}), so the branches are joined over a single database.
+Each sub-federation can itself be treated as a federation member holding that \ac{BKG}, so the branches are joined over a single database.
 
 The \ac{BFR} therefore transforms a \ac{UCFQ} into a \ac{CQ} evaluated under bag semantics, carrying the head of the \ac{UCFQ}.
 When that head projects every variable of the body, the target is projection-free and its containment is decidable in $O(n^2\log(n))$ (\Cref{tab_decidable_containment_bag_bag_set}), whereas containment of \acp{UCQ} under bag-set semantics is an open problem (\Cref{sec:related_works_qc}).
-When the head projects a strict subset, the target is a \ac{CQ} under bag semantics in the general case, which is $\Pi^p_2$-hard and whose decidability remains open.
+When the head projects away some variables of the body, the target falls into the general case of bag containment, which is $\Pi^p_2$-hard and not known to be decidable (\Cref{tab_decidable_containment_bag_bag_set}).
+An onto containment mapping nonetheless gives a sufficient condition for containment~\cite{Chaudhuri1993}.
 
 \end{document}

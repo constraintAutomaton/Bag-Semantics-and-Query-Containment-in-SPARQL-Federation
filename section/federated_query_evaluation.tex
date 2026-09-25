@@ -13,7 +13,7 @@ The proposition below shows that a nested \texttt{SERVICE} clause is semanticall
 
 
 Deciding containment for a federated query requires a form in which a query and the federation it addresses can be examined as a whole.
-We obtain such a form by centralizing the federation into a single graph whose triples carry the member holding them, and by extending each triple pattern with a fourth component---its \emph{location}---naming the member that evaluates it.\footnote{We extend triples for readability. \ac{RDF} datasets are commonly represented as quads whose fourth component names a graph~\cite{w3ConceptsAbstract}; there the location is a fifth component and the development below is unchanged.}
+We obtain such a form by centralizing the federation into a single graph whose triples carry the member holding them, and by extending each triple pattern with a fourth component---its \emph{location}---naming the federation member that evaluates it.\footnote{We extend triples for readability. \ac{RDF} datasets are commonly represented as quads whose fourth component names a graph~\cite{w3ConceptsAbstract}; there the location is a fifth component and the development below is unchanged.}
 
 \begin{definition}[Located federated database]\label{def_located_db}
   Let $F$ be a federation and $G_f$ the \ac{KG} held by member $f \in F$.
