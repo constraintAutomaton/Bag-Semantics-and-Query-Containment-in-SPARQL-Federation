@@ -42,7 +42,7 @@ In particular, each triple pattern of a \ac{CQ} is the single-member union $\fmu
 \acp{UCFQ} arise under automatic source selection, in particular \ac{ESA} (\Cref{sec:related_works_fed}).
 Consider a federation of two members, a job registry and a social network, that redundantly store the job and birth date of a person.
 The projection-free \ac{CQ} retrieving each person's job and birth date (\Cref{fig:ucfq-example}, top) would return a set on a single endpoint, but under \ac{ESA} it is evaluated as the \ac{UCFQ} (\Cref{fig:ucfq-example}, bottom), unioning each triple pattern across both members before joining the results.
-Since both members hold the same solution for a person, the join returns that person with multiplicity four, even though every member stores a set --- a duplication that does not arise with explicit \texttt{SERVICE} clauses in a \ac{CQ}.%
+Since both members hold the same solution for a person, the join returns that person with multiplicity four, even though every member stores a set. This duplication does not arise with explicit \texttt{SERVICE} clauses in a \ac{CQ}.%
 \footnote{An executable example of the semantics of federated queries, evaluated with the Comunica~\cite{taelman_iswc_resources_comunica_2018} query engine, is available at \url{https://github.com/constraintAutomaton/demo-federated-query-semantic}.}
 
 \begin{figure}
@@ -60,8 +60,10 @@ Since both members hold the same solution for a person, the join returns that pe
   \label{eq_esa}
 \end{equation}
 
-Most federated engines produce plans of this same join-over-union shape---for instance FedX~\cite{schwarte2011fedx}, SemaGrow~\cite{charalambidis2015semagrow}, and CostFed~\cite{saleem2018costfed}---which can likewise be rewritten as \acp{UCFQ}.
-Automatic source selection can, however, produce \ac{CQ} plans of arbitrary shape --- for instance, union-over-join plans~\cite{aimonier2024fedup} --- and \ac{UCFQ} therefore does not capture every \ac{CQ} under automatic source selection.
+\ac{ESA} can be classify as a join-over-union query plan.
+Most federated engines produce join-over-union plans, for instance FedX~\cite{schwarte2011fedx}, SemaGrow~\cite{charalambidis2015semagrow}, and CostFed~\cite{saleem2018costfed}, which can likewise be rewritten as \acp{UCFQ}.
+Automatic source selection can, however, produce \ac{CQ} plans of arbitrary shape, for instance, union-over-join plans~\cite{aimonier2024fedup}.
+\ac{UCFQ} therefore does not capture every \ac{CQ} under automatic source selection.
 
 Containment of \acp{UCQ} under bag-set semantics is an open problem (\Cref{sec:related_works_qc}), and the \acp{UCFQ} form a strict subclass whose status it therefore leaves open as well.
 The next section introduces the \ac{BFR}, a transformation showing that evaluating a \ac{UCFQ} is equivalent to evaluating a \ac{CQ} over one \ac{BKG} per union branch under bag semantics.
@@ -79,10 +81,10 @@ Intuitively, a virtual operator aggregates the members of each branch's sub-fede
 
 We expressed the queries of the previous sections in the notation of FedQPL (\Cref{def_fedqpl}), an algebra that \citeauthor{Cheng2021}~\cite{Cheng2021} define under set semantics.
 Its operators take and return sets of solution mappings, with $\fmu$ as set union~\cite[Def.~6]{Cheng2021}.
-SPARQL, however, evaluates under bag-set semantics (\Cref{sec:single_endpoint}), as the underlying \acp{KG} are sets while the operators applied to them return bags.
+SPARQL, however, evaluates under bag-set semantics, as the underlying \acp{KG} are sets while the operators applied to them return bags.
 We therefore read $\fmu$ and $\fmj$ as their bag counterparts, which aligns them with the SPARQL operators they lift.
 \citeauthor{Cheng2021} do not adopt this reading and mention a bag semantics of FedQPL only as a direction for future research~\cite{Cheng2021}, which, to our knowledge, has not been pursued since.
-This gap has practical consequences, as it leaves the answers of federated queries under automatic source selection ambiguous, so that engines may return different answers to the same benchmark query~\cite{tam2026strengthening}.
+This gap has practical consequences, as it leaves the answers of federated queries under automatic source selection ambiguous, so that engines may return different answers to the same query~\cite{tam2026strengthening}.
 We justify our choice in the remainder of this section.
 
 FedQPL answers a \ac{GP} over a federation by evaluating it over $G_{\mathit{union}}$, the graph merging the \acp{KG} of all federation members into one set~\cite[Def.~3]{Cheng2021}, following the stated intention that ``the result of a SPARQL query over such a federation should be the same as if the query was executed over the union of all the RDF data available in all the federation members''.
@@ -90,23 +92,18 @@ Correctness of a source assignment is defined against that graph~\cite[Def.~7]{C
 Under a bag-set reading it is not.
 
 \begin{proposition}\label{prop_fedqpl_esa_incorrect}
-  Read under bag-set semantics, the \ac{ESA}~\cite[Def.~9]{Cheng2021} is not correct in the sense of~\cite[Def.~7]{Cheng2021}.
+Under bag-set semantics and ignoring projection, the \ac{ESA} does not in general satisfy the correctness of Definition~7 of \citeauthor{Cheng2021}~\cite{Cheng2021}.
 \end{proposition}
 
 \begin{proof}
-  $G_{\mathit{union}}$ is a set, so a \ac{BGP} returns each of its solution mappings once over it (\Cref{sec:single_endpoint}).
+  Without projection, the evaluation of a \ac{BGP} over the set $G_{\mathit{union}}$ returns each solution mapping once (\Cref{sec:single_endpoint}).
   The \ac{ESA} expression of \Cref{eq_esa}, on the other hand, returns $\mu$ with multiplicity $\prod_{i} |\{\mathit{fm} \in F : \mu(\mathit{tp}_i) \in G_{\mathit{fm}}\}|$ by \Cref{def_union_multiplicity,def_join_multiplicity}.
-  That multiplicity exceeds one as soon as two members hold a triple matched by the same $\mathit{tp}_i$, so the two bags differ.
+  That multiplicity exceeds one as soon as two members hold a triple matched by the same $\mathit{tp}_i$ under $\mu$, in which case the two bags differ.
 \end{proof}
 
-Two readings preserve~\cite[Def.~3]{Cheng2021} as stated.
-The first assumes that no triple is duplicated across the federation members, so that the set union of their \acp{KG} coincides with their bag union.
-Such an assumption is hard to verify in the open-Web setting and cannot always be enforced.
-The second introduces a federation-level union operator that deduplicates the contributions of distinct members.
-% We need to simplify it and also consider that we are talking earlier about ESA and not all the posibilities so we must put that into perpective.
-That operator is not a set union, but a different and more complex kind of union.
-A request may itself return a bag, since SPARQL is a bag language, so the multiplicities of a single member's response must survive.
-The operator must therefore deduplicate across members while leaving each member's own multiplicities untouched, which requires tracking the member every solution mapping comes from.
+Two readings would make the \ac{ESA} correct again while keeping Definition~3 of \citeauthor{Cheng2021}~\cite{Cheng2021} as stated.
+The first assumes that no triple is duplicated across the federation members, so that the set union of their \acp{KG} coincides with their bag union, an assumption that is hard to verify in the open-Web setting and cannot always be enforced.
+The second introduces a federation-level union operator that removes the duplicates across members while preserving the multiplicities each member returns, which makes it more complex than a set union.
 We adopt neither reading.
 
 We propose instead to replace the set union $G_{\mathit{union}}$ by the \ac{BKG} of the federation (\Cref{def_bkg}).
