@@ -1,4 +1,4 @@
-\documentclass[sigconf]{acmart}
+\documentclass[sigconf, review]{acmart}
 
 \usepackage{amsmath}
 \usepackage{mathtools}
@@ -62,12 +62,6 @@
   breaklines=true,
 }
 
-\setcopyright{cc}
-\copyrightyear{2027}
-\acmYear{2027}
-\acmDOI{10.1145/0000000000}
-\acmConference[EDBT 2027]{International Conference on Extending Database Technology}{April 6--9, 2027}{Lille, France}
-\acmISBN{978-1-4503-XXXX-X/26/03}
 
 \title{Bag Semantics and Query Containment in SPARQL Federation}
 
@@ -94,13 +88,21 @@
 
 \raggedbottom
 
-\hypersetup{
-  colorlinks=false,
-  pdfborder={0 0 1},           % draw a 1pt box border around links
-  linkbordercolor={1 0 0},     % red box around internal links/refs
-  citebordercolor={0 1 0},     % green box around citations
-  urlbordercolor={0 0 1},      % blue box around URLs
-}
+
+%% copied from acmart.cls, but modified to a4paper
+\geometry{twoside=true, head=13pt,
+     a4paper, % for EDBT: use A4 paper
+%     paperwidth=8.5in, paperheight=11in,
+     includeheadfoot, columnsep=2pc,
+     top=57pt, bottom=73pt, inner=54pt, outer=54pt,
+     marginparwidth=2pc,heightrounded
+     }%
+
+\AtBeginMaketitle{%
+  \input{edbt-macros}
+}% \AtBeginMaketitle
+
+%% end of the preamble, start of the body of the document source.
 
 \begin{document}
 
@@ -120,6 +122,7 @@
 \input{section/conclusion}
 \input{section/artifact}
 
+\balance
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{references}
 
