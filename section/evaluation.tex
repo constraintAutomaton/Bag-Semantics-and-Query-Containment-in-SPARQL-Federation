@@ -37,7 +37,7 @@ SpeCS returns 54 incorrect answers.
 \solverName{} fails on fewer pairs, with 14 timeouts and 24 memory exhaustions against 24 and 33 for SpeCS.
 \Cref{fig:all_suites_bfc_specs} shows that the times of \solverName{} spread further across pairs.
 Its head ratio, the median over the 5th percentile, is 1.9 against 1.1 for SpeCS, and its tail ratio, the 95th percentile over the median, is 56.6 against 17.5.
-Across repeated runs of a same pair, SpeCS varies more than \solverName{} on the pairs both answer correctly ($p = 2.48 \times 10^{-40}$).
+Across repeated runs of the same pair, SpeCS varies more than \solverName{} on the pairs both answer correctly ($p = 2.48 \times 10^{-40}$).
 \Cref{fig:growth_bfc_specs} shows how both solvers scale.
 \solverName{} answers at least as many pairs as SpeCS at every size, and its median grows more slowly on the branching and ucfq suites.
 On the operators and star suites its median stays close to that of SpeCS, while its times spread further down, as \solverName{} settles many pairs with its necessary conditions, which are polynomial, or with a containment mapping (\Cref{sec:resolution}), without resorting to an SMT solver.

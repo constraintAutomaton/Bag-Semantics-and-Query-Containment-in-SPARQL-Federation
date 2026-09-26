@@ -30,11 +30,11 @@ Each triple pattern of the query body is evaluated across several members and th
 
 \begin{definition}[\acl{UCFQ}]\label{def_ucfq}
 A \ac{UCFQ} is a multiway join $\fmj(U_1, \dots, U_n)$ where each operand $U_i = \fmu(\freq_{I_1}^{\mathit{tp}_i}, \dots, \freq_{I_{k_i}}^{\mathit{tp}_i})$ is a multiway union evaluating the same triple pattern $\mathit{tp}_i$ at a subset of federation members $I_1, \dots, I_{k_i}$, optionally followed by a projection.
-The branches of $U_i$ may name the variables local to $U_i$ differently.
+The requests of $U_i$ may name the variables local to $U_i$ differently.
 \end{definition}
 
 A variable is \emph{local} to $U_i$ when the head does not select it and no other operand of the join binds it.
-As nothing outside its branch refers to such a variable, the branch may name it freely without changing the result bag.
+As nothing outside its request refers to such a variable, the request may name it freely without changing the result bag.
 
 A \ac{CQ} is the special case where every union ranges over a single member, and every \ac{UCFQ} is a \ac{UCQ}, so the \acp{UCFQ} lie strictly between the \acp{CQ} and the \acp{UCQ}.
 In particular, each triple pattern of a \ac{CQ} is the single-member union $\fmu(\freq_{\mathit{fm}}^{\mathit{tp}})$ over the member $\mathit{fm}$ at which it is evaluated.

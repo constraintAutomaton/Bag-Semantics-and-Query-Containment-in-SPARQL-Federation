@@ -48,8 +48,7 @@ A set of federation members is called a \emph{federation}.
 Evaluating a query over a federation $F$ involves decomposing $Q$ into subqueries $P_i$, where each subquery $P_i$ is evaluated at a federation member in $F$ containing a \ac{KG} $G_i$.
 The \ac{KG} queried locally is itself a member of $F$, written $f_{\mathit{loc}}$, so that every subquery is evaluated at a member.
 We adopt a database-agnostic view of federation members: since query containment does not depend on the content of any particular \ac{KG}, we formalize the notion of federation in terms of endpoint URLs.
-A \texttt{SERVICE} clause, written \texttt{SERVICE :anIRI \{?s ?p ?o\}} in SPARQL syntax and denoted $SERVICE(I, P)$~\cite{w3SPARQLFederated}, where $I$ is the URL locating the federation member and $P$ is the graph pattern to evaluate, performs $P$ at the endpoint identified by $I$.
-\footnote{We do not consider the \texttt{SILENT} parameter in this formalization.}
+A \texttt{SERVICE} clause, written \texttt{SERVICE :anIRI \{?s ?p ?o\}} in SPARQL syntax and denoted $SERVICE(I, P)$~\cite{w3SPARQLFederated}, where $I$ is the URL locating the federation member and $P$ is the graph pattern to evaluate, performs $P$ at the endpoint identified by $I$.\footnote{We do not consider the \texttt{SILENT} parameter in this formalization.}
 
 To reason about federated query plans, we use the FedQPL formalism~\cite{Cheng2021}, a more formal and extensible algebra, with the operators defined below.
 FedQPL is defined under set semantics, where $\fmu$ denotes set union~\cite[Def.~6]{Cheng2021}; we reinterpret $\fmu$ and $\fmj$ as their bag counterparts, and justify our reinterpretation in \Cref{sec_fedqpl}.
@@ -59,5 +58,4 @@ FedQPL is defined under set semantics, where $\fmu$ denotes set union~\cite[Def.
   The \emph{multiway union} $\fmu$ and \emph{multiway join} $\fmj$ combine the results of their arguments by bag union and by join, respectively.
 \end{definition}
 
-A SPARQL $SERVICE(I, P)$ is thus expressed in FedQPL by the request $\freq_{I}^{P}$.
-\footnote{We slightly simplify the formalism: FedQPL has a sophisticated representation of federation members, but for query containment a member can be represented by its URL.}
+A SPARQL $SERVICE(I, P)$ is thus expressed in FedQPL by the request $\freq_{I}^{P}$.\footnote{We slightly simplify the formalism. FedQPL has a sophisticated representation of federation members, but for query containment a member can be represented by its URL.}

@@ -40,7 +40,6 @@ Extensions incorporating RDF schemas, OWL entailment regimes~\cite{WudageChekol2
 
 \subsection{Federated Queries}\label{sec:related_works_fed}
 
-%% We need to clarify why we take bag semantic FEDQPL
 Federated SPARQL queries have been approached from two perspectives: explicit federation through the \texttt{SERVICE} clause, and automatic source selection.
 The SPARQL 1.1 Federated Query specification~\cite{w3SPARQLFederated} introduces the \texttt{SERVICE} clause as the W3C standard mechanism for directing subexpressions to specific endpoints.
 The SPARQL specification mentions the use of variables as endpoint URLs in \texttt{SERVICE} clauses but does not give an official interpretation of their behavior.\footnote{\url{https://www.w3.org/TR/sparql11-federated-query/\#variableService}}
@@ -49,7 +48,7 @@ Because Service-Safeness is not part of the specification and multiple SPARQL qu
 \citeauthor{Cheng2021}~\cite{Cheng2021} proposed FedQPL, a formalism to express federated queries under automatic source selection.
 Automatic source selection algorithms~\cite{schwarte2011fedx, gorlitz2011splendid, acosta2011anapsid, charalambidis2015semagrow, saleem2018costfed, taelman_iswc_resources_comunica_2018} alleviate the practical difficulty of determining which federation member each subquery should be sent to~\cite{hanski2025observations}.
 Thus, users can query a federation without knowing how the data is distributed.
-Furthermore, \citeauthor{Cheng2021}~\cite{Cheng2021} introduced \ac{ESA}, a canonical source-selection algorithm that requires no prior information about the federation.
+Furthermore, \citeauthor{Cheng2021}~\cite{Cheng2021} introduced \ac{ESA}, a canonical source assignment that requires no prior information about the federation.
 In \ac{ESA}, each triple pattern is evaluated against every federation member and the results are combined via union, guaranteeing complete results regardless of how data is distributed across the federation.
 
 To the best of our knowledge, no contribution has addressed query containment for federated SPARQL queries; this is the gap our paper addresses.
