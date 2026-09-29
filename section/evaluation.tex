@@ -1,9 +1,5 @@
 \section{Evaluation}
-\input{analysis/artifacts/overview/table_all}
-\input{figure/figure_growth}
-\input{figure/figure_all_suites}
-\input{analysis/artifacts/overview/table_largerdfbench}
-We implemented the decision procedure of \Cref{sec:resolution} in a solver we call \solverName{}, written in \href{https://www.typescriptlang.org/}{TypeScript} and running on the \href{https://bun.sh/}{Bun} \href{https://developer.mozilla.org/en-US/docs/Web/JavaScript}{JavaScript} runtime.\footnote{The implementation is open source and available at \url{https://github.com/SPARQL-federated-query-containment/solver}.}
+We implemented the decision procedure of \Cref{sec:resolution} in a solver we call \acf{BFC}, written in \href{https://www.typescriptlang.org/}{TypeScript} and running on the \href{https://bun.sh/}{Bun} \href{https://developer.mozilla.org/en-US/docs/Web/JavaScript}{JavaScript} runtime.\footnote{The implementation is open source and available at \url{https://github.com/SPARQL-federated-query-containment/solver}.}
 \textsc{SetContained} delegates set containment to SpeCS~\cite{Spasic2023}, which we run in a \href{https://www.docker.com/}{Docker} container.
 At the time of this study, the latest published version of SpeCS could not be used as is, for two reasons.
 First, it invoked its \href{https://smt-lib.org/}{SMT} solver, \href{https://www.microsoft.com/en-us/research/project/z3-3/}{Z3}, from a hardcoded path.
@@ -11,15 +7,21 @@ Second, it reported a Z3 timeout or memory exhaustion as non-containment, althou
 We fixed both issues and made the time and memory limits of Z3 parameters of SpeCS.\footref{fn_specs}
 
 To the best of our knowledge, no benchmark or implementation exists for bag-set query containment of federated SPARQL queries.
-We therefore built a benchmark from established ones, and compare \solverName{} with SpeCS, a state-of-the-art set-semantics solver, on the correctness of its answers, on whether its execution time is on par with existing SPARQL query containment solvers, and on whether deciding containment is cheap compared with executing the queries of the federated query benchmark LargeRDFBench~\cite{saleem2018largerdfbench}.
+We therefore built a benchmark from established ones, and compare \ac{BFC} with SpeCS, a state-of-the-art set-semantics solver, on the correctness of its answers, on whether its execution time is on par with existing SPARQL query containment solvers, and on whether deciding containment is cheap compared with executing the queries of the federated query benchmark LargeRDFBench~\cite{saleem2018largerdfbench}.
+The incorrect answers of SpeCS are expected, as it is a set-semantics solver.
+We compare with it because, as far as we know, no bag-set SPARQL containment solver exists, to put the execution times of \ac{BFC} in the context of a state-of-the-art solver, and incidentally to show that a set-semantics solver is not enough for realistic queries.
 
 \paragraph{Benchmark}
 We built the benchmark from LargeRDFBench and SPARQL-QC~\cite{WudageChekol2013},\footnote{SPARQL-QC queries are turned into \acp{UCFQ} by assigning each triple pattern to a subset of federation members.} keeping the 63 queries that are federated \acp{CQ} or \acp{UCFQ}, 17 from LargeRDFBench and 46 from SPARQL-QC.\footnote{The benchmark is available at \url{https://github.com/SPARQL-federated-query-containment/benchmark}.}
-A pair is obtained by copying a query and applying one of fifteen mutations to the contained query, the containing query, or both, each mutation fixing the expected answer by construction.
+LargeRDFBench~\cite{saleem2018largerdfbench} is a benchmark of 32 federated queries, simple, complex, and large-data, over 13 interlinked real-world datasets totalling about one billion triples, designed to compare the source selection and execution time of federation engines.
+SPARQL-QC is a benchmark of single-endpoint SPARQL queries, with and without projection, designed to compare set-semantics containment solvers.
+A pair consists of a contained and a containing query with the expected answer to their containment.
+It is obtained by copying a query and applying one of fifteen mutations, described in the benchmark repository, to the contained query, the containing query, or both.
+Each mutation has an expected answer derived by construction.
 For example, replacing an unselected variable by an \ac{IRI} in the contained query yields a contained pair, while replacing an \ac{IRI} by another in either query yields a non-contained one.
 Four suites apply these mutations to seed queries selected for the feature they stress, namely the shortest body (\emph{operators}), the widest star pattern (\emph{star}), the most clauses on one predicate (\emph{branching}), and triple patterns evaluated at several members at once (\emph{ucfq}), for a total of 194 pairs.
 Each suite has a scaling twin of synthetic queries adding 289 pairs, in which the body length, star width, and branching grow to 10, 100, and 1000 triple patterns, and the federation width to 2, 5, 10, and 100 members.
-We validated the expected answers of the 194 pairs empirically, by evaluating both queries with Comunica~\cite{taelman_iswc_resources_comunica_2018} over eleven databases derived from the queries and comparing their result bags.
+We validated the expected answers of the 194 pairs empirically, by evaluating both queries using the SPARQL query engine Comunica~\cite{taelman_iswc_resources_comunica_2018} over eleven databases derived from the queries and comparing their result bags.
 Such a validation can only establish non-containment.
 A single database on which the result bag of the contained query is not a subbag of that of the containing query is a counter-example, whereas no finite number of databases proves containment.
 A counter-example was found for each of the 92 non-contained pairs, and none for the 102 contained ones, whose expected answer therefore rests on the mutation that produced them.
@@ -29,22 +31,27 @@ We ran both solvers on a Linux machine with a 16-core Intel Xeon E5620 CPU at 2.
 Each pair is run 20 times after 3 warm-up runs, and each run is limited to 8\,GB of memory and to 20 minutes, the timeout LargeRDFBench sets for its simple and complex queries~\cite[Sec.~5.1]{saleem2018largerdfbench}.
 
 \paragraph{Results}
+\input{analysis/artifacts/overview/table_all}
 
 \Cref{fig:overview_bfc_specs} summarizes the results over the 483 pairs.\footnote{The analysis of the results is available at \url{https://github.com/SPARQL-federated-query-containment/result-analysis}.}
-\solverName{} returns no incorrect answer, and answers unknown on 15 pairs, those it cannot decide as both queries project and no variable-onto containment mapping exists.
+\ac{BFC} returns no incorrect answer, and answers unknown on 15 pairs, those it cannot decide as both queries project and no variable-onto containment mapping exists.
 SpeCS returns 54 incorrect answers.
-\solverName{} is also significantly faster, with a median time of 623\,ms against 3128\,ms for SpeCS ($p = 2.98 \times 10^{-22}$).
-\solverName{} fails on fewer pairs, with 14 timeouts and 24 memory exhaustions against 24 and 33 for SpeCS.
-\Cref{fig:all_suites_bfc_specs} shows that the times of \solverName{} spread further across pairs.
+\ac{BFC} is also significantly faster, with a median time of 623\,ms against 3128\,ms for SpeCS ($p = 2.98 \times 10^{-22}$).
+\ac{BFC} fails on fewer pairs, with 14 timeouts and 24 memory exhaustions against 24 and 33 for SpeCS.
+\input{figure/figure_all_suites}
+\Cref{fig:all_suites_bfc_specs} shows that the times of \ac{BFC} spread further across pairs.
 Its head ratio, the median over the 5th percentile, is 1.9 against 1.1 for SpeCS, and its tail ratio, the 95th percentile over the median, is 56.6 against 17.5.
-Across repeated runs of the same pair, SpeCS varies more than \solverName{} on the pairs both answer correctly ($p = 2.48 \times 10^{-40}$).
+Across repeated runs of the same pair, SpeCS varies more than \ac{BFC} on the pairs both answer correctly ($p = 2.48 \times 10^{-40}$).
+\input{figure/figure_growth}
 \Cref{fig:growth_bfc_specs} shows how both solvers scale.
-\solverName{} answers at least as many pairs as SpeCS at every size, and its median grows more slowly on the branching and ucfq suites.
-On the operators and star suites its median stays close to that of SpeCS, while its times spread further down, as \solverName{} settles many pairs with its necessary conditions, which are polynomial, or with a containment mapping (\Cref{sec:resolution}), without resorting to an SMT solver.
+\ac{BFC} answers at least as many pairs as SpeCS at every size, and its median grows more slowly on the branching and ucfq suites.
+On the operators and star suites its median stays close to that of SpeCS, while its times spread further down, as \ac{BFC} settles many pairs with its necessary conditions, which are polynomial, or with a containment mapping (\Cref{sec:resolution}), without resorting to an SMT solver.
 
-To put these times in perspective, \Cref{fig:largerdfbench_bfc} compares the mean time of \solverName{} with the mean execution times reported for LargeRDFBench~\cite{saleem2018largerdfbench}, per query category and source selection.
-The mean time of \solverName{} is 25.9 times lower than the execution time under automatic source selection, and 1.9 times lower with \texttt{SERVICE} clauses.
-Only the simple queries with \texttt{SERVICE} clauses execute faster on average than \solverName{} decides containment.
+\input{analysis/artifacts/overview/table_largerdfbench}
+
+To put these times in perspective, \Cref{fig:largerdfbench_bfc} compares the mean time of \ac{BFC} with the mean execution times reported for LargeRDFBench~\cite{saleem2018largerdfbench}, per query category and source selection.
+The mean time of \ac{BFC} is 25.9 times lower than the execution time under automatic source selection, and 1.9 times lower with \texttt{SERVICE} clauses.
+Only the simple queries with \texttt{SERVICE} clauses execute faster on average than \ac{BFC} decides containment.
 These execution times are measured over endpoints on a dedicated local network~\cite[Sec.~5.1]{saleem2018largerdfbench}, so they include almost no network latency, whereas federated queries over public endpoints on the Web are slower and less reliable.
 \citeauthor{crum_iswc_inuse_realworldfed_2026}~\cite{crum_iswc_inuse_realworldfed_2026} report a median of 4.47\,s and a 90th percentile of 248\,s for automatic source selection over public biological endpoints, where only 2.3\% of executions succeed, against 47.3\% with \texttt{SERVICE} clauses, and 68.7\% of the queries return varying result counts across runs.
 Deciding containment is therefore cheap compared with executing a federated query, and avoiding a re-execution also avoids its exposure to such failures.

@@ -5,7 +5,9 @@ This paper gives the first procedure for query containment of federated SPARQL q
 We introduce the \ac{UCFQ} class, which captures common forms of federated SPARQL queries, and the \ac{BFR}, which reduces its containment to \ac{CQ} containment under bag semantics.
 We establish conditions for federated query containment, and derive a procedure that reuses existing \ac{CQ} containment results.
 We implemented this procedure and built a benchmark for it from an existing federated query benchmark and an existing set-semantics containment benchmark.
-Our implementation \solverName{} returns no incorrect answer on a benchmark of 483 query pairs, is significantly faster than SpeCS, a state-of-the-art set-semantics solver, and takes a fraction of the time of executing a federated query.
-These results enable the optimizations that containment classically underpins, such as caching, in federated workflows where queries are repeatedly re-executed or refined.
+Our implementation \ac{BFC} returns no incorrect answer on a benchmark of 483 query pairs, is significantly faster than SpeCS, a state-of-the-art set-semantics solver, and takes a fraction of the time of executing a federated query.
+These results enable the optimizations that containment classically underpins, such as caching and view selection, in federated workflows where queries are repeatedly re-executed or refined.
 
-Future work includes an end-to-end evaluation of caching federated queries using query containment as a cache-hit algorithm, a complete bag semantics of FedQPL, containment across the bag and bag-set boundary introduced by the \ac{BFR}, exploiting knowledge of federation members such as guaranteed disjointness, and richer SPARQL fragments such as \texttt{FILTER} and property paths.
+Future work includes an independently designed benchmark for federated query containment, and an end-to-end evaluation of caching and view selection for federated queries built on query containment.
+Both raise open questions, such as whether the client, the federation engine, or an intermediary manages the cached results or materialized views, and how they can reuse results from partially private sources without exposing them to unauthorized clients.
+Theoretical directions include a complete bag semantics of FedQPL, containment across the bag and bag-set boundary introduced by the \ac{BFR}, exploiting knowledge of federation members such as guaranteed disjointness, and richer SPARQL fragments such as \texttt{FILTER} and property paths.

@@ -5,7 +5,7 @@ In this section we derive from this reduction a procedure that reuses an existin
 
 The located form of a query is expressible in SPARQL, as a location can be expressed as a graph name in the quad representation of an \ac{RDF} dataset (\Cref{sec:federated_queries_query_containment}).
 Replacing every \texttt{SERVICE} clause by a \texttt{GRAPH} clause over the same \ac{IRI}, and evaluating the local part in the graph named $f_{\mathit{loc}}$, yields a single-source query equivalent to $L(Q)$.
-A solver supporting the \texttt{GRAPH} construct can therefore be the base of a SPARQL federated query containment solver.
+A solver supporting the \texttt{GRAPH} construct can therefore be the base of a SPARQL federated query containment solver.\footnote{Members holding named graphs would require encoding the location with \ac{RDF}~1.2 triple terms or classical reification~\cite{w3ConceptsAbstract}, which is outside the scope of this study.}
 
 \begin{remark}\label{rem_location_inclusion}
 We treat the location of a located triple pattern as the set of \acp{IRI} of the federation members it is evaluated at, a single member for a pattern of a \ac{CQ} and a sub-federation for a pattern that the \ac{BFR} derives from a \ac{UCFQ} (\Cref{rem_ucfq_located}).

@@ -43,7 +43,7 @@ for the \emph{fresh} variables of $f$ in $Q$, those it binds alone and the head 
 \end{proof}
 
 The condition of \Cref{prop_fed_extra_member} is necessary but not sufficient for containment.
-Adding \texttt{?job} to the head of the pair of \Cref{fig:extra-member-cases}~(a) yields the pair of \Cref{fig:extra-member-cases}~(b), in which the extra member binds no fresh variable and duplicates no solution mapping, so the condition holds.
+Adding \texttt{?job} to the head of the pair of \Cref{fig:extra-member-cases}~(a), and a local \texttt{schema:jobTitle} pattern to $Q_2$, yields the pair of \Cref{fig:extra-member-cases}~(b), in which the extra member binds no fresh variable and duplicates no solution mapping, so the condition holds.
 That pair is still not contained, as the two queries read \texttt{?job} at different federation members.
 
 Both are simple necessary conditions for containment, decided in time polynomial in the size of the two queries, as they depend only on the \acp{IRI} of the federation members and on the variables of the two queries.
@@ -80,7 +80,7 @@ Then $\eval{L(Q_1)}{D^{*}} = \eval{Q_1}{D}$, which is a subbag of $\eval{Q_2}{D}
 Then $\eval{Q_1}{D} = \eval{L(Q_1)}{D^{*}}$, which is a subbag of $\eval{L(Q_2)}{D^{*}} = \eval{Q_2}{D}$.
 \end{proof}
 
-\begin{figure*}
+\begin{figure*}[!t]
   \begin{minipage}[t]{0.48\linewidth}
     \textbf{(a) $Q_1$, with \texttt{?job} projected away}
     \lstinputlisting[style=sparql]{code/extra_member_proj_sub_q.rq}
@@ -108,7 +108,7 @@ Then $\eval{Q_1}{D} = \eval{L(Q_1)}{D^{*}}$, which is a subbag of $\eval{L(Q_2)}
     \lstinputlisting[style=sparql]{code/extra_member_job_registry.ttl}
   \end{minipage}
   \caption{Two query pairs sharing the body of $Q_1$, where $Q_1$ addresses \texttt{ex:jobRegistry} and $Q_2$ does not, evaluated over the two \acp{KG} shown.
-  In (a) both queries return \texttt{ex:jan} and \texttt{ex:jos} with their birth dates, but $Q_1$ returns \texttt{ex:jan} twice, since the registry holds two jobs for them and projecting \texttt{?job} away transform the two solution mappings into duplicates.
+  In (a) both queries return \texttt{ex:jan} and \texttt{ex:jos} with their birth dates, but $Q_1$ returns \texttt{ex:jan} twice, since the registry holds two jobs for them and projecting \texttt{?job} away transforms the two solution mappings into duplicates.
   In (b) $Q_2$ returns \texttt{ex:jan} as a \texttt{Cashier}, the only job the local \ac{KG} holds, whereas $Q_1$ also returns \texttt{ex:jan} as a \texttt{Barista} and \texttt{ex:jos} as an \texttt{Engineer}.}
   \label{fig:extra-member-cases}
 \end{figure*}

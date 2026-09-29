@@ -22,8 +22,9 @@ For example,\footnote{Inspired by \citeauthor{Chaudhuri1993}~\cite{Chaudhuri1993
 The containing query retrieves the birthday of all people in the dataset, whereas the contained query refines it to those who have a job.
 Under set semantics, the two queries are contained.
 Under bag-set semantics, however, projecting away variables can introduce duplicates, which occurs in the example whenever an individual holds multiple jobs.\footnote{An executable example is provided at \url{https://github.com/constraintAutomaton/demo-semantic-query-containment-SPARQL} using the Comunica~\cite{taelman_iswc_resources_comunica_2018} query engine and the SpeCS~\cite{Spasic2023} SPARQL query containment solver.}
+Such containment mistake can have real impact on the integrity of results if for instance query containment is used for view selection, as a cache hit mecanism or even for query equivalence determination.
 
-\begin{figure}
+\begin{figure}[!t]
   \textbf{Containing query}
   \lstinputlisting[style=sparql]{code/bag_set_super_q.rq}
   \textbf{Contained query}
@@ -38,8 +39,8 @@ To the best of our knowledge, bag-set semantic SPARQL query containment remains 
 This paper bridges these gaps by giving procedures for \ac{CQ} and \ac{UCFQ} containment in federated SPARQL under the semantics SPARQL evaluates, excluding nested queries.
 To achieve this, we first introduce \ac{UCFQ}, a class that unions each triple pattern across several federation members and joins the results.
 This class extends \ac{CQ} but lies inside \ac{UCQ}.
-It is significant because it captures an important class of federated \acp{CQ} arising from automatic source selection strategies for SPARQL, where the federation engine assigns each triple pattern to the members that may answer it~\cite{Cheng2021}.
-To decide containment for this class, we define the \ac{BFR}, a transformation from \ac{UCFQ} to \ac{CQ} under bag semantics.
+It is significant because it captures how an important class of federated \acp{CQ} is executed under automatic source selection strategies for SPARQL, where the federation engine assigns each triple pattern to the members that may answer it~\cite{Cheng2021}.
+To reason about containment for this class, we define the \ac{BFR}, a transformation from \ac{UCFQ} to \ac{CQ} under bag semantics.
 We also introduce a bag-semantic reading of FedQPL~\cite{Cheng2021}, the logical query language for federated queries, as its set semantics is not in line with SPARQL query execution.
 For federated \acp{CQ}, we reduce containment to containment of \acp{CQ} over located databases, which extend a triple with the federation member holding it, so that the results of the literature apply unchanged.
 The procedures decide containment on the fragments where those results are exact, and report no answer on the others, as the general problem is open.
