@@ -27,7 +27,7 @@ A triple held by member $f$ is thus a located triple whose location is $f$, and 
 
 \begin{definition}[Located form of a query]\label{def_located_form}
   Let $Q$ be a flattened federated \ac{CQ} over a federation $F$.
-  The \emph{located form} $L(Q)$ of $Q$ is the \ac{CQ} with the same head as $Q$ whose body contains, for every triple pattern $(s,p,o)$ of $Q$, the located triple pattern $(s,p,o,f)$, where $f$ is the member evaluating it: the member of the \texttt{SERVICE} clause enclosing the pattern, or $f_{\mathit{loc}}$ if the pattern belongs to the local \ac{BGP}.
+  The \emph{located form} $L(Q)$ of $Q$ is the \ac{CQ} with the same head as $Q$ whose body contains, for every triple pattern $(s,p,o)$ of $Q$, the located triple pattern $(s,p,o,f)$, where $f$ is the member evaluating it, namely the member of the \texttt{SERVICE} clause enclosing the pattern, or $f_{\mathit{loc}}$ if the pattern belongs to the local \ac{BGP}.
 \end{definition}
 
 Centralization changes neither compatibility (\Cref{def_merge}) nor the multiplicity of a join (\Cref{def_join_multiplicity}), so $Q$ and $L(Q)$ return the same result bag.

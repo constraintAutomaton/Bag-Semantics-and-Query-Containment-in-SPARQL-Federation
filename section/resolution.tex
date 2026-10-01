@@ -47,7 +47,7 @@ When set containment is needed, it is performed on the located queries rewritten
 \Cref{alg_variable_onto} searches for a variable-onto containment mapping by placing the located triple patterns of $L(Q_2)$ on those of $L(Q_1)$, one at a time.
 The procedure \textsc{Search} carries the set $S$ of patterns of $L(Q_2)$ that remain to be placed, the set $P$ of patterns of $L(Q_1)$ on which they are placed, and the mapping $\sigma$ built so far, which assigns a term of $L(Q_1)$ to every variable of $L(Q_2)$ already encountered.
 Once $S$ is empty the mapping is complete, its domain is exactly the variables of $L(Q_2)$, and it is variable-onto when its image contains every variable of $L(Q_1)$.
-The procedure \textsc{Place} attempts to place a pattern $A$ of $L(Q_2)$ on a pattern $B$ of $L(Q_1)$ by comparing their terms $A_i$ and $B_i$ at each position $i$: a constant must equal the term facing it, a variable already assigned must keep its term, and any other variable is assigned the term facing it.
+The procedure \textsc{Place} attempts to place a pattern $A$ of $L(Q_2)$ on a pattern $B$ of $L(Q_1)$ by comparing their terms $A_i$ and $B_i$ at each position $i$, where a constant must equal the term facing it, a variable already assigned must keep its term, and any other variable is assigned the term facing it.
 It returns the extended mapping, or $\bot$ when the two patterns cannot be placed.
 The names of the variables the head does not project are therefore never compared, as the mapping derives their correspondence from the terms facing them.
 A pattern is only ever placed on one whose location its own includes (\Cref{rem_location_inclusion}), which restricts the search to the patterns evaluated at the same federation members.

@@ -8,10 +8,11 @@ If $Q_1$ evaluates a pattern at federation member $\mathit{:a}$ and $Q_2$ evalua
 Locations record this distinction inside the query: two triple patterns that differ only in their location are distinct subgoals.
 The databases over which a federated query is evaluated are then exactly the located databases of \Cref{def_located_db}, so containment of federated queries becomes containment of their located forms.
 
-Because federation members hold independent data, a shortfall at one location cannot be compensated at another: if the triple patterns $Q_1$ evaluates at some member return results that are not a subbag of those $Q_2$ evaluates at the same member, no other part of $Q_2$ can make up the difference.
+Because federation members hold independent data, a shortfall at one location cannot be compensated at another.
+If the triple patterns $Q_1$ evaluates at some member return results that are not a subbag of those $Q_2$ evaluates at the same member, no other part of $Q_2$ can make up the difference.
 Conversely, if $Q_2$ were to contact a federation member $f \notin F_1$, that extra \texttt{SERVICE} call would be joined into $Q_2$'s result; since $f$'s data is independent, it may have no compatible binding for some solution mappings, dropping them from $Q_2$ (in the extreme, emptying it) on databases where $Q_1$ still returns them, breaking containment.
 Containment therefore requires $F_2 \subseteq F_1$.
-The converse is not required: $Q_1$ may address a member that $Q_2$ does not, as joining the results of that member can only discard solution mappings from $Q_1$---unless the member binds a variable that the head projects away, in which case it duplicates them instead.
+The converse is not required, since $Q_1$ may address a member that $Q_2$ does not, as joining the results of that member can only discard solution mappings from $Q_1$---unless the member binds a variable that the head projects away, in which case it duplicates them instead.
 
 For a federation member $f$, we write $Q|_f$ for the part of $Q$ evaluated at $f$, and
 \[
@@ -52,7 +53,7 @@ For instance, refining a query with a \texttt{SERVICE} clause that binds a fresh
 
 Containment of individual \texttt{SERVICE} calls alone is not sufficient.
 Even if each call of the contained query is contained in the corresponding call of the containing query, the queries need not be contained if the combining operation differs, as a join in one and a union in the other may yield incomparable result bags.
-For queries combining subqueries by \texttt{UNION} over federation members (\acp{UCFQ}), the \ac{BFR} (\Cref{sec_bag_federation_reduction}) must first be applied: each \ac{UCFQ} is rewritten as a \ac{CQ} over a \ac{BKG}, and containment then reduces to \ac{CQ} bag-semantic containment over that \ac{BKG}.
+For queries in the form of a \ac{UCFQ}, the \ac{BFR} (\Cref{sec_bag_federation_reduction}) must first be applied, which rewrites each as a \ac{CQ} over \acp{BKG}, so that containment reduces to \ac{CQ} containment under bag semantics over the \acp{BKG} the \ac{BFR} produces.
 \Cref{tab_decidable_containment_bag_bag_set} gives the fragments on which it is decided, and the sufficient conditions that can prove it outside them.
 
 \begin{proposition}\label{prop_federated_containment}

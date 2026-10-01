@@ -1,11 +1,11 @@
 \section{Conclusion}\label{sec:conclusion}
 
-SPARQL queries are evaluated under bag-set semantics and support federation through the \texttt{SERVICE} operator, yet query containment has been studied only under set semantics and never for federated queries.
+SPARQL queries are evaluated under bag-set semantics and support federation through the \texttt{SERVICE} operator, yet SPARQL query containment has been studied only under set semantics and never for federated queries.
 This paper gives the first procedure for query containment of federated SPARQL queries under bag-set semantics.
-We introduce the \ac{UCFQ} class, which captures common forms of federated SPARQL queries, and the \ac{BFR}, which reduces its containment to \ac{CQ} containment under bag semantics.
+We introduce the \ac{UCFQ} class, which captures common forms of federated SPARQL queries, and the \ac{BFR}, which reduces its containment to \ac{CQ} containment under bag semantics, over the \acp{BKG} of its sub-federations.
 We establish conditions for federated query containment, and derive a procedure that reuses existing \ac{CQ} containment results.
 We implemented this procedure and built a benchmark for it from an existing federated query benchmark and an existing set-semantics containment benchmark.
-Our implementation \ac{BFC} returns no incorrect answer on a benchmark of 483 query pairs, is significantly faster than SpeCS, a state-of-the-art set-semantics solver, and takes a fraction of the time of executing a federated query.
+Our implementation \ac{BFC} returns no incorrect answer on a benchmark of 483 query pairs, runs in times on par with SpeCS, a state-of-the-art set-semantics solver, and takes a fraction of the time of executing a federated query.
 These results enable the optimizations that containment classically underpins, such as caching and view selection, in federated workflows where queries are repeatedly re-executed or refined.
 
 Future work includes an independently designed benchmark for federated query containment, and an end-to-end evaluation of caching and view selection for federated queries built on query containment.

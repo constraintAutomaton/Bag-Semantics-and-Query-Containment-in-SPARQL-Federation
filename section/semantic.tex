@@ -41,6 +41,7 @@ Each triple pattern of the query body is evaluated across several members and th
 
 \begin{definition}[\acl{UCFQ}]\label{def_ucfq}
 A \ac{UCFQ} is a multiway join $\fmj(U_1, \dots, U_n)$ where each operand $U_i = \fmu(\freq_{I_1}^{\mathit{tp}_i}, \dots, \freq_{I_{k_i}}^{\mathit{tp}_i})$ is a multiway union evaluating the same triple pattern $\mathit{tp}_i$ at a subset of federation members $I_1, \dots, I_{k_i}$, optionally followed by a projection.
+We call each operand $U_i$ a \emph{branch} of the \ac{UCFQ}, and $\{I_1, \dots, I_{k_i}\}$ its \emph{sub-federation}.
 The requests of $U_i$ may name the variables local to $U_i$ differently.
 \end{definition}
 
@@ -65,7 +66,7 @@ Since both members hold the same solution for a person, the join returns that pe
   \label{fig:ucfq-example}
 \end{figure}
 
-\ac{ESA} is the particular case of \ac{UCFQ} in which every union branch ranges over the entire federation $\{\mathit{fm}_1, \dots, \mathit{fm}_m\}$, formalized as follows:
+\ac{ESA} is the particular case of \ac{UCFQ} in which every branch ranges over the entire federation $\{\mathit{fm}_1, \dots, \mathit{fm}_m\}$, formalized as follows:
 \begin{equation}
   \fmj\bigl(\fmu(\freq_{\mathit{fm}_1}^{\mathit{tp}_1}, \dots, \freq_{\mathit{fm}_m}^{\mathit{tp}_1}), \dots, \fmu(\freq_{\mathit{fm}_1}^{\mathit{tp}_n}, \dots, \freq_{\mathit{fm}_m}^{\mathit{tp}_n})\bigr)
   \label{eq_esa}
@@ -77,13 +78,13 @@ Automatic source selection can, however, produce \ac{CQ} plans of arbitrary shap
 \ac{UCFQ} therefore does not capture every \ac{CQ} under automatic source selection.
 
 Containment of \acp{UCQ} under bag-set semantics is an open problem (\Cref{sec:related_works_qc}), and the \acp{UCFQ} form a strict subclass whose status it therefore leaves open as well.
-The next section introduces the \ac{BFR}, a transformation showing that evaluating a \ac{UCFQ} is equivalent to evaluating a \ac{CQ} over one \ac{BKG} per union branch under bag semantics.
+The next section introduces the \ac{BFR}, a transformation showing that evaluating a \ac{UCFQ} is equivalent to evaluating a \ac{CQ} over one \ac{BKG} per branch under bag semantics.
 
 
 
 \subsection{\acl{BFR}}\label{sec_bag_federation_reduction}
 
-We propose the \ac{BFR}, a transformation that rewrites a \ac{UCFQ} as a \ac{CQ} evaluated over one \ac{BKG} per union branch (\Cref{def_bkg}).
+We propose the \ac{BFR}, a transformation that rewrites a \ac{UCFQ} as a \ac{CQ} evaluated over one \ac{BKG} per branch (\Cref{def_bkg}).
 Intuitively, each branch's sub-federation becomes a virtual member holding the \ac{BKG} of its members, at which the branch's triple pattern is evaluated.
 
 \subfile{proofs/bag_federation_reduction}

@@ -2,7 +2,7 @@
 
 \subsection{Query Containment}\label{sec:related_works_qc}
 
-Query containment is the problem of deciding, for every possible database, whether the result of a query $Q_1$ is a subset of the result of a query $Q_2$, denoted $Q_1 \sqsubseteq Q_2$; in this case $Q_1$ is the \emph{contained query} and $Q_2$ the \emph{containing query}.
+Query containment is the problem of deciding, for every possible database, whether the result of a query $Q_1$ is a subbag of the result of a query $Q_2$, denoted $Q_1 \sqsubseteq Q_2$; in this case $Q_1$ is the \emph{contained query} and $Q_2$ the \emph{containing query}.
 Query containment has been used in multiple query optimization tasks, including view selection, caching, and query rewriting~\cite{Afrati2019-ch2, Shirkova2011, Halevy2001}.
 
 Query containment under bag or bag-set semantics is a strictly stronger relationship than its set-semantic counterpart~\cite{Chaudhuri1993}.
@@ -17,7 +17,7 @@ The general case remains open, so deciding containment relies on sufficient cond
   \label{tab_decidable_containment_bag_bag_set}
   \begin{tabular}{llll}
     \toprule
-    Case & Semantic & Result & Complexity\\
+    Case & Semantics & Result & Complexity\\
     \midrule
     General \ac{UCQ}~\cite{ioannidis1995containment} & Bag & Exact & Undecidable\\
     General \ac{UCQ} & Bag-set & Open & Open\\
@@ -40,7 +40,7 @@ Extensions incorporating RDF schemas, OWL entailment regimes~\cite{WudageChekol2
 
 \subsection{Federated Queries}\label{sec:related_works_fed}
 
-Federated SPARQL queries have been approached from two perspectives: explicit federation through the \texttt{SERVICE} clause, and automatic source selection.
+Federated SPARQL queries have been approached from two perspectives, namely explicit federation through the \texttt{SERVICE} clause, and automatic source selection.
 The SPARQL 1.1 Federated Query specification~\cite{w3SPARQLFederated} introduces the \texttt{SERVICE} clause as the W3C standard mechanism for directing subexpressions to specific endpoints.
 The SPARQL specification mentions the use of variables as endpoint URLs in \texttt{SERVICE} clauses but does not give an official interpretation of their behavior.\footnote{\url{https://www.w3.org/TR/sparql11-federated-query/\#variableService}}
 \citeauthor{BuilAranda2013}~\cite{BuilAranda2013} introduced \emph{Service-Safeness}, a syntactic rule outside the SPARQL specification that makes such queries computable by guaranteeing a finite set of federation members.

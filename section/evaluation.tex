@@ -27,7 +27,7 @@ A single database on which the result bag of the contained query is not a subbag
 A counter-example was found for each of the 92 non-contained pairs, and none for the 102 contained ones, whose expected answer therefore rests on the mutation that produced them.
 
 \paragraph{Setup}
-We ran both solvers on a Linux machine with a 16-core Intel Xeon E5620 CPU at 2.40\,GHz and 12\,GB of memory, using Bun~1.4.2 and Z3~4.13.4.
+We ran both solvers on a Linux machine with two 4-core Intel Xeon E5620 CPUs at 2.40\,GHz (16 threads) and 12\,GB of memory, using Bun~1.4.2 and Z3~4.13.4.
 Each pair is run 20 times after 3 warm-up runs, and each run is limited to 8\,GB of memory and to 20 minutes, the timeout LargeRDFBench sets for its simple and complex queries~\cite[Sec.~5.1]{saleem2018largerdfbench}.
 
 \paragraph{Results}
