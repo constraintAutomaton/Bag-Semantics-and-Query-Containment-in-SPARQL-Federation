@@ -51,8 +51,8 @@ As nothing outside its request refers to such a variable, the request may name i
 A \ac{CQ} is the special case where every union ranges over a single member, and every \ac{UCFQ} is a \ac{UCQ}, so the \acp{UCFQ} lie strictly between the \acp{CQ} and the \acp{UCQ}.
 In particular, each triple pattern of a \ac{CQ} is the single-member union $\fmu(\freq_{\mathit{fm}}^{\mathit{tp}})$ over the member $\mathit{fm}$ at which it is evaluated.
 
-\acp{UCFQ} arise under automatic source selection, in particular \ac{ESA} (\Cref{sec:related_works_fed}).
-Consider a federation of two members, a job registry and a social network, that redundantly store the job and birth date of a person.
+\acp{UCFQ} can arise when a federation engine selects sources automatically, as it evaluates each triple pattern at every member that may answer it (\Cref{sec:related_works_fed}).
+For instance, in a federation of a job registry and a social network, both members may store the job and birth date of a person.
 The projection-free \ac{CQ} retrieving each person's job and birth date (\Cref{fig:ucfq-example}, top) would return a set on a single endpoint, but under \ac{ESA} it is evaluated as the \ac{UCFQ} (\Cref{fig:ucfq-example}, bottom), unioning each triple pattern across both members before joining the results.
 Since both members hold the same solution for a person, the join returns that person with multiplicity four, even though every member stores a set. This duplication does not arise with explicit \texttt{SERVICE} clauses in a \ac{CQ}.%
 \footnote{An executable example of the semantics of federated queries, evaluated with the Comunica~\cite{taelman_iswc_resources_comunica_2018} query engine, is available at \url{https://github.com/constraintAutomaton/demo-federated-query-semantic}.}
@@ -78,13 +78,13 @@ Automatic source selection can, however, produce \ac{CQ} plans of arbitrary shap
 \ac{UCFQ} therefore does not capture every \ac{CQ} under automatic source selection.
 
 Containment of \acp{UCQ} under bag-set semantics is an open problem (\Cref{sec:related_works_qc}), and the \acp{UCFQ} form a strict subclass whose status it therefore leaves open as well.
-The next section introduces the \ac{BFR}, a transformation showing that evaluating a \ac{UCFQ} is equivalent to evaluating a \ac{CQ} over one \ac{BKG} per branch under bag semantics.
+The next section introduces the \ac{BFR}, a transformation showing that evaluating a \ac{UCFQ} is equivalent to evaluating, under bag semantics, a \ac{CQ} whose triple patterns each read the \ac{BKG} of their branch's sub-federation.
 
 
 
 \subsection{\acl{BFR}}\label{sec_bag_federation_reduction}
 
-We propose the \ac{BFR}, a transformation that rewrites a \ac{UCFQ} as a \ac{CQ} evaluated over one \ac{BKG} per branch (\Cref{def_bkg}).
+We propose the \ac{BFR}, a transformation that rewrites a \ac{UCFQ} as a \ac{CQ} evaluated over one \ac{BKG} per branch.
 Intuitively, each branch's sub-federation becomes a virtual member holding the \ac{BKG} of its members, at which the branch's triple pattern is evaluated.
 
 \subfile{proofs/bag_federation_reduction}
