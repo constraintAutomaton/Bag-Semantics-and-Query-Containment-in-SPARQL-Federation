@@ -36,10 +36,11 @@ Taking $m_j = 1$ in the proof of \Cref{prop_duplicate_fed_mem}, every matching t
 \Cref{prop_duplicate_fed_mem} establishes the \ac{BFR}.
 Evaluating a \ac{UCFQ} yields the same result bag, under bag semantics, as joining each branch's triple pattern $\mathit{tp}_i$ over the \ac{BKG} of its sub-federation $F_i$.
 Each sub-federation can itself be treated as a federation member holding that \ac{BKG}, so the branches are joined over a single database.
+The \ac{BFR} is an instance of the correspondence between bag and bag-set semantics through tuple identifiers~\cite{Chaudhuri1993, Jayram2006}, the location of a located triple acting as an identifier that the branch projects away.
 
 The \ac{BFR} therefore transforms a \ac{UCFQ} into a \ac{CQ} evaluated under bag semantics, carrying the head of the \ac{UCFQ}.
 When that head retains every variable of the body, a subgoals-onto containment mapping can prove containment, as detailed in \Cref{sec:algorithm_ucfq}.
-When the head projects away some variables of the body, the target falls into the general case of bag containment, which is $\Pi^p_2$-hard and not known to be decidable (\Cref{tab_decidable_containment_bag_bag_set}).
+When the head projects away some variables of the body, the target falls into the general case of bag containment, which is NP-hard and not known to be decidable (\Cref{tab_decidable_containment_bag_bag_set}).
 An onto containment mapping nonetheless gives a sufficient condition for containment~\cite{Chaudhuri1993}.
 
 \end{document}

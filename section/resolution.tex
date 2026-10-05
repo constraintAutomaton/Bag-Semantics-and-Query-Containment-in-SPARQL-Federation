@@ -4,7 +4,7 @@ In the previous section we reduced federated query containment to containment of
 In this section we derive from this reduction a procedure that reuses an existing SPARQL query containment solver for set containment, and complements it with the containment mappings that bag and bag-set semantics require.
 
 The located form of a query is expressible in SPARQL, as a location can be expressed as a graph name in the quad representation of an \ac{RDF} dataset (\Cref{sec:federated_queries_query_containment}).
-Replacing every \texttt{SERVICE} clause by a \texttt{GRAPH} clause over the same \ac{IRI}, and evaluating the local part in the graph named $f_{\mathit{loc}}$, yields a single-source query equivalent to $L(Q)$.
+Replacing every \texttt{SERVICE} clause by a \texttt{GRAPH} clause over the same \ac{IRI}, and evaluating the local part in the graph named $f_{\mathit{loc}}$, yields a single-source query equivalent to $L(Q)$.\footnote{A located triple pattern whose location is a sub-federation $L$ is written as the \texttt{UNION} of \texttt{GRAPH}~$f$ clauses over the members $f \in L$, whose set semantics is the support of the \ac{BKG} of $L$, so that bag containment over the databases of the \ac{BFR} implies set containment of this encoding.}
 A solver supporting the \texttt{GRAPH} construct can therefore be the base of a SPARQL federated query containment solver.\footnote{Members holding named graphs would require encoding the location with \ac{RDF}~1.2 triple terms or classical reification~\cite{w3ConceptsAbstract}, which is outside the scope of this study.}
 
 \begin{remark}\label{rem_location_inclusion}
@@ -17,7 +17,7 @@ Current SPARQL query containment solvers decide containment under set semantics,
 A \emph{homomorphism} from the containing query to the contained query is a function from the variables of the containing query to the variables and constants of the contained query that maps every conjunct of the containing query's body to a conjunct of the contained query's body.
 It is a \emph{containment mapping} if it also maps every distinguished variable to itself~\cite{Chaudhuri1993}.
 It is \emph{variable-onto} if, in addition, every variable of the contained query is the image of some variable of the containing query~\cite{Chaudhuri1993}.
-A variable-onto containment mapping is sufficient for bag-set containment~\cite[Proposition~2, Case~3]{Afrati2010} but not necessary in the general case~\cite[Example~3]{Afrati2010}, which is $\Pi^p_2$-hard and whose decidability remains open (\Cref{sec:related_works_qc}).
+A variable-onto containment mapping is sufficient for bag-set containment~\cite[Proposition~2, Case~3]{Afrati2010} but not necessary in the general case~\cite[Example~3]{Afrati2010}, which is NP-hard and whose decidability remains open (\Cref{sec:related_works_qc}).
 The condition becomes necessary on two fragments of \Cref{tab_decidable_containment_bag_bag_set}, both determined by the projection of the two queries.
 A projection-free query returns a set on every set-valued database~\cite[Proposition~3]{Afrati2010}.
 When the contained query is projection-free, every variable of its body is distinguished, and hence the image of the corresponding distinguished variable of the containing query, so every containment mapping is variable-onto.
@@ -35,9 +35,9 @@ We leave open whether an encoding of \ac{RDF} and SPARQL over multiple relations
 We decide containment of federated \acp{CQ} in stages of increasing cost, so that non-containment is detected as early as possible.
 The first stage reads the federation members of the two queries, where every member the containing query contacts must also be contacted by the contained query (\Cref{prop_fed_subset}), and every member the contained query contacts alone must bind no fresh variable (\Cref{prop_fed_extra_member}).
 The second stage counts their variables, the containing query holding at least as many as the contained one~\cite[Theorem~12]{Afrati2010}.
-Queries failing any of the three are not contained, while queries passing them all are not yet known to be.
+Queries failing any of the three conditions are not contained, while queries passing them all are not yet known to be.
 
-Which of the two queries project then determines how their containment is then decided.
+Which of the two queries project then determines how their containment is decided.
 When neither projects, \Cref{alg_variable_onto} decides containment on its own, without performing set containment.
 When only the containing query projects, every containment mapping is variable-onto, as shown above, so containment coincides with set containment.
 When only the contained query projects, the containing query holds exactly the variables of its head, fewer than the contained query, so the variable count has already rejected them.
@@ -189,7 +189,7 @@ As a \ac{BGP} is a set, every conjunct of $L(Q_1)$ has multiplicity one and need
   \end{algorithmic}
 \end{algorithm}
 
-When either query projects, their containment moreover falls in the general bag case of \Cref{tab_decidable_containment_bag_bag_set}, which is $\Pi^p_2$-hard and whose decidability remains open, and the mapping remains sufficient~\cite[Proposition~2, Case~5]{Afrati2010}.
+When either query projects, their containment moreover falls in the general bag case of \Cref{tab_decidable_containment_bag_bag_set}, which is NP-hard and whose decidability remains open, and the mapping remains sufficient~\cite[Proposition~2, Case~5]{Afrati2010}.
 In every case, a mapping found by \Cref{alg_subgoals_onto} proves containment, and a failed set containment disproves it, as bag containment implies set containment.
 \Cref{alg_ucfq_containment} collects these steps after applying the \ac{BFR} to both queries, and answers \textsc{unknown} when the queries are set contained without such a mapping.
 These \textsc{unknown} answers stem from \Cref{prop_bkg_sufficient}, as a subgoals-onto containment mapping is sufficient but not necessary, and a condition that is also necessary is left to future work.

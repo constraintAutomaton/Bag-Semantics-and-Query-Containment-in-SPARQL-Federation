@@ -5,7 +5,8 @@
 SPARQL~\cite{w3SPARQLQuery} is the W3C standard language for querying \ac{RDF}~\cite{w3ConceptsAbstract} \acp{KG}.
 An \ac{RDF} \ac{KG} is a set of \emph{triples} $(s, p, o)$ with $s \in \mathcal{I} \cup \mathcal{B}$, $p \in \mathcal{I}$, and $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L}$, where $\mathcal{I}$, $\mathcal{B}$, and $\mathcal{L}$ are the sets of \acp{IRI}, blank nodes, and literals.
 A \emph{triple pattern} extends a triple by allowing variables (drawn from a set $\mathcal{V}$, disjoint from $\mathcal{I}$, $\mathcal{B}$, and $\mathcal{L}$) in any position, giving
-$\mathit{tp} = (s, p, o)$ where $s \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{V}$, $p \in \mathcal{I} \cup \mathcal{V}$, and $o \in \mathcal{I} \cup \mathcal{B} \cup \mathcal{L} \cup \mathcal{V}$.
+$\mathit{tp} = (s, p, o)$ where $s \in \mathcal{I} \cup \mathcal{V}$, $p \in \mathcal{I} \cup \mathcal{V}$, and $o \in \mathcal{I} \cup \mathcal{L} \cup \mathcal{V}$.
+We exclude blank nodes from triple patterns, as SPARQL counts their bindings like those of non-distinguished variables,\footnote{\url{https://www.w3.org/TR/sparql11-query/\#BGPsparql}} which would make a query without projection return duplicates.
 
 A \ac{BGP}~\cite{w3SPARQLQueryFormal} is a set of triple patterns evaluated conjunctively, binding variables across all the patterns it contains.
 A \ac{GP}~\cite{w3SPARQLQueryFormal} generalizes a \ac{BGP} with additional operators; here the only such operator is union, which combines \acp{GP} into a \ac{UGP}~\cite{w3SPARQLQueryFormal}, so every \ac{BGP} and \ac{UGP} is a \ac{GP}.

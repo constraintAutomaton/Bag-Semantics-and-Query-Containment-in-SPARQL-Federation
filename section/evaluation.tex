@@ -1,5 +1,5 @@
 \section{Evaluation}
-We implemented the decision procedure of \Cref{sec:resolution} in a solver we call \acf{BFC}, written in \href{https://www.typescriptlang.org/}{TypeScript} and running on the \href{https://bun.sh/}{Bun} \href{https://developer.mozilla.org/en-US/docs/Web/JavaScript}{JavaScript} runtime.\footnote{The implementation is open source and available at \url{https://github.com/SPARQL-federated-query-containment/solver}.}
+We implemented the decision procedure of \Cref{sec:resolution} in a solver we call \acf{BFC}, written in \href{https://www.typescriptlang.org/}{TypeScript}, running on the \href{https://bun.sh/}{Bun} \href{https://developer.mozilla.org/en-US/docs/Web/JavaScript}{JavaScript} runtime, and parsing, transforming, and generating SPARQL queries with Traqula~\cite{De_Smet_Traqula_Providing_a_2026}.\footnote{The implementation is open source and available at \url{https://github.com/SPARQL-federated-query-containment/solver}.}
 \textsc{SetContained} delegates set containment to SpeCS~\cite{Spasic2023}, which we run in a \href{https://www.docker.com/}{Docker} container.
 At the time of this study, the latest published version of SpeCS could not be used as is, for two reasons.
 First, it invoked its \href{https://smt-lib.org/}{SMT} solver, \href{https://www.microsoft.com/en-us/research/project/z3-3/}{Z3}, from a hardcoded path.
@@ -34,9 +34,9 @@ Each pair is run 20 times after 3 warm-up runs, and each run is limited to 8\,GB
 \input{analysis/artifacts/overview/table_all}
 
 \Cref{fig:overview_bfc_specs} summarizes the results over the 483 pairs.\footnote{The analysis of the results is available at \url{https://github.com/SPARQL-federated-query-containment/result-analysis}.}
-\ac{BFC} returns no incorrect answer, and answers unknown on 15 pairs, those it cannot decide as both queries project and no variable-onto containment mapping exists.
+\ac{BFC} returns no incorrect answer, and answers unknown on 15 pairs, 13 \acp{CQ} where both queries project and no variable-onto containment mapping exists, and 2 \acp{UCFQ} without a subgoals-onto one; all 15 are not contained and SpeCS answers them contained.
 SpeCS returns 54 incorrect answers.
-\ac{BFC} is also significantly faster, with a median time of 623\,ms against 3128\,ms for SpeCS ($p = 2.98 \times 10^{-22}$).
+\ac{BFC} is also faster, with a median time over the pairs each answers correctly of 623\,ms against 3128\,ms for SpeCS, and significantly so on the pairs both answer correctly ($p = 2.98 \times 10^{-22}$).
 \ac{BFC} fails on fewer pairs, with 14 timeouts and 24 memory exhaustions against 24 and 33 for SpeCS.
 \input{figure/figure_all_suites}
 \Cref{fig:all_suites_bfc_specs} shows that the times of \ac{BFC} spread further across pairs.
@@ -44,7 +44,7 @@ Its head ratio, the median over the 5th percentile, is 1.9 against 1.1 for SpeCS
 Across repeated runs of the same pair, SpeCS varies more than \ac{BFC} on the pairs both answer correctly ($p = 2.48 \times 10^{-40}$).
 \input{figure/figure_growth}
 \Cref{fig:growth_bfc_specs} shows how both solvers scale.
-\ac{BFC} answers at least as many pairs as SpeCS at every size, and its median grows more slowly on the branching and ucfq suites.
+\ac{BFC} answers at least as many pairs as SpeCS at every size, although both answer fewer as the size grows, for instance 22, 10, and 8 of the 25 branching pairs at sizes 10, 100, and 1000 against 20, 6, and 2 for SpeCS, and its median grows more slowly on the branching and ucfq suites.
 On the operators and star suites its median stays close to that of SpeCS, while its times spread further down, as \ac{BFC} settles many pairs with its necessary conditions, which are polynomial, or with a containment mapping (\Cref{sec:resolution}), without resorting to an SMT solver.
 
 \input{analysis/artifacts/overview/table_largerdfbench}

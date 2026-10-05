@@ -77,7 +77,7 @@ Most federated engines produce join-over-union plans, for instance FedX~\cite{sc
 Automatic source selection can, however, produce \ac{CQ} plans of arbitrary shape, for instance, union-over-join plans~\cite{aimonier2024fedup}.
 \ac{UCFQ} therefore does not capture every \ac{CQ} under automatic source selection.
 
-Containment of \acp{UCQ} under bag-set semantics is an open problem (\Cref{sec:related_works_qc}), and the \acp{UCFQ} form a strict subclass whose status it therefore leaves open as well.
+Containment of \acp{UCQ} is undecidable under bag-set semantics (\Cref{sec:related_works_qc}), but the \acp{UCFQ} form a strict subclass, whose status this leaves open.
 The next section introduces the \ac{BFR}, a transformation showing that evaluating a \ac{UCFQ} is equivalent to evaluating, under bag semantics, a \ac{CQ} whose triple patterns each read the \ac{BKG} of their branch's sub-federation.
 
 
@@ -103,7 +103,7 @@ We first recall how FedQPL defines the result of a query over a federation, and 
 
 \begin{definition}[Federation semantics and correctness, after \citeauthor{Cheng2021}~\cite{Cheng2021}]\label{def_fedqpl_correctness}
   The evaluation of a \ac{GP} $P$ over a federation $F$ is $[\![P]\!]_F = [\![P]\!]_{G_{\mathit{union}}}$, where $G_{\mathit{union}} = \bigcup_{f \in F} G_f$ is the set union of the \acp{KG} of the federation members~\cite[Def.~3]{Cheng2021}.
-  A FedQPL expression $\varphi$ is \emph{correct} for a \ac{BGP} $B$ over $F$ if its result equals $[\![B]\!]_F$~\cite[Def.~7]{Cheng2021}.
+  A FedQPL expression $\varphi$ is \emph{correct} for a \ac{BGP} $B$ over $F$ if its result equals $[\![B]\!]_{G_{\mathit{union}}} = [\![B]\!]_F$~\cite[Def.~7]{Cheng2021}.
 \end{definition}
 
 This follows the stated intention that ``the result of a SPARQL query over such a federation should be the same as if the query was executed over the union of all the RDF data available in all the federation members'', and under set semantics \ac{ESA} is correct~\cite[Prop.~1]{Cheng2021}.
@@ -121,8 +121,8 @@ Under bag-set semantics and ignoring projection, the \ac{ESA} is not correct in 
 
 Two readings would make the \ac{ESA} correct again while keeping the federation semantics of \Cref{def_fedqpl_correctness} as stated.
 The first assumes that no triple is duplicated across the federation members, so that the set union of their \acp{KG} coincides with their bag union, an assumption that is hard to verify in the open-Web setting and cannot always be enforced.
-The second introduces a federation-level union operator that removes the duplicates across members while preserving the multiplicities each member returns, which makes it more complex than a set union.
-We adopt neither reading.
+The second replaces the union of the plan by an operator that removes the duplicates across members while preserving those each member returns, which in general is more complex than a set union, and for \acp{UCFQ}, whose requests each return a set, reduces to a set union per branch.
+Both depart from the bag union of SPARQL~\cite{w3SPARQLQuery}, and we adopt neither reading.
 
 We propose instead to replace the set union $G_{\mathit{union}}$ by the \ac{BKG} of the federation (\Cref{def_bkg}).
 The federation is then a bag rather than a set, so the reading moves from bag-set to bag semantics, which is the transition the \ac{BFR} performs (\Cref{sec_bag_federation_reduction}).

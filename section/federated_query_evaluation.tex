@@ -3,7 +3,7 @@
 Federated query containment may initially appear fundamentally different from single-source query containment, since containment is data-source independent while a federated query names particular databases.
 However, this difference is not fundamental.
 We propose that federated query containment must consider the URLs of the federation members, but not their content.
-Referencing these URLs could benefit the resolution of query containment, for instance by guaranteeing the absence of overlap between members, since bag semantics is generally more complex to decide than bag-set semantics.
+Referencing these URLs could benefit the resolution of query containment, for instance by guaranteeing the absence of overlap between members, under which the \ac{BFR} yields sets rather than bags (\Cref{cor_no_overlap}).
 We leave such optimizations out of scope.
 
 Without loss of generality, we work only with flattened \texttt{SERVICE} clauses, where every \texttt{SERVICE} clause appears at the \ac{BGP} level.
@@ -30,8 +30,31 @@ A triple held by member $f$ is thus a located triple whose location is $f$, and 
   The \emph{located form} $L(Q)$ of $Q$ is the \ac{CQ} with the same head as $Q$ whose body contains, for every triple pattern $(s,p,o)$ of $Q$, the located triple pattern $(s,p,o,f)$, where $f$ is the member evaluating it, namely the member of the \texttt{SERVICE} clause enclosing the pattern, or $f_{\mathit{loc}}$ if the pattern belongs to the local \ac{BGP}.
 \end{definition}
 
-Centralization changes neither compatibility (\Cref{def_merge}) nor the multiplicity of a join (\Cref{def_join_multiplicity}), so $Q$ and $L(Q)$ return the same result bag.
-A flattened federated \ac{CQ} is therefore an ordinary \ac{CQ} over $G^{*}$ whose subgoals are located triple patterns, and the federation members are accounted for where subgoals are matched rather than in a condition stated separately for each member.
+\begin{proposition}\label{prop_federated_containment}
+Let $Q_1$ and $Q_2$ be flattened federated \acp{CQ} over the federations $F_1$ and $F_2$, and let $L(Q)$ denote the located form of a query $Q$.
+Then
+\[
+Q_1 \sqsubseteq Q_2 \iff L(Q_1) \sqsubseteq L(Q_2),
+\]
+where $\sqsubseteq$ on result bags denotes bag containment, and the right-hand side is containment of \acp{CQ} over located databases.
+\end{proposition}
+
+\begin{proof}
+Every federation over $F_1 \cup F_2$ has a unique located database (\Cref{def_located_db}), just as every query has a unique located form (\Cref{def_located_form}), and every located database is that of exactly one federation, obtained by grouping its located triples by their location.
+
+Moreover $\eval{Q}{D} = \eval{L(Q)}{D^{*}}$ for every flattened federated \ac{CQ} $Q$ and every federation $D$ with located database $D^{*}$.
+By \Cref{def_located_form}, a subgoal of $L(Q)$ whose location is $f$ matches in $D^{*}$ exactly the located triples whose location is $f$, hence exactly the triples that the corresponding triple pattern of $Q$ matches in the \ac{KG} $G_f$ of that member.
+Locations affect neither the merge of solution mappings (\Cref{def_merge}) nor the multiplicity of a join (\Cref{def_join_multiplicity}), and $Q$ and $L(Q)$ have the same head, so both evaluations produce the same solution mappings with the same multiplicities.
+
+Both directions of the containment equivalence then follow directly from these two facts.
+
+($\Rightarrow$) Let $D^{*}$ be a located database, and $D$ the federation whose located database it is.
+Then $\eval{L(Q_1)}{D^{*}} = \eval{Q_1}{D}$, which is a subbag of $\eval{Q_2}{D} = \eval{L(Q_2)}{D^{*}}$.
+
+($\Leftarrow$) Let $D$ be a federation with located database $D^{*}$.
+Then $\eval{Q_1}{D} = \eval{L(Q_1)}{D^{*}}$, which is a subbag of $\eval{L(Q_2)}{D^{*}} = \eval{Q_2}{D}$.
+\end{proof}
+
 A location is always an \ac{IRI}, never a variable, since we do not consider variables as endpoint URLs (\Cref{sec:related_works_fed}).
 Containment thus depends on the URLs of the federation members, but not on their content, as announced above.
 
