@@ -8,7 +8,7 @@ Query containment has been used in multiple query optimization tasks, including 
 Query containment under bag or bag-set semantics is a strictly stronger relationship than its set-semantic counterpart~\cite{Chaudhuri1993}.
 Containment of \acp{UCQ} is undecidable under bag semantics~\cite{ioannidis1995containment} and, through the reduction between bag and bag-set containment~\cite{Jayram2006}, under bag-set semantics.
 For \acp{CQ}, no general necessary and sufficient condition for containment under bag-set and bag semantics is known~\cite{ioannidis1995containment, khamis2021bag}; however, sufficient conditions have been identified, such as the existence of an onto containment mapping under bag semantics, or of a variable-onto one under bag-set semantics, both NP-complete to decide~\cite{Chaudhuri1993}.
-Containment of \acp{CQ} is NP-hard and its decidability remains open~\cite{khamis2021bag, marcinkowski2024bag}, while some fragments have been proven decidable~\cite{khamis2021bag, KOPPARTY20111097, Chaudhuri1993, Afrati2010, Konstantinidis2019}.
+Containment of \acp{CQ} is NP-hard~\cite{Afrati2010, Konstantinidis2019} and its decidability remains open~\cite{khamis2021bag, marcinkowski2024bag}, while some fragments have been proven decidable~\cite{khamis2021bag, KOPPARTY20111097, Chaudhuri1993, Afrati2010, Konstantinidis2019, konstantinidis_et_al:LIPIcs.ICDT.2025.5}.
 \Cref{tab_decidable_containment_bag_bag_set} summarizes the known results on bag and bag-set \ac{CQ} and \ac{UCQ} containment relevant to this paper.
 
 \begin{table*}[!t]
@@ -21,7 +21,7 @@ The general \ac{CQ} case remains open, so deciding containment relies on suffici
     \midrule
     General \ac{UCQ}~\cite{ioannidis1995containment} & Bag & Exact & Undecidable\\
     General \ac{UCQ}~\cite{ioannidis1995containment, Jayram2006} & Bag-set & Exact & Undecidable\\
-    General \ac{CQ}~\cite{Chaudhuri1993, marcinkowski2024bag, konstantinidis_et_al:LIPIcs.ICDT.2025.5} & Bag, bag-set & Open & NP-hard\\
+    General \ac{CQ}~\cite{Afrati2010, Konstantinidis2019, marcinkowski2024bag} & Bag, bag-set & Open & NP-hard\\
     Onto containment mapping~\cite{Chaudhuri1993} & Bag & Sufficient, not necessary & NP-complete\\
     Variable-onto containment mapping~\cite{Chaudhuri1993} & Bag-set & Sufficient, not necessary & NP-complete\\
     \ac{CQ}, $Q_1$ projection-free~\cite{Afrati2010} & Bag-set & Exact & NP-complete\\

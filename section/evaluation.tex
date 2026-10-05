@@ -28,7 +28,7 @@ A counter-example was found for each of the 92 non-contained pairs, and none for
 
 \paragraph{Setup}
 We ran both solvers on a Linux machine with two 4-core Intel Xeon E5620 CPUs at 2.40\,GHz (16 threads) and 12\,GB of memory, using Bun~1.4.2 and Z3~4.13.4.
-Each pair is run 20 times after 3 warm-up runs, and each run is limited to 8\,GB of memory and to 20 minutes, the timeout LargeRDFBench sets for its simple and complex queries~\cite[Sec.~5.1]{saleem2018largerdfbench}.
+Each pair is run 20 times, after 3 warm-up runs of each engine, and stops at its first failure; each run is limited to 8\,GB of memory and to 20 minutes, the timeout LargeRDFBench sets for its simple and complex queries~\cite[Sec.~5.1]{saleem2018largerdfbench}.
 
 \paragraph{Results}
 \input{analysis/artifacts/overview/table_all}
@@ -44,12 +44,12 @@ Its head ratio, the median over the 5th percentile, is 1.9 against 1.1 for SpeCS
 Across repeated runs of the same pair, SpeCS varies more than \ac{BFC} on the pairs both answer correctly ($p = 2.48 \times 10^{-40}$).
 \input{figure/figure_growth}
 \Cref{fig:growth_bfc_specs} shows how both solvers scale.
-\ac{BFC} answers at least as many pairs as SpeCS at every size, although both answer fewer as the size grows, for instance 22, 10, and 8 of the 25 branching pairs at sizes 10, 100, and 1000 against 20, 6, and 2 for SpeCS, and its median grows more slowly on the branching and ucfq suites.
-On the operators and star suites its median stays close to that of SpeCS, while its times spread further down, as \ac{BFC} settles many pairs with its necessary conditions, which are polynomial, or with a containment mapping (\Cref{sec:resolution}), without resorting to an SMT solver.
+\ac{BFC} answers at least as many pairs as SpeCS at every size, although both answer fewer as the size grows, for instance 22, 10, and 8 of the 25 branching pairs at sizes 10, 100, and 1000 against 20, 6, and 2 for SpeCS.
+Its times spread further down than those of SpeCS, as \ac{BFC} settles many pairs with its necessary conditions, which are polynomial, or with a containment mapping (\Cref{sec:resolution}), without resorting to an SMT solver.
 
 \input{analysis/artifacts/overview/table_largerdfbench}
 
-To put these times in perspective, \Cref{fig:largerdfbench_bfc} compares the mean time of \ac{BFC} with the mean execution times reported for LargeRDFBench~\cite{saleem2018largerdfbench}, per query category and source selection.
+To put these times in perspective, \Cref{fig:largerdfbench_bfc} compares the mean time of \ac{BFC} with the mean execution times of the complete runs in the published LargeRDFBench results~\cite{saleem2018largerdfbench}, per query category and source selection.
 The mean time of \ac{BFC} is 25.9 times lower than the execution time under automatic source selection, and 1.9 times lower with \texttt{SERVICE} clauses.
 Only the simple queries with \texttt{SERVICE} clauses execute faster on average than \ac{BFC} decides containment.
 These execution times are measured over endpoints on a dedicated local network~\cite[Sec.~5.1]{saleem2018largerdfbench}, so they include almost no network latency, whereas federated queries over public endpoints on the Web are slower and less reliable.

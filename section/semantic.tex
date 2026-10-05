@@ -40,7 +40,7 @@ We define a particular class of federated queries, useful for capturing duplicat
 Each triple pattern of the query body is evaluated across several members and the partial results are joined.
 
 \begin{definition}[\acl{UCFQ}]\label{def_ucfq}
-A \ac{UCFQ} is a multiway join $\fmj(U_1, \dots, U_n)$ where each operand $U_i = \fmu(\freq_{I_1}^{\mathit{tp}_i}, \dots, \freq_{I_{k_i}}^{\mathit{tp}_i})$ is a multiway union evaluating the same triple pattern $\mathit{tp}_i$ at a subset of federation members $I_1, \dots, I_{k_i}$, optionally followed by a projection.
+A \ac{UCFQ} is a multiway join $\fmj(U_1, \dots, U_n)$, optionally followed by a projection, where each operand $U_i = \fmu(\freq_{I_1}^{\mathit{tp}_i}, \dots, \freq_{I_{k_i}}^{\mathit{tp}_i})$ is a multiway union evaluating the same triple pattern $\mathit{tp}_i$ at a subset of federation members $I_1, \dots, I_{k_i}$.
 We call each operand $U_i$ a \emph{branch} of the \ac{UCFQ}, and $\{I_1, \dots, I_{k_i}\}$ its \emph{sub-federation}.
 The requests of $U_i$ may name the variables local to $U_i$ differently.
 \end{definition}
