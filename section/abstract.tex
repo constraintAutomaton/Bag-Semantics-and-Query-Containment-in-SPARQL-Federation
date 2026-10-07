@@ -10,13 +10,13 @@ This paper focuses on closing this gap by formalizing query containment under ba
 % Object
 For this, we introduce \emph{\acfp{UCFQ}} as a new class of queries that sits between \aclp{CQ} and \aclp{UCQ},
 to capture federated query forms that are common in SPARQL federations.
-Furthermore, we introduce the \acl{BFR}, to transform this new class of queries to \aclp{CQ} under bag semantics.
+Furthermore, we introduce the \acl{BFR} to transform this new class of queries to \aclp{CQ} under bag semantics.
 % Findings
 We formally ground this new class with its transformation,
 and establish how existing query containment techniques extend to decide containment of federated \aclp{CQ}
 on the fragments where these techniques are exact.
 We further show that the transformation yields bags that are not arbitrary, so that a condition necessary and sufficient under general bag semantics is sufficient but not necessary for \acsp{UCFQ}.
-We then evaluate an implementation of this procedure and show that, unlike a set-semantics solver adapted to federated queries, it produces no incorrect containment result without degradation of performance for our studied fragment.
+We then evaluate an implementation of this procedure and show that, unlike a set-semantics solver adapted to federated queries, it produces no incorrect containment result, without degrading performance, for our studied fragment.
 % Conclusion
 Our work fills the gap in formalizing query containment for federated SPARQL queries,
 % Perspectives

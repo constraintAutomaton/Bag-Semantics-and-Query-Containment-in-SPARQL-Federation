@@ -26,9 +26,9 @@ The general \ac{CQ} case remains open, so deciding containment relies on suffici
     Variable-onto containment mapping~\cite{Chaudhuri1993} & Bag-set & Sufficient, not necessary & NP-complete\\
     \ac{CQ}, $Q_1$ projection-free~\cite{Afrati2010} & Bag-set & Exact & NP-complete\\
     \ac{CQ}, $Q_1$ projection-free~\cite{Konstantinidis2019} & Bag & Exact & In $\Pi^p_2$, NP-hard\\
-    \ac{CQ}, $Q_1,Q_2$ projection-free~\cite{Afrati2010} & Bag-set & Exact & $O(n^2\log n)$\\
-    \ac{CQ}, $Q_1,Q_2$ projection-free~\cite{Afrati2010} & Bag & Exact & $O(n^2\log n)$\\
-    \ac{CQ}, $Q_1$ without self-joins~\cite{ioannidis1995containment, Afrati2010} & Bag, bag-set & Exact & $O(n\log n)$\\
+    \ac{CQ}, $Q_1,Q_2$ projection-free~\cite{Afrati2010} & Bag-set & Exact & $O(n^2\log(n))$\\
+    \ac{CQ}, $Q_1,Q_2$ projection-free~\cite{Afrati2010} & Bag & Exact & $O(n^2\log(n))$\\
+    \ac{CQ}, $Q_1$ without self-joins~\cite{ioannidis1995containment, Afrati2010} & Bag, bag-set & Exact & $O(n\log(n))$\\
     \bottomrule
   \end{tabular}
 \end{table*}
@@ -38,7 +38,7 @@ In the context of SPARQL, set-semantic query containment has received considerab
 Extensions incorporating RDF schemas, OWL entailment regimes~\cite{WudageChekol2013}, and property paths~\cite{Kostylev2025, chekol2016containment} have also been proposed, though these fall outside the scope of this paper.
 
 
-\subsection{Federated Queries}\label{sec:related_works_fed}
+\subsection{Federated Query Processing}\label{sec:related_works_fed}
 
 Federated SPARQL queries have been approached from two perspectives, namely explicit federation through the \texttt{SERVICE} clause, and automatic source selection.
 The SPARQL 1.1 Federated Query specification~\cite{w3SPARQLFederated} introduces the \texttt{SERVICE} clause as the W3C standard mechanism for directing subexpressions to specific endpoints.

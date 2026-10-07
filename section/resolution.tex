@@ -9,7 +9,7 @@ A solver supporting the \texttt{GRAPH} construct can therefore be the base of a 
 
 \begin{remark}\label{rem_location_inclusion}
 We treat the location of a located triple pattern as the set of \acp{IRI} of the federation members it is evaluated at, a single member for a pattern of a \ac{CQ} and a sub-federation for a pattern that the \ac{BFR} derives from a \ac{UCFQ} (\Cref{rem_ucfq_located}).
-A pattern of the containing query can be placed on a pattern of the contained query whose location its own includes, as the \ac{BKG} of the smaller sub-federation is then a subbag of that of the larger one.
+A pattern of the containing query can be placed on a pattern of the contained query whose location is included in its own, as the \ac{BKG} of the smaller sub-federation is then a subbag of that of the larger one.
 Inclusion reduces to equality between two \acp{CQ}, and also covers containment between a \ac{CQ} and a \ac{UCFQ}, which is decided as between \acp{UCFQ} (\Cref{sec:algorithm_ucfq}), as a \ac{CQ} is a \ac{UCFQ} whose sub-federations each hold a single member.
 \end{remark}
 
@@ -37,7 +37,7 @@ The first stage reads the federation members of the two queries, where every mem
 The second stage counts their variables, the containing query holding at least as many as the contained one~\cite[Theorem~12]{Afrati2010}.
 Queries failing any of the three conditions are not contained, while queries passing them all are not yet known to be.
 
-Which of the two queries project then determines how their containment is decided.
+Which of the two queries projects then determines how their containment is decided.
 When neither projects, \Cref{alg_variable_onto} decides containment on its own, without performing set containment.
 When only the containing query projects, every containment mapping is variable-onto, as shown above, so containment coincides with set containment.
 When only the contained query projects, the containing query holds exactly the variables of its head, fewer than the contained query, so the variable count has already rejected them.
@@ -50,7 +50,7 @@ Once $S$ is empty the mapping is complete, its domain is exactly the variables o
 The procedure \textsc{Place} attempts to place a pattern $A$ of $L(Q_2)$ on a pattern $B$ of $L(Q_1)$ by comparing their terms $A_i$ and $B_i$ at each position $i$, where a constant must equal the term facing it, a variable already assigned must keep its term, and any other variable is assigned the term facing it.
 It returns the extended mapping, or $\bot$ when the two patterns cannot be placed.
 The names of the variables the head does not project are therefore never compared, as the mapping derives their correspondence from the terms facing them.
-A pattern is only ever placed on one whose location its own includes (\Cref{rem_location_inclusion}), which restricts the search to the patterns evaluated at the same federation members.
+A pattern is only ever placed on one whose location is included in its own (\Cref{rem_location_inclusion}), which restricts the search to the patterns evaluated at the same federation members.
 The search does not stop at the first mapping it finds, as a mapping may fail to be variable-onto while another one is.
 
 Finding a variable-onto containment mapping is NP-complete~\cite{Chaudhuri1993}, so the search backtracks whenever the initial mapping leaves a variable of $L(Q_2)$ unassigned.
@@ -90,7 +90,8 @@ The search then amounts to testing whether the body of $L(Q_2)$ is included in t
       \State \Return \textbf{false}
     \EndFunction
     \Function{VariableOnto}{$L(Q_1), L(Q_2)$}
-      \State \Return \Call{Search}{$L(Q_2)$, $L(Q_1)$, $\{x \mapsto x \mid x \in \operatorname{head}(L(Q_2))\}$}
+      \State $\iota \gets \{x \mapsto x \mid x \in \operatorname{head}(L(Q_2))\}$
+      \State \Return \Call{Search}{$L(Q_2)$, $L(Q_1)$, $\iota$}
     \EndFunction
   \end{algorithmic}
 \end{algorithm}
@@ -141,7 +142,7 @@ The procedure answers \textsc{unknown} only when both queries project, are set c
 \subsection{Unions of Conjunctive Federated Queries}\label{sec:algorithm_ucfq}
 
 Deciding containment of \acp{UCFQ} is a different problem, as the \ac{BFR} casts such a query into a \ac{CQ} evaluated under bag semantics (\Cref{sec_bag_federation_reduction}).
-Bag containment does not reduce to set containment, even without projection, so a set-semantic solver cannot be orchestrated as in \Cref{sec:algorithm}.
+Bag containment does not reduce to set containment, even without projection, so a set-semantics solver cannot be orchestrated as in \Cref{sec:algorithm}.
 A containment mapping is \emph{subgoals-onto} if the body of the contained query is a subbag of the image of the containing query's body, that is each conjunct of the contained query is matched, with multiplicity, by a distinct conjunct of the containing query.
 When both queries are projection-free, such a mapping decides bag containment~\cite[Theorem~2]{Afrati2010}.
 Over \acp{UCFQ}, however, a subgoals-onto containment mapping is sufficient but not necessary.
@@ -184,7 +185,8 @@ As a \ac{BGP} is a set, every conjunct of $L(Q_1)$ has multiplicity one and need
       \State \Return \textbf{false}
     \EndFunction
     \Function{SubgoalsOnto}{$L(Q_1), L(Q_2)$}
-      \State \Return \Call{SearchOnto}{$L(Q_2)$, $L(Q_1)$, $\{x \mapsto x \mid x \in \operatorname{head}(L(Q_2))\}$, $\emptyset$}
+      \State $\iota \gets \{x \mapsto x \mid x \in \operatorname{head}(L(Q_2))\}$
+      \State \Return \Call{SearchOnto}{$L(Q_2)$, $L(Q_1)$, $\iota$, $\emptyset$}
     \EndFunction
   \end{algorithmic}
 \end{algorithm}

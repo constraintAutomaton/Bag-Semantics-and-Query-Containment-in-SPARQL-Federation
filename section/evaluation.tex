@@ -34,7 +34,7 @@ Each pair is run 20 times, after 3 warm-up runs of each engine, and stops at its
 \input{analysis/artifacts/overview/table_all}
 
 \Cref{fig:overview_bfc_specs} summarizes the results over the 483 pairs.\footnote{The analysis of the results is available at \url{https://github.com/SPARQL-federated-query-containment/result-analysis}.}
-\ac{BFC} returns no incorrect answer, and answers unknown on 15 pairs, 13 \acp{CQ} where both queries project and no variable-onto containment mapping exists, and 2 \acp{UCFQ} without a subgoals-onto one; all 15 are not contained and SpeCS answers them contained.
+\ac{BFC} returns no incorrect answer, and answers \textsc{unknown} on 15 pairs, 13 \acp{CQ} where both queries project and no variable-onto containment mapping exists, and 2 \acp{UCFQ} without a subgoals-onto one; all 15 are not contained and SpeCS answers them contained.
 SpeCS returns 54 incorrect answers.
 \ac{BFC} is also faster, with a median time over the pairs each answers correctly of 623\,ms against 3128\,ms for SpeCS, and significantly so on the pairs both answer correctly ($p = 2.98 \times 10^{-22}$).
 \ac{BFC} fails on fewer pairs, with 14 timeouts and 24 memory exhaustions against 24 and 33 for SpeCS.

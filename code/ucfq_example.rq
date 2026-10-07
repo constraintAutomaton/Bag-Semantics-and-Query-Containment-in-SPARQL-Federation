@@ -5,7 +5,9 @@ SELECT * WHERE {
   UNION
   { SERVICE ex:socialNetwork { ?s schema:jobTitle ?job } }
 
-  { SERVICE ex:jobRegistry { ?s schema:birthDate ?birthDate } }
+  { SERVICE ex:jobRegistry {
+      ?s schema:birthDate ?birthDate } }
   UNION
-  { SERVICE ex:socialNetwork { ?s schema:birthDate ?birthDate } }
+  { SERVICE ex:socialNetwork {
+      ?s schema:birthDate ?birthDate } }
 }

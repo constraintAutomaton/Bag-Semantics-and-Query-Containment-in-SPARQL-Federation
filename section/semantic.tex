@@ -9,11 +9,11 @@ The underlying \ac{KG} operates under set semantics~\cite{w3ConceptsAbstract}, w
 The choice between bag and set semantics has a significant impact on the complexity and decidability of query containment~\cite{Chaudhuri1993}.
 For relational \acp{CQ}, \citeauthor{Chaudhuri1993}~\cite{Chaudhuri1993} and \citeauthor{Afrati2010}~\cite{Afrati2010} established that only projection can increase the multiplicity of a result, and the same holds for SPARQL \acp{CQ}, whose only body operator, \texttt{JOIN}, cannot raise it.
 In the context of \ac{UCQ}, the multiplicity can additionally be increased by \texttt{UNION} and by the combination of \texttt{UNION} and \texttt{JOIN}, as defined in \Cref{def_union_multiplicity,def_join_multiplicity}.
-\ac{UCQ} is not the subject of our study; however, in the next sections we introduce \ac{UCFQ}, a subclass of \ac{UCQ}, together with the semantics of federated queries.
+\acp{UCQ} are not the subject of our study; however, in the next sections we introduce \ac{UCFQ}, a subclass of \ac{UCQ}, together with the semantics of federated queries.
 
 
 
-\subsection{Federated Queries}
+\subsection{Federated Query Execution}
 A \ac{KG} is stored under set semantics, and querying a single endpoint operates under bag-set semantics.
 A federated query, however, combines solution mappings drawn from several \acp{KG} at once, so it is not obvious whether spanning multiple members can introduce duplicate results.
 The following proposition shows that it cannot, even when several federation members hold the same information.
@@ -66,7 +66,7 @@ Since both members hold the same solution for a person, the join returns that pe
   \label{fig:ucfq-example}
 \end{figure}
 
-\ac{ESA} is the particular case of \ac{UCFQ} in which every branch ranges over the entire federation $\{\mathit{fm}_1, \dots, \mathit{fm}_m\}$, formalized as follows:
+\ac{ESA} is the particular case of \ac{UCFQ} in which every branch ranges over the entire federation $\{\mathit{fm}_1, \dots, \mathit{fm}_m\}$, formalized in \Cref{eq_esa}.
 \begin{equation}
   \fmj\bigl(\fmu(\freq_{\mathit{fm}_1}^{\mathit{tp}_1}, \dots, \freq_{\mathit{fm}_m}^{\mathit{tp}_1}), \dots, \fmu(\freq_{\mathit{fm}_1}^{\mathit{tp}_n}, \dots, \freq_{\mathit{fm}_m}^{\mathit{tp}_n})\bigr)
   \label{eq_esa}
@@ -110,7 +110,7 @@ This follows the stated intention that ``the result of a SPARQL query over such 
 Under a bag-set reading it is not.
 
 \begin{proposition}\label{prop_fedqpl_esa_incorrect}
-Under bag-set semantics and ignoring projection, the \ac{ESA} is not correct in general in the sense of \Cref{def_fedqpl_correctness}.
+Under bag-set semantics and ignoring projection, \ac{ESA} is not correct in general in the sense of \Cref{def_fedqpl_correctness}.
 \end{proposition}
 
 \begin{proof}
@@ -119,7 +119,7 @@ Under bag-set semantics and ignoring projection, the \ac{ESA} is not correct in 
   That multiplicity exceeds one as soon as two members hold a triple matched by the same $\mathit{tp}_i$ under $\mu$, in which case the two bags differ.
 \end{proof}
 
-Two readings would make the \ac{ESA} correct again while keeping the federation semantics of \Cref{def_fedqpl_correctness} as stated.
+Two readings would make \ac{ESA} correct again while keeping the federation semantics of \Cref{def_fedqpl_correctness} as stated.
 The first assumes that no triple is duplicated across the federation members, so that the set union of their \acp{KG} coincides with their bag union, an assumption that is hard to verify in the open-Web setting and cannot always be enforced.
 The second replaces the union of the plan by an operator that removes the duplicates across members while preserving those each member returns, which in general is more complex than a set union, and for \acp{UCFQ}, whose requests each return a set, reduces to a set union per branch.
 Both depart from the bag union of SPARQL~\cite{w3SPARQLQuery}, and we adopt neither reading.

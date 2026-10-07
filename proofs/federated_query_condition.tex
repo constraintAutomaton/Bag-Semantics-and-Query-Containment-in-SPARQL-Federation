@@ -4,7 +4,7 @@
 \paragraph{Intuition.}
 Classical containment asks whether $Q_1$'s results are a subbag of $Q_2$'s on every database.
 Federated containment must additionally track \emph{where} each triple pattern is evaluated, because different federation members hold independent data.
-If $Q_1$ evaluates a pattern at federation member $\mathit{:a}$ and $Q_2$ evaluates the same pattern at a different member $\mathit{:b}$, no containment claim can be made without knowing the relationship between their contents---a relationship this paper does not assume.
+If $Q_1$ evaluates a pattern at federation member \texttt{:a} and $Q_2$ evaluates the same pattern at a different member \texttt{:b}, no containment claim can be made without knowing the relationship between their contents---a relationship this paper does not assume.
 Locations record this distinction inside the query: two triple patterns that differ only in their location are distinct subgoals.
 The databases over which a federated query is evaluated are then exactly the located databases of \Cref{def_located_db}, so containment of federated queries becomes containment of their located forms.
 
