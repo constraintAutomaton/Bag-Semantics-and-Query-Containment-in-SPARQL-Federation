@@ -27,7 +27,7 @@ When both queries are projection-free, the head fixes the containment mapping, w
 A third fragment requires the contained query to hold no self-joins, that is no two conjuncts with the same relation name~\cite[Theorem~3]{Afrati2010}.
 Whether a SPARQL query holds self-joins depends on the relational encoding of \ac{RDF}, and we take the encoding holding a whole dataset in a single relation $\mathit{rdf}(s, p, o, g)$~\cite{angles2008expressive, cyganiak2005relational}.
 \ac{RDF} and SPARQL carry no notion of table, so a single relation is the natural choice, and every query holding more than one triple pattern is then a self-join.
-This fragment therefore applies only to contained queries of a single triple pattern, and we do not use it.
+This fragment therefore covers only contained queries with a single triple pattern, so our procedure does not exploit it.
 We leave open whether an encoding of \ac{RDF} and SPARQL over multiple relations, such as one relation per predicate, is faithful to their semantics.
 
 \subsection{Conjunctive Queries}\label{sec:algorithm}
@@ -53,8 +53,8 @@ The names of the variables the head does not project are therefore never compare
 A pattern is only ever placed on one whose location is included in its own (\Cref{rem_location_inclusion}), which restricts the search to the patterns evaluated at the same federation members.
 The search does not stop at the first mapping it finds, as a mapping may fail to be variable-onto while another one is.
 
-Finding a variable-onto containment mapping is NP-complete~\cite{Chaudhuri1993}, so the search backtracks whenever the initial mapping leaves a variable of $L(Q_2)$ unassigned.
-It does not when both queries are projection-free, as $\sigma$ then starts as the identity on every variable, so \textsc{Place} accepts a pattern of $L(Q_1)$ only when it is the very pattern it places and each pattern holds a single candidate.
+In general, the initial mapping leaves some variables of $L(Q_2)$ unassigned, and finding a variable-onto containment mapping is then NP-complete~\cite{Chaudhuri1993}, so the search backtracks over their placements.
+The search does not backtrack when both queries are projection-free, as $\sigma$ then starts as the identity on every variable, so \textsc{Place} accepts a pattern of $L(Q_1)$ only when it is the very pattern it places and each pattern holds a single candidate.
 The search then amounts to testing whether the body of $L(Q_2)$ is included in that of $L(Q_1)$ and whether every variable of $L(Q_1)$ occurs in $L(Q_2)$, which the two nested loops perform in $O(n^2)$, within the bound of \Cref{tab_decidable_containment_bag_bag_set} whose algorithm reaches the same test by sorting the conjuncts of both queries~\cite[Remark~1]{Afrati2010}.
 
 \begin{algorithm}

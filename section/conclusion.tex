@@ -9,5 +9,5 @@ Our implementation \ac{BFC} returns no incorrect answer on a benchmark of 483 qu
 These results enable the optimizations that containment classically underpins, such as caching and view selection, in federated workflows where queries are repeatedly re-executed or refined.
 
 Future work includes an independently designed benchmark for federated query containment, and an end-to-end evaluation of caching and view selection for federated queries built on query containment.
-Both raise open questions, such as whether the client, the federation engine, or an intermediary manages the cached results or materialized views, and how they can reuse results from partially private sources without exposing them to unauthorized clients.
+Caching and view selection raise practical open questions, such as whether the client, the federation engine, or an intermediary should manage the cached results or materialized views, particularly when they hold results from partially private sources that must not reach unauthorized clients.
 Theoretical directions include a complete bag semantics of FedQPL, containment across the bag and bag-set boundary introduced by the \ac{BFR}, exploiting knowledge of federation members such as guaranteed disjointness, and richer SPARQL fragments such as \texttt{FILTER} and property paths.
